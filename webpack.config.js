@@ -2,8 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
-  devtool: 'eval-source-map',
-  entry: __dirname + '/app/main.js',
+  entry: path.resolve(__dirname, 'src') + '/app/index.js',
   output: {
     path: path.resolve(__dirname, 'dist') + '/app',
     filename: 'bundle.js',
@@ -11,6 +10,14 @@ module.exports = {
   },
   module: {
     loaders: [
+      {
+        test: /\.js$/,
+        include: path.resolve(__dirname, 'src'),
+        loader: 'babel-loader',
+        query: {
+            presets: ['react', 'es2015']
+        }
+      },
       {
         test: /\.css$/,
         use: [
@@ -27,11 +34,5 @@ module.exports = {
         ]
       }
     ]
-  },
-  devServer: {
-    contentBase: './build',
-    historyApiFallback: true,
-    inline: true,
-    port: 3000
   }
 }
