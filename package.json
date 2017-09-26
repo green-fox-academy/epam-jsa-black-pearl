@@ -1,0 +1,26 @@
+{
+  "name": "epam-jsa-black-pearl",
+  "version": "1.0.0",
+  "description": "Black Pearl workspace -- Chris Alex Alfred",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/greenfox-academy/epam-jsa-black-pearl.git"
+  },
+  "author": "black_pearl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/greenfox-academy/epam-jsa-black-pearl/issues"
+  },
+  "homepage": "https://github.com/greenfox-academy/epam-jsa-black-pearl#readme",
+  "devDependencies": {
+    "eslint": "^4.7.2",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.4.0"
+  }
+}
