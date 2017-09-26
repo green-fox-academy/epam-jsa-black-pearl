@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack"
+    "lint": "eslint src"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/greenfox-academy/epam-jsa-black-pearl.git"
   },
-  "author": "",
+  "author": "black_pearl",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/greenfox-academy/epam-jsa-black-pearl/issues"
@@ -31,6 +31,8 @@
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.8.2"
+    "webpack-dev-server": "^2.8.2",
+    "eslint": "^4.7.2",
+    "eslint-config-google": "^0.9.1"
   }
 }
