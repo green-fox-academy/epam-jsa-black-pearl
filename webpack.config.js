@@ -10,6 +10,11 @@ module.exports = {
     module: {
         loaders: [
             {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader'
+            },
+            {
                 test: /\.css$/,
                 use: [
                     { loader: "style-loader" },
@@ -25,5 +30,13 @@ module.exports = {
                 ]
             }
         ]
+    },
+    devServer: {
+        contentBase: './build',
+        // colors: true,
+        historyApiFallback: true,
+        inline: true,
+        port: 3000
+        // process: true
     }
 }
