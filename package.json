@@ -4,7 +4,7 @@
   "description": "Black Pearl workspace -- Chris Alex Alfred",
   "main": "index.js",
   "scripts": {
-    "test": "node src/test.js",
+    "test": "node src/server/index.js",
     "lint": "eslint src"
   },
   "repository": {
