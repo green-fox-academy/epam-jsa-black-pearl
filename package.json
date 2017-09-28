@@ -4,8 +4,11 @@
   "description": "Black Pearl workspace -- Chris Alex Alfred",
   "main": "index.js",
   "scripts": {
-    "test": "node src/server/index.js",
-    "lint": "eslint src"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint **/*.js",
+    "start": "npm run build",
+    "start:backend": "node ./src/server/index.js",
+    "build": "webpack-dev-server --content-base src/ --inline --hot --port 8080"
   },
   "repository": {
     "type": "git",
@@ -18,9 +21,7 @@
   },
   "homepage": "https://github.com/greenfox-academy/epam-jsa-black-pearl#readme",
   "dependencies": {
-    "body-parser": "^1.18.2",
     "express": "^4.15.5",
-    "mongodb": "^2.2.31",
     "react": "^15.6.2",
     "react-dom": "^15.6.2"
   },
