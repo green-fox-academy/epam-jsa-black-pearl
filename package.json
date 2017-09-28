@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:backend": "mocha --colors",
     "lint": "eslint **/*.js",
     "start": "npm run build",
     "build": "webpack-dev-server --content-base src/ --inline --hot --port 8080"
@@ -29,12 +30,13 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.7",
+    "eslint": "^4.7.2",
+    "eslint-config-google": "^0.9.1",
+    "mocha": "^3.5.3",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.8.2",
-    "eslint": "^4.7.2",
-    "eslint-config-google": "^0.9.1"
+    "webpack-dev-server": "^2.8.2"
   }
 }
