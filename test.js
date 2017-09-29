@@ -1,7 +1,6 @@
 'use strict';
-
 describe('dummy test', () => {
-    it('should be true', () => {
-        expect('true').toBe('true');
-      });
+  it('should be true', () => {
+    expect('true').toBe('true');
+  });
 });
