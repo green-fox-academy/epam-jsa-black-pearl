@@ -3,18 +3,18 @@
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
-var db = require('../../.environment.json');
-var url = 'mongodb://' + db.database.url + ':' + db.database.port + '/' + db.database.database;
+const db = require('../../.environment.json');
+const url = 'mongodb://' + db.database.url + ':' + db.database.port + '/' + db.database.database;
 
 function heartbeat(callback) {
-  MongoClient.connect(url, function (err, database) {
+  MongoClient.connect(url, function(err, database) {
     if (err) {
       callback('error');
       return;
     }
     console.log('Connection established to ' + url);
     const collection = database.collection(db.database.collection);
-    collection.find({}).toArray(function (err, result) {
+    collection.find({}).toArray(function(err, result) {
       if (err) {
         callback('error');
         return;
