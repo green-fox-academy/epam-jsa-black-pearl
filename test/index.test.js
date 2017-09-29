@@ -1,3 +1,4 @@
+/* eslint-env mocha, node */
 const assert = require('assert');
 
 describe('Dummy Backend Test', () => {
