@@ -7,7 +7,7 @@
     "test": "npm-run-all --parallel test:frontend test:backend",
     "test:frontend": "jest",
     "test:backend": "mocha --colors",
-    "lint": "eslint **/*.js",
+    "lint": "eslint .",
     "start": "npm run build",
     "start:backend": "node ./src/server/index.js",
     "build": "webpack-dev-server --content-base src/client --inline --hot --port 8080"

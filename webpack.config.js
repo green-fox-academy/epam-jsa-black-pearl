@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -6,7 +5,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist/app'),
     filename: 'bundle.js',
-    publicPath: '/app/'
+    publicPath: '/app/',
   },
   module: {
     loaders: [
@@ -15,24 +14,24 @@ module.exports = {
         include: path.resolve(__dirname, 'src'),
         loader: 'babel-loader',
         query: {
-            presets: ['react', 'es2015']
-        }
+          presets: ['react', 'es2015'],
+        },
       },
       {
         test: /\.css$/,
         use: [
-          { loader: "style-loader" },
-          { loader: "css-loader" }
-        ]
+          {loader: 'style-loader'},
+          {loader: 'css-loader'},
+        ],
       },
       {
         test: /\.scss$/,
         use: [
-          { loader: "style-loader" },
-          { loader: "css-loader" },
-          { loader: "sass-loader" }
-        ]
-      }
-    ]
-  }
-}
+          {loader: 'style-loader'},
+          {loader: 'css-loader'},
+          {loader: 'sass-loader'},
+        ],
+      },
+    ],
+  },
+};

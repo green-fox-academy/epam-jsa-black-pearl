@@ -2,6 +2,9 @@ module.exports = {
   'extends': ['eslint:recommended', 'google'],
   'parserOptions': {
     'ecmaVersion': 6,
+    'ecmaFeatures': {
+      'jsx': true,
+    },
   },
   'env': {
     'es6': true,
@@ -14,5 +17,47 @@ module.exports = {
   },
   'plugins': [
     'react',
+  ],
+  'overrides': [
+    {
+      'files': ['src/client/**/*.js'],
+      'parserOptions': {
+        'sourceType': 'module',
+      },
+      'env': {
+        'browser': true,
+        'node': true,
+      },
+    },
+    {
+      'files': [
+        'webpack.*.js',
+        '.eslintrc.js',
+        'jest.config.js',
+        'test/**/*.test.js',
+        'src/server/**/*.js',
+      ],
+      'env': {
+        'node': true,
+      },
+    },
+    {
+      'files': ['src/client/**/*.test.js'],
+      'env': {
+        'jest': true,
+      },
+    },
+    {
+      'files': ['test/**/*.test.js'],
+      'env': {
+        'mocha': true,
+      },
+    },
+    {
+      'files': ['src/server/**/*.js'],
+      'rules': {
+        'no-console': 0,
+      },
+    },
   ],
 };

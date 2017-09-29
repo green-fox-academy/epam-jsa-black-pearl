@@ -11,15 +11,15 @@ const app = express();
 app.use(express.static(path.resolve(__dirname, '../../dist')));
 
 app.get('/heartbeat', (req, res) => {
-  heartbeat(function (result) {
+  heartbeat(function(result) {
     if (result === 'error') {
-      res.json({ "status": "ok", "database": "error" });
+      res.json({'status': 'ok', 'database': 'error'});
     } else {
-      res.json({ "status": "ok", "database": "ok" });
+      res.json({'status': 'ok', 'database': 'ok'});
     }
   });
 });
 
-app.listen(PORT, function () {
+app.listen(PORT, function() {
   console.log(`app is listening on port ${PORT}`);
 });
