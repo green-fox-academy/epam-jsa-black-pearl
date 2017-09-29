@@ -9,6 +9,7 @@
     "test:backend": "mocha --colors",
     "lint": "eslint **/*.js",
     "start": "npm run build",
+    "start:backend": "node ./src/server/index.js",
     "build": "webpack-dev-server --content-base src/client --inline --hot --port 8080"
   },
   "repository": {
@@ -22,6 +23,8 @@
   },
   "homepage": "https://github.com/greenfox-academy/epam-jsa-black-pearl#readme",
   "dependencies": {
+    "express": "^4.15.5",
+    "mongodb": "^2.2.31",
     "react": "^15.6.2",
     "react-dom": "^15.6.2"
   },
