@@ -11,7 +11,8 @@
     "start": "npm-run-all --sequential build start:backend",
     "build": "webpack --colors",
     "start:backend": "node ./src/server/index.js",
-    "dev:frontend": "webpack-dev-server --content-base src/client --inline --hot --port 8080"
+    "dev:frontend": "webpack-dev-server --content-base src/client --inline --hot --port 8080",
+    "heroku-prebuild": "npm install --only=dev"
   },
   "repository": {
     "type": "git",
