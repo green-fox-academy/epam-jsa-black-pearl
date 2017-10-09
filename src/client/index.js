@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.scss';
+var Login  = require('./login/login');
+
 
 ReactDOM.render(
-  <h1>Hello, world!</h1>, document.querySelector('#root')
+  <Login />, document.querySelector('#root')
 );

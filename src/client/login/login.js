@@ -1,11 +1,11 @@
 'use strict';
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Header = require('header');
-var Input  = require('input');
-var Footer  = require('footer');
+var Header = require('./header');
+var Input  = require('./input');
+var Footer  = require('./footer');
 
-class Main extends React.Component {
+class Login extends React.Component {
   render (){
     return(
       <div>
@@ -17,4 +17,4 @@ class Main extends React.Component {
   }
 };
 
-ReactDOM.render(<Main />, document.getElementById('main'));
+module.exports = Login;
