@@ -1,13 +1,12 @@
 'use strict';
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Header = require('./header');
-var Input  = require('./input');
-var Footer  = require('./footer');
+import React from 'react';
+import Header from './header';
+import Input from './input';
+import Footer from './footer';
 
 class Login extends React.Component {
-  render (){
-    return(
+  render() {
+    return (
       <div>
         <Header />
         <Input />
@@ -15,6 +14,6 @@ class Login extends React.Component {
       </div>
     );
   }
-};
+}
 
-module.exports = Login;
+export default Login;

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './style.scss';
-var Login  = require('./login/login');
+import Login from './login/login';
 
 
 ReactDOM.render(
