@@ -2,9 +2,9 @@
 
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
-const DBUrl = require('./DBUrl.js');
+const dbUrl = require('./DBUrl.js');
 
-const url = DBUrl();
+const url = dbUrl();
 
 function heartbeat(callback) {
   MongoClient.connect(url, function(err, database) {
