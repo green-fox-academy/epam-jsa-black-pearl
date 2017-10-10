@@ -4,7 +4,8 @@ const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
 const db = require('../../.environment.json');
-const url = 'mongodb://' + db.database.url + ':' + db.database.port + '/' + db.database.database;
+const auth = process.env.DB_USER ? process.env.DB_USER + ':' + process.env.DB_PASS + '@' : '';
+const url = 'mongodb://' + auth + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.DB_NAME;
 
 function heartbeat(callback) {
   MongoClient.connect(url, function(err, database) {
@@ -13,7 +14,7 @@ function heartbeat(callback) {
       return;
     }
     console.log('Connection established to ' + url);
-    const collection = database.collection(db.database.collection);
+    const collection = database.collection('heartbeat');
     collection.find({}).toArray(function(err, result) {
       if (err) {
         callback('error');
