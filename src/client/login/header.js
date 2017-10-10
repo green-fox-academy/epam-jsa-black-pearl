@@ -1,5 +1,6 @@
 'use strict';
 import React from 'react';
+import './scss/header.scss';
 
 class Header extends React.Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class Header extends React.Component {
   render() {
     return (
       <header>
+        <img src="../../img/black_pearl.png" alt=""/>
         <h1>Welcome Onboard!</h1>
       </header>
     );

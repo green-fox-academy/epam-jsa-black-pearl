@@ -1,0 +1,33 @@
+.input-form {
+
+      padding: 1rem;
+      border-radius: 3px;
+      min-width: calc(260px - 2rem);
+      width: 25%;
+      margin:auto;
+
+      input {
+          display: block;
+          width: 100%;
+          line-height: 2rem;
+          height: 60px;
+          background-color: #fdbd39;
+          font-size: 18px;
+          cursor: pointer;
+          color: #fff;
+      }
+  
+      input:not([type="submit"]) {
+          background-color: transparent;
+          border: none;
+          border-bottom: 1px solid #dcd9db;
+          margin-bottom: 1rem;
+          cursor: auto;
+          color: black;
+      }
+
+      input:focus{
+          outline: none;
+          border-bottom: 1px solid #fdbd39;
+      }
+  }
