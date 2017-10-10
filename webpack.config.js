@@ -7,11 +7,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'src/client/index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
-<<<<<<< HEAD
-    filename: 'bundle.js',
-=======
     filename: './bundle.js',
->>>>>>> react-router
     publicPath: '/',
   },
   module: {

@@ -1,26 +1,22 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Login = require('./login.jsx');
-import Home from './home.jsx'
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom'
+import React from 'react';
+import { BrowserRouter as Router, Route, Link, Switch, browserHistory } from 'react-router-dom'
+import Login from './login/login'
+import Board from './board.jsx'
 
-const Basic = () => (
-  <Router>
-    <div>
-      <ul>
-        <li><Link to="/app">Home</Link></li>
-        <li><Link to="/login">Login</Link></li>
-      </ul>
+class App extends React.Component {
+  render() {
+    return (
+      <Router>
+        <div>
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route path="/login" component={Login} />
+            <Route path="/board" component={Board} />
+          </Switch>
+        </div>
+    </Router>
+    );
+  }
+}
 
-      <hr />
-      <Route exact path="/app" component={Home} />
-      <Route path="/login" component={Login} />
-    </div>
-  </Router>
-)
-
-export default Basic
+export default App;
