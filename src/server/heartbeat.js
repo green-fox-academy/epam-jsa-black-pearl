@@ -8,7 +8,6 @@ const url = DBUrl();
 
 function heartbeat(callback) {
   MongoClient.connect(url, function(err, database) {
-    console.log(url);
     if (err) {
       callback('error');
       return;
