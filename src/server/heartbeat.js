@@ -2,13 +2,13 @@
 
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
+const DBUrl = require('./DBUrl.js');
 
-const db = require('../../.environment.json');
-const auth = process.env.DB_USER ? process.env.DB_USER + ':' + process.env.DB_PASS + '@' : '';
-const url = 'mongodb://' + auth + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.DB_NAME;
+const url = DBUrl();
 
 function heartbeat(callback) {
   MongoClient.connect(url, function(err, database) {
+    console.log(url);
     if (err) {
       callback('error');
       return;
