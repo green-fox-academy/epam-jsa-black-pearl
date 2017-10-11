@@ -2,8 +2,8 @@
 
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
-const DBUrl = require('./DBUrl.js');
 
+const DBUrl = require('./DBUrl.js');
 const url = DBUrl();
 
 function heartbeat(callback) {

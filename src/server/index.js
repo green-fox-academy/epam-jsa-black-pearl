@@ -21,9 +21,19 @@ router.get('/', function(req, res) {
 
 router.post('/login', function(req, res) {
   if(!req.is('application/json')) {
-    res.status(400).json({ message: 'Content type error!'});
-  } else if(!req.body.username || !req.body.password) {
-    res.status(400).json({ message: 'Missing field(s)!'});
+    res.status(400).json({message: 'Content type error!'});
+  } else if(!req.body) {
+    res.status(400).json({message: 'Missing field(s)!'});
+  } else {
+    auth(req.body, function (result) {
+      if(result === 'error') {
+        res.status(500).json({message: 'Something went wrong!'});
+      } else if(result === 'nocredential') {
+        res.status(403).json({message: 'Bad credential!'});
+      } else if(result === 'ok') {
+        res.status(200).json({message: 'Ok!'});
+      }
+    });
   }
 });
 
