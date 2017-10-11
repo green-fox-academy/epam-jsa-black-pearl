@@ -1,9 +1,9 @@
 'use strict';
 const cryptoJS = require('crypto-js');
+const MD5 = require("crypto-js/md5");
 
-function crypto(String) {
-  let encrypted = cryptoJS.AES.encrypt(String, 'black-pearl');
-  return encrypted.toString();
+function crypto(string) {
+  return MD5(string).toString();
 }
 
 module.exports = crypto
