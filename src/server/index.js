@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const moment = require('moment');
 
-const heartbeat = require('./heartbeat.js');
-const auth = require('./auth.js');
+const heartbeat = require('./api/heartbeat/heartbeat.js');
+const auth = require('./api/login/auth.js');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -26,11 +26,11 @@ router.get('/', function(req, res) {
 router.post('/login', function(req, res) {
   if (!req.is('application/json')) {
     res.status(400).json({message: 'Content type error!'});
-  } else if (!req.body) {
+  } else if (!req.body.username && !req.body.password) {
     res.status(400).json({message: 'Missing field(s)!'});
   } else {
     auth(req.body, function(result) {
-      if (result === 'error') {
+      if (result === 'error' || !result) {
         res.status(500).json({message: 'Something went wrong!'});
       } else if (result === 'nocredential') {
         res.status(403).json({message: 'Bad credential!'});

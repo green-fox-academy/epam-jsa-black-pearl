@@ -3,7 +3,7 @@
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
-const dbUrl = require('./DBUrl.js');
+const dbUrl = require('../../DBUrl.js');
 const url = dbUrl();
 
 function heartbeat(callback) {
