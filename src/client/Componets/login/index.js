@@ -9,7 +9,7 @@ class Login extends React.Component {
       <main>
         <header>
           <img src={img} alt="Logo of Black Pearl"/>
-          <h1>Welcome Onboard!</h1>
+          <h1>Welcome Onboard! you</h1>
         </header>
         <LoginForm />
         <p>Don`t have an account? <a href="#">Sign up</a></p>
