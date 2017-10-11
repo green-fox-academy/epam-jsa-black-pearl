@@ -1,16 +1,15 @@
-$headingColor: #67a2e7;
-
 h1 {
-  color: $headingColor;
-  font-family: Helvetica;
+  color: #67a2e7;
+  font-family: Helvetica;;
 }
 
 main {
   text-align: center;
-  background-color: white;
+  background-color: rgb(248, 247, 247);
   padding: 20px 42px;
   margin: 100px;
   box-shadow: -1px 2px 126px -14px rgba(102,121,143,1);
+  border-radius: 25px;
   p{
     font-family: Raleway;
   }
@@ -18,8 +17,15 @@ main {
     text-decoration: none;
   }
   img{
+    position: relative;
     width: 120px;
     height: 120px;
+    animation-name: move;
+    animation-duration: 1.5s;
+  }
+  @keyframes move{
+    from{ transform: translateX(150px)}
+    to{ transform: translateX(0)}
   }
 }
 
