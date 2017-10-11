@@ -2,13 +2,12 @@
 
 require('dotenv').config();
 const express = require('express');
-const jwt = require('jwt-simple');
 const bodyParser = require('body-parser');
 const path = require('path');
-const moment = require('moment');
 
 const heartbeat = require('./api/heartbeat/heartbeat.js');
 const auth = require('./api/login/auth.js');
+const generateToken = require('./api/login/generateToken.js');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -35,15 +34,7 @@ router.post('/login', function(req, res) {
       } else if (result === 'nocredential') {
         res.status(403).json({message: 'Bad credential!'});
       } else if (result === 'ok') {
-        let expires = moment().add(7, 'days').valueOf();
-        let token = jwt.encode({
-          iss: req.body.username,
-          exp: expires,
-        }, app.get('jwtTokenSecret'));
-        res.status(200).json({
-          token: token,
-          expires: expires,
-        });
+        res.status(200).json(generateToken(req.body.username));
       }
     });
   }
