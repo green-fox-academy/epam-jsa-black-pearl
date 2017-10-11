@@ -24,7 +24,7 @@ main {
     animation-duration: 1.5s;
   }
   @keyframes move{
-    from{ transform: translateX(150px)}
+    from{ transform: translateX(120px)}
     to{ transform: translateX(0)}
   }
 }
