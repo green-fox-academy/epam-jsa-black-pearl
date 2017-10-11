@@ -2,7 +2,7 @@ $headingColor: #67a2e7;
 
 h1 {
   color: $headingColor;
-  font-family: MarkerFelt-Wide;
+  font-family: Helvetica;
 }
 
 main {
@@ -12,10 +12,14 @@ main {
   margin: 100px;
   box-shadow: -1px 2px 126px -14px rgba(102,121,143,1);
   p{
-    
+    font-family: Raleway;
   }
   a {
     text-decoration: none;
+  }
+  img{
+    width: 120px;
+    height: 120px;
   }
 }
 
