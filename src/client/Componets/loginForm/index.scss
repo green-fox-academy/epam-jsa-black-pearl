@@ -2,7 +2,7 @@
   padding: 1rem;
   border-radius: 3px;
   min-width: calc(260px - 2rem);
-  width: 25%;
+  width: 35%;
   margin:auto;
 
   input {
@@ -11,15 +11,19 @@
       line-height: 2rem;
       height: 60px;
       background-color: #fdbd39;
-      font-size: 18px;
+      font-size: 25px;
       cursor: pointer;
       color: #fff;
       border: none;
+      border-radius: 25px;
   }
 
   input:not([type="submit"]) {
       background-color: transparent;
+      height: 30px;
+      font-size: 20px;
       border: none;
+      border-radius: 0;
       border-bottom: 1px solid #dcd9db;
       margin-bottom: 1rem;
       cursor: auto;

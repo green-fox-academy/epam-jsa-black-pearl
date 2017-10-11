@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
-import Login from './Componets/login/index.js';
+import Login from '../Componets/login';
 
 
 class App extends React.Component {
@@ -10,7 +10,6 @@ class App extends React.Component {
         <div>
           <Route exact path="/" component={Login} />
           <Route path="/login" component={Login} />
-          <Route path="/board" component={Board} />
         </div>
       </Router>
     );
