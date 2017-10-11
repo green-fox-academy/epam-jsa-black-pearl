@@ -12,7 +12,7 @@ const auth = require('./auth.js');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
-const router = express.Router();
+const router = new express.Router();
 
 app.set('jwtTokenSecret', 'black_pearl');
 
@@ -20,29 +20,29 @@ app.use(express.static(path.resolve(__dirname, '../../dist')));
 app.use(bodyParser.json());
 
 router.get('/', function(req, res) {
-  res.json({ message: 'hooray! welcome to our api!' });   
+  res.json({message: 'hooray! welcome to our api!'});
 });
 
 router.post('/login', function(req, res) {
-  if(!req.is('application/json')) {
+  if (!req.is('application/json')) {
     res.status(400).json({message: 'Content type error!'});
-  } else if(!req.body) {
+  } else if (!req.body) {
     res.status(400).json({message: 'Missing field(s)!'});
   } else {
-    auth(req.body, function (result) {
-      if(result === 'error') {
+    auth(req.body, function(result) {
+      if (result === 'error') {
         res.status(500).json({message: 'Something went wrong!'});
-      } else if(result === 'nocredential') {
+      } else if (result === 'nocredential') {
         res.status(403).json({message: 'Bad credential!'});
-      } else if(result === 'ok') {
+      } else if (result === 'ok') {
         let expires = moment().add(7, 'days').valueOf();
         let token = jwt.encode({
           iss: req.body.username,
-          exp: expires
+          exp: expires,
         }, app.get('jwtTokenSecret'));
         res.status(200).json({
-          token : token,
-          expires: expires
+          token: token,
+          expires: expires,
         });
       }
     });
