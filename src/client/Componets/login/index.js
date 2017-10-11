@@ -12,7 +12,7 @@ class Login extends React.Component {
           <h1>Welcome Onboard!</h1>
         </header>
         <LoginForm />
-        <p>Don`t have an account? <a href="">Sign up</a></p>
+        <p>Don`t have an account? <a href="#">Sign up</a></p>
       </main>
     );
   }
