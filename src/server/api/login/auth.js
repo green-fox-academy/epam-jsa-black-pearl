@@ -8,36 +8,46 @@ const cryption = require('./bcrypt.js');
 const url = dbUrl();
 
 function auth(credentials, callback) {
+  if (!verifyUsernamePasswordFormat(credentials.username, credentials.password)) {
+    callback('error');
+    return -1;
+  }
   MongoClient.connect(url, function(err, database) {
     if (err) {
       callback('error');
-      return;
+      return -1;
     }
     console.log('Connection established to ' + url);
     const collection = database.collection('users');
     let query = formQuery(credentials);
     collection.findOne(query, function(err, document) {
-      reportQuery(credentials, document)
+      if (!document) {
+        callback('nocredential');
+        return -1;
+      }
+      verifyPasswordHash(credentials, document)
         .then((res) => {
-          if (res) {
-            callback('ok');
-          } else {
-            callback('nocredential');
-          }
+          res ? callback('ok') : callback('nocredential');
           database.close();
         });
     });
   });
 }
 
-function formQuery(credentials) {
-  let obj = {
-    'username': credentials.username,
-  };
-  return obj;
+function verifyUsernamePasswordFormat(username, password) {
+  let regex = new RegExp("^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$");
+  if (regex.test(username) && password.length >= 6 && password.length <= 15) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
-function reportQuery(credentials, document) {
+function formQuery(credentials) {
+    return {'username': credentials.username};
+}
+
+function verifyPasswordHash(credentials, document) {
   return cryption.verify(credentials.password, document.password);
 }
 
