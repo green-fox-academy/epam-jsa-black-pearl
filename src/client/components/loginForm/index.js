@@ -24,11 +24,27 @@ class LoginForm extends React.Component {
       isLoading: true,
     });
     let self = this;
-    setTimeout(function() {
-      self.setState({
-        isLoading: false,
+    callApi(self, this.state.username, this.state.password);
+    function callApi(state, username, password) {
+      let API = 'http://localhost:3000/api/login';
+      let myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
+      let myRequest = new Request(API, {
+        'method': 'POST',
+        'headers': myHeaders,
+        'body': JSON.stringify({'username': username, 'password': password}),
       });
-    }, 2000);
+      fetch(myRequest).then(function(response) {
+        if (response.status === 200) return response.json();
+        throw new Error('error.');
+      }).then(function(response) {
+        localStorage.token = response.token;
+        self.setState({isLoading: false});
+      }).catch(function(error) {
+        alert('login failed!');
+        self.setState({isLoading: false});
+      });
+    }
   }
   onUsernameChange(ev) {
     this.setState({
