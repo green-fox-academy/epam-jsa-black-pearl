@@ -54,6 +54,7 @@
     "moment": "^2.19.0",
     "node-sass": "^4.5.3",
     "npm-run-all": "^4.1.1",
+    "react-svg-loader": "^2.0.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "supertest": "^3.0.0",
