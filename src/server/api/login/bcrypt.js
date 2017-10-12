@@ -12,10 +12,10 @@ function encrypt(string) {
 }
 
 function verify(password, hash) {
-  return bcrypt.compare(password, hash)
+  return bcrypt.compare(password, hash);
 }
 
 module.exports = {
   encrypt: encrypt,
-  verify: verify
-}
+  verify: verify,
+};
