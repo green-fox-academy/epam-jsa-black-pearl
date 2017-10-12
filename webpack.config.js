@@ -11,6 +11,9 @@ module.exports = {
     filename: './bundle.js',
     publicPath: '/',
   },
+  devServer: {
+    historyApiFallback: true,
+  },
   module: {
     loaders: [
       {
@@ -43,7 +46,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[path][name].[ext]',
-            },  
+            },
           },
         ],
       },
