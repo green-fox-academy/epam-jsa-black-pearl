@@ -1,9 +1,9 @@
 'use strict';
 
 function getDBUrl() {
-  const DB_HOST = process.env.DB_HOST;
-  const DB_PORT = process.env.DB_PORT;
-  const DB_NAME = process.env.DB_NAME;
+  const DB_HOST = process.env.DB_HOST || 'localhost';
+  const DB_PORT = process.env.DB_PORT || '27017';
+  const DB_NAME = process.env.DB_NAME || 'black-pearl';
   const DB_USER = process.env.DB_USER;
   const DB_PASS = process.env.DB_PASS;
   let url = 'mongodb://';
