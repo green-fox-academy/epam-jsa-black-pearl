@@ -15,6 +15,10 @@ app.get('/login', (req, res) => {
   res.sendFile('index.html', {root: path.join(__dirname, '../../dist')});
 });
 
+app.get('/register', (req, res) => {
+  res.sendFile('index.html', {root: path.join(__dirname, '../../dist')});
+});
+
 app.get('/heartbeat', (req, res) => {
   heartbeat(function(result) {
     if (result === 'error') {

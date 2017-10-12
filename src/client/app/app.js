@@ -1,6 +1,7 @@
 import React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
-import Login from '../componets/register';
+import Login from '../componets/login';
+import Register from '../componets/register';
 
 class App extends React.Component {
   render() {
@@ -9,6 +10,7 @@ class App extends React.Component {
         <div>
           <Route exact path="/" component={Login} />
           <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
         </div>
       </Router>
     );
