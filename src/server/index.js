@@ -8,13 +8,6 @@ const heartbeat = require('./heartbeat.js');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
-const webpack = require('webpack');
-const webpackConfig = require('../../webpack.config.js');
-const compiler = webpack(webpackConfig);
-
-app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: true, publicPath: webpackConfig.output.publicPath,
-}));
 
 app.use(express.static(path.resolve(__dirname, '../../dist')));
 

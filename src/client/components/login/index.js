@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import LoginForm from '../LoginForm';
+import LoginForm from '../loginForm';
 import img from '../../../img/black_pearl.png';
 
 class Login extends React.Component {
