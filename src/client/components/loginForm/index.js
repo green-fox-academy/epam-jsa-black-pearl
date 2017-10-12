@@ -11,13 +11,19 @@ class LoginForm extends React.Component {
       username: null,
       password: null,
       isLoading: false,
+      isIllegalFields: false
     };
   }
   onLogin() {
     function validateEmail(email) {
       return Validator.isEmail(email);
     }
-    if (!validateEmail(this.state.username) || this.state.password.length < 6) {
+    if (!validateEmail(String(this.state.username)) || this.state.password.length < 6) {
+      let self = this;
+      self.setState({isIllegalFields: true});
+      setTimeout(function() {
+        self.setState({isIllegalFields: false});
+      }, 500);
       return;
     }
     this.setState({
@@ -62,7 +68,8 @@ class LoginForm extends React.Component {
       button = (
         <div>
           <input type="button" value="Login"
-            onClick={this.onLogin.bind(this)} />
+            onClick={this.onLogin.bind(this)}
+            className={this.state.isIllegalFields ? 'shaking' : ''} />
         </div>
       );
     } else {
