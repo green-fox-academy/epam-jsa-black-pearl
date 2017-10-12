@@ -4,10 +4,12 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 function encrypt(string) {
+  let stringHash;
   bcrypt.genSalt(saltRounds, function(err, salt) {
     bcrypt.hash(string, salt, function(err, hash) {
-      return hash;
+      stringHash = hash;
     });
+    return stringHash;
   });
 }
 
