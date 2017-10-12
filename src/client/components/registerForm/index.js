@@ -7,7 +7,7 @@ class RegisterForm extends React.Component {
       <form className="register-form">
         <input type="email" required placeholder="Email" />
         <input type="password" required placeholder="Password" />
-        <input type="submit" value="Sigh up"/>
+        <input type="submit" value="Sign up"/>
       </form>
     );
   }
