@@ -25,7 +25,7 @@ router.get('/', function(req, res) {
 router.post('/login', function(req, res) {
   if (!req.is('application/json')) {
     res.status(400).json({message: 'Content type error!'});
-  } else if (!req.body.username && !req.body.password) {
+  } else if (!req.body.username || !req.body.password) {
     res.status(400).json({message: 'Missing field(s)!'});
   } else {
     auth(req.body, function(result) {
