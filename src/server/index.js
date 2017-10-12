@@ -32,7 +32,7 @@ router.post('/login', function(req, res) {
       if (result === 'error' || !result) {
         res.status(500).json({message: 'Something went wrong!'});
       } else if (result === 'nocredential') {
-        res.status(403).json({message: 'Bad credential!'});
+        res.status(403).json({message: 'User does not exists or bad credential!'});
       } else if (result === 'ok') {
         res.status(200).json(generateToken(req.body.username));
       }
