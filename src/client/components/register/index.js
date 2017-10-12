@@ -9,7 +9,7 @@ class Register extends React.Component {
       <main>
         <header>
           <img src={img} alt="Logo of Black Pearl"/>
-          <h1>Sign Up for Free</h1>
+          <h1>Sign Up</h1>
         </header>
         <RegisterForm />
         <p>Already have an account? <a href="/login">Login here</a></p>

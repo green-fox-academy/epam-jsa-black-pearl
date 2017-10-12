@@ -40,7 +40,7 @@ function verifyUsernamePasswordFormat(username, password) {
 }
 
 function createUsernameQuery(credentials) {
-    return {'username': credentials.username};
+  return {'username': credentials.username};
 }
 
 function verifyPassword(password, passwordHash) {
