@@ -1,21 +1,21 @@
 import React from 'react';
 import './index.scss';
-import LoginForm from '../loginForm';
+import RegisterForm from '../registerForm';
 import img from '../../../img/black_pearl.png';
 
-class Login extends React.Component {
+class Register extends React.Component {
   render() {
     return (
       <main>
         <header>
           <img src={img} alt="Logo of Black Pearl"/>
-          <h1>Welcome Onboard!</h1>
+          <h1>Sign Up</h1>
         </header>
-        <LoginForm />
-        <p>Don`t have an account? <a href="/register">Sign up</a></p>
+        <RegisterForm />
+        <p>Already have an account? <a href="/login">Login here</a></p>
       </main>
     );
   }
 }
 
-export default Login;
+export default Register;

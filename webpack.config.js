@@ -1,18 +1,18 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const webpack = require('webpack');
 
 module.exports = {
   entry: [
-    'webpack-hot-middleware/client',
     path.resolve(__dirname, 'src/client/index.js'),
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: './bundle.js',
     publicPath: '/',
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   module: {
     loaders: [
@@ -46,7 +46,7 @@ module.exports = {
             loader: 'file-loader',
             options: {
               name: '[path][name].[ext]',
-            },  
+            },
           },
         ],
       },
@@ -59,9 +59,5 @@ module.exports = {
       filename: 'index.html',
       inject: 'body',
     }),
-    new ExtractTextPlugin('style.css'),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
   ],
 };

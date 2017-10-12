@@ -14,13 +14,6 @@ const app = express();
 const router = new express.Router();
 
 app.set('jwtTokenSecret', 'black_pearl');
-const webpack = require('webpack');
-const webpackConfig = require('../../webpack.config.js');
-const compiler = webpack(webpackConfig);
-
-app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: true, publicPath: webpackConfig.output.publicPath,
-}));
 
 app.use(express.static(path.resolve(__dirname, '../../dist')));
 app.use(bodyParser.json());
@@ -49,7 +42,7 @@ router.post('/login', function(req, res) {
 
 app.use('/api', router);
 
-app.get('/login', (req, res) => {
+app.get(['/login', '/register'], (req, res) => {
   res.sendFile('index.html', {root: path.join(__dirname, '../../dist')});
 });
 
