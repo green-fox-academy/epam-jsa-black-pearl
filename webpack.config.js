@@ -2,18 +2,22 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src/client/index.js'),
+  entry: [
+    'webpack-hot-middleware/client',
+    path.resolve(__dirname, 'src/client/index.js'),
+  ],
   output: {
-    path: path.resolve(__dirname, 'dist/app'),
-    filename: 'bundle.js',
-    publicPath: '/app/',
+    path: path.resolve(__dirname, 'dist'),
+    filename: './bundle.js',
+    publicPath: '/',
   },
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.js[x]?$/,
         include: path.resolve(__dirname, 'src'),
         loader: 'babel-loader',
         query: {
@@ -35,6 +39,17 @@ module.exports = {
           {loader: 'sass-loader'},
         ],
       },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+            },  
+          },
+        ],
+      },
     ],
   },
   plugins: [
@@ -45,5 +60,8 @@ module.exports = {
       inject: 'body',
     }),
     new ExtractTextPlugin('style.css'),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
   ],
 };
