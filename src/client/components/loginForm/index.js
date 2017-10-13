@@ -46,6 +46,7 @@ class LoginForm extends React.Component {
       }).then(function(response) {
         localStorage.token = response.token;
         self.setState({isLoading: false});
+        window.location.href = 'https://www.baidu.com';
       }).catch(function(error) {
         alert('login failed!');
         self.setState({isLoading: false});
