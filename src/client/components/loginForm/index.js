@@ -11,7 +11,8 @@ class LoginForm extends React.Component {
       username: null,
       password: null,
       isLoading: false,
-      isIllegalFields: false
+      isIllegalFields: false,
+      isLoginFailure: false,
     };
   }
   onLogin() {
@@ -48,7 +49,9 @@ class LoginForm extends React.Component {
         self.setState({isLoading: false});
         window.location.href = '/board';
       }).catch(function(error) {
-        alert('login failed!');
+        this.setState({
+          isLoginFailure: true,
+        });
         self.setState({isLoading: false});
       });
     }
