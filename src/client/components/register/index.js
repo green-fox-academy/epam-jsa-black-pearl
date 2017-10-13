@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import './index.scss';
 import RegisterForm from '../registerForm';
 import img from '../../../img/black_pearl.png';
@@ -12,7 +13,7 @@ class Register extends React.Component {
           <h1>Sign Up</h1>
         </header>
         <RegisterForm />
-        <p>Already have an account? <a href="/login">Login here</a></p>
+        <p>Already have an account? <Link to={'/login'}>Login here</Link></p>
       </main>
     );
   }

@@ -42,7 +42,7 @@ router.post('/login', function(req, res) {
 
 app.use('/api', router);
 
-app.get(['/login', '/register'], (req, res) => {
+app.get(['/login', '/register', '/board'], (req, res) => {
   res.sendFile('index.html', {root: path.join(__dirname, '../../dist')});
 });
 
