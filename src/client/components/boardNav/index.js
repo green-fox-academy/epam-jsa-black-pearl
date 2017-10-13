@@ -14,7 +14,7 @@ class Board extends React.Component {
           <p>BOARD</p>
           <input id="searchBar" required type="text" name="searchBar" />
           <p>Black Pearl</p>
-          <Link to={'./login'}>Logout</Link>
+          <Link to={'/login'}>Logout</Link>
         </nav>
       </div>
     )
