@@ -8,31 +8,34 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: null,
-      password: null,
+      username: '',
+      password: '',
       isLoading: false,
-      isIllegalFields: false
+      isInvalidFields: false,
     };
   }
   onLogin() {
-    function validateEmail(email) {
+    function isValidEmail(email) {
       return Validator.isEmail(email);
     }
-    if (!validateEmail(String(this.state.username)) || this.state.password.length < 6) {
-      let self = this;
-      self.setState({isIllegalFields: true});
+    function isValidPassword(password) {
+      return password.length >= 6;
+    }
+    if (!isValidEmail(this.state.username) || !isValidPassword(this.state.password)) {
+      let that = this;
+      that.setState({isInvalidFields: true});
       setTimeout(function() {
-        self.setState({isIllegalFields: false});
+        that.setState({isInvalidFields: false});
       }, 500);
       return;
     }
     this.setState({
       isLoading: true,
     });
-    let self = this;
-    callApi(self, this.state.username, this.state.password);
-    function callApi(state, username, password) {
-      let API = 'http://localhost:3000/api/login';
+    let that = this;
+    doLogin(that, this.state.username, this.state.password);
+    function doLogin(state, username, password) {
+      let API = '/api/login';
       let myHeaders = new Headers();
       myHeaders.append('Content-Type', 'application/json');
       let myRequest = new Request(API, {
@@ -45,11 +48,11 @@ class LoginForm extends React.Component {
         throw new Error('error.');
       }).then(function(response) {
         localStorage.token = response.token;
-        self.setState({isLoading: false});
+        state.setState({isLoading: false});
         window.location.href = 'https://www.baidu.com';
       }).catch(function(error) {
         alert('login failed!');
-        self.setState({isLoading: false});
+        state.setState({isLoading: false});
       });
     }
   }
@@ -70,7 +73,7 @@ class LoginForm extends React.Component {
         <div>
           <input type="button" value="Login"
             onClick={this.onLogin.bind(this)}
-            className={this.state.isIllegalFields ? 'shaking' : ''} />
+            className={this.state.isInvalidFields ? 'shaking' : ''} />
         </div>
       );
     } else {
