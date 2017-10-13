@@ -13,7 +13,7 @@ class Board extends React.Component {
         <div className="nav-item">
           <img src={menuNavigation} alt="navicon" />
           <p>BOARD</p>
-          <input id="searchBar" required type="text" name="searchBar" />
+          <input className="searchBar" required type="text" name="searchBar" />
         </div>
         <div className="nav-item">
           <p>Black Pearl</p>
