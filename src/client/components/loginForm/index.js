@@ -11,7 +11,8 @@ class LoginForm extends React.Component {
       username: null,
       password: null,
       isLoading: false,
-      isIllegalFields: false
+      isIllegalFields: false,
+      isLoginFailure: false,
     };
   }
   onLogin() {
@@ -46,9 +47,11 @@ class LoginForm extends React.Component {
       }).then(function(response) {
         localStorage.token = response.token;
         self.setState({isLoading: false});
-        window.location.href = 'https://www.baidu.com';
+        window.location.href = '/board';
       }).catch(function(error) {
-        alert('login failed!');
+        self.setState({
+          isLoginFailure: true,
+        });
         self.setState({isLoading: false});
       });
     }
@@ -82,8 +85,19 @@ class LoginForm extends React.Component {
         </div>
       );
     }
+    let warning = null;
+    if (this.state.isLoginFailure) {
+      warning = (
+        <p>Login failed.</p>
+      )
+    } else {
+      warning = null;
+    }
     return (
       <form className="login-form">
+        <div className="warning">
+          {warning}
+        </div>
         <input type="text" placeholder="Email"
           onChange={this.onUsernameChange.bind(this)} />
         <input type="password" placeholder="Password"
