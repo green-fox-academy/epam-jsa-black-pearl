@@ -83,7 +83,7 @@ class LoginForm extends React.Component {
     } else {
       button = (
         <div>
-          <div className="loadingInput">
+          <div className="loading-input">
             <Spinner width={50} height={50} />
           </div>
         </div>
