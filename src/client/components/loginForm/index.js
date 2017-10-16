@@ -3,6 +3,9 @@ import './index.scss';
 
 import Spinner from '../../../img/spinner.svg';
 import Validator from 'validator';
+const statusOK = 200;
+const internalError = 500;
+const minPwdLength = 6;
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -18,58 +21,56 @@ class LoginForm extends React.Component {
     function isValidEmail(email) {
       return Validator.isEmail(email);
     }
+
     function isValidPassword(password) {
-      return password.length >= 6;
+      return password.length >= minPwdLength;
     }
     if (!isValidEmail(this.state.username) || !isValidPassword(this.state.password)) {
       let that = this;
+
       that.setState({isInvalidFields: true});
       setTimeout(function() {
         that.setState({isInvalidFields: false});
-      }, 500);
+      }, internalError);
       return;
     }
-    this.setState({
-      isLoading: true,
-    });
+    this.setState({isLoading: true});
     let that = this;
-    doLogin(that, this.state.username, this.state.password);
+
     function doLogin(state, username, password) {
       let API = '/api/login';
       let myHeaders = new Headers();
+
       myHeaders.append('Content-Type', 'application/json');
       let myRequest = new Request(API, {
         'method': 'POST',
         'headers': myHeaders,
         'body': JSON.stringify({'username': username, 'password': password}),
       });
+
       fetch(myRequest).then(function(response) {
-        if (response.status === 200) return response.json();
+        if (response.status === statusOK) return response.json();
         throw new Error('error.');
       }).then(function(response) {
         localStorage.token = response.token;
         state.setState({isLoading: false});
         window.location.href = '/board';
       }).catch(function(error) {
-        state.setState({
-          isLoginFailure: true,
-        });
+        state.setState({isLoginFailure: true});
         state.setState({isLoading: false});
       });
     }
+    doLogin(that, this.state.username, this.state.password);
   }
   onUsernameChange(ev) {
-    this.setState({
-      username: ev.target.value,
-    });
+    this.setState({username: ev.target.value});
   }
   onPasswordChange(ev) {
-    this.setState({
-      password: ev.target.value,
-    });
+    this.setState({password: ev.target.value});
   }
   render() {
     let button = null;
+
     if (!this.state.isLoading) {
       button = (
         <div>
@@ -88,6 +89,7 @@ class LoginForm extends React.Component {
       );
     }
     let warning = null;
+
     if (this.state.isLoginFailure) {
       warning = (
         <p>Login failed.</p>
@@ -95,6 +97,7 @@ class LoginForm extends React.Component {
     } else {
       warning = null;
     }
+
     return (
       <form className="login-form">
         <div className="warning">

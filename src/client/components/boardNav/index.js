@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import './index.scss';
 import menuNavigation from '../../../img/nav/menunavigation.png';
 
@@ -22,7 +22,7 @@ class Board extends React.Component {
           <Link to={'/login'}>Logout</Link>
         </div>
       </nav>
-    )
+    );
   }
 }
 
