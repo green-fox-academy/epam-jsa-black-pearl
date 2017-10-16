@@ -4,17 +4,10 @@ import Validator from 'validator';
 
 import './index.scss';
 import Spinner from '../../../img/spinner.svg';
-<<<<<<< HEAD
-import Validator from 'validator';
-const statusOK = 200;
-const internalError = 500;
-const minPwdLength = 6;
-=======
 
 const MIN_PASSWORD_LENGTH = 6;
 const ANIMATION_SHAKING_DURATION = 500;
 const STATUS_CODE_OK = 200;
->>>>>>> develop
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -35,25 +28,8 @@ class LoginForm extends React.Component {
     }
 
     function isValidPassword(password) {
-<<<<<<< HEAD
-      return password.length >= minPwdLength;
-    }
-    if (!isValidEmail(this.state.username)
-      || !isValidPassword(this.state.password)) {
-      let that = this;
-
-      that.setState({isInvalidFields: true});
-      setTimeout(function() {
-        that.setState({isInvalidFields: false});
-      }, internalError);
-      return;
-    }
-    this.setState({isLoading: true});
-    let that = this;
-=======
       return password.length >= MIN_PASSWORD_LENGTH;
     }
->>>>>>> develop
 
     function doLogin(state, username, password) {
       let API = '/api/login';
@@ -67,25 +43,11 @@ class LoginForm extends React.Component {
         'body': JSON.stringify({'username': username, 'password': password}),
       });
 
-<<<<<<< HEAD
-      fetch(myRequest).then(function(response) {
-        if (response.status === statusOK) return response.json();
-=======
       fetch(myRequest).then((response) => {
         if (response.status === STATUS_CODE_OK) return response.json();
->>>>>>> develop
         throw new Error('error.');
       }).then((response) => {
         localStorage.token = response.token;
-<<<<<<< HEAD
-        state.setState({isLoading: false});
-        window.location.href = '/board';
-      }).catch(function(error) {
-        state.setState({isLoginFailure: true});
-        state.setState({isLoading: false});
-      });
-    }
-=======
         state.setState({isLoading: false, isLoggedIn: true});
       }).catch((error) => {
         state.setState({isLoading: false, isLoginFailure: true});
@@ -104,7 +66,6 @@ class LoginForm extends React.Component {
     this.setState({isLoading: true});
     let that = this;
 
->>>>>>> develop
     doLogin(that, this.state.username, this.state.password);
   }
   onUsernameChange(ev) {
@@ -145,13 +106,6 @@ class LoginForm extends React.Component {
         </div>
       );
     }
-<<<<<<< HEAD
-    let warning = null;
-
-    if (this.state.isLoginFailure) {
-      warning = (
-        <p>Login failed.</p>
-=======
     return button;
   }
   render() {
@@ -160,13 +114,9 @@ class LoginForm extends React.Component {
     if (this.state.isLoggedIn) {
       return (
         <Redirect to="/board" />
->>>>>>> develop
       );
     }
-<<<<<<< HEAD
-=======
     let button = this.onLoginSuccess();
->>>>>>> develop
 
     return (
       <form className="login-form">
