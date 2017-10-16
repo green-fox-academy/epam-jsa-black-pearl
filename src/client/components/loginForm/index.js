@@ -6,6 +6,8 @@ import './index.scss';
 import Spinner from '../../../img/spinner.svg';
 
 const MIN_PASSWORD_LENGTH = 6;
+const ANIMATION_SHAKING_DURATION = 500;
+const STATUS_CODE_OK = 200;
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -16,6 +18,7 @@ class LoginForm extends React.Component {
       isLoading: false,
       isInvalidFields: false,
       isLoggedIn: false,
+      isLoginFailure: false,
     };
   }
 
@@ -41,23 +44,23 @@ class LoginForm extends React.Component {
       });
 
       fetch(myRequest).then((response) => {
-        if (response.status === 200) return response.json();
+        if (response.status === STATUS_CODE_OK) return response.json();
         throw new Error('error.');
       }).then((response) => {
         localStorage.token = response.token;
         state.setState({isLoading: false, isLoggedIn: true});
       }).catch((error) => {
-        state.setState({isLoading: false});
+        state.setState({isLoading: false, isLoginFailure: true});
       });
     }
-    if (!isValidEmail(this.state.username) ||
-    !isValidPassword(this.state.password)) {
+    if (!isValidEmail(this.state.username)
+     || !isValidPassword(this.state.password)) {
       let that = this;
 
       that.setState({isInvalidFields: true});
       setTimeout(() => {
         that.setState({isInvalidFields: false});
-      }, 500);
+      }, ANIMATION_SHAKING_DURATION);
       return;
     }
     this.setState({isLoading: true});
@@ -71,12 +74,19 @@ class LoginForm extends React.Component {
   onPasswordChange(ev) {
     this.setState({password: ev.target.value});
   }
-  render() {
-    if (this.state.isLoggedIn) {
-      return (
-        <Redirect to="/board" />
+  onWarningMessage() {
+    let warning = null;
+
+    if (this.state.isLoginFailure) {
+      warning = (
+        <p>Login failed.</p>
       );
+    } else {
+      warning = null;
     }
+    return warning;
+  }
+  onLoginSuccess() {
     let button = null;
 
     if (!this.state.isLoading) {
@@ -96,15 +106,18 @@ class LoginForm extends React.Component {
         </div>
       );
     }
-    let warning = null;
+    return button;
+  }
+  render() {
+    let warning = this.onWarningMessage();
 
-    if (this.state.isLoginFailure) {
-      warning = (
-        <p>Login failed.</p>
+    if (this.state.isLoggedIn) {
+      return (
+        <Redirect to="/board" />
       );
-    } else {
-      warning = null;
     }
+    let button = this.onLoginSuccess();
+
     return (
       <form className="login-form">
         <div className="warning">
