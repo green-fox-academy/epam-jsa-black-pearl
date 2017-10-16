@@ -33,22 +33,19 @@ function auth(credentials, callback) {
   }
   MongoClient.connect(url, function(err, database) {
     if (err) {
-      callback('error');
-      return;
+      return callback('error');
     }
     console.log('Connection established to ' + url);
-    const collection = database.collection('users');
     let query = createUsernameQuery(credentials);
 
-    collection.findOne(query, function(err, document) {
-      if (!document) {
-        callback('nocredential');
-        return;
+    database.collection('users').findOne(query, function(err, document) {
+      if (err || !document) {
+        return callback('nocredential');
       }
       verifyPassword(credentials.password, document.password)
         .then((res) => {
-          res ? callback('ok') : callback('nocredential');
           database.close();
+          return res ? callback('ok') : callback('nocredential');
         });
     });
   });

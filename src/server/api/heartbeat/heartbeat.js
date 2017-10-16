@@ -10,23 +10,17 @@ const noResult = 0;
 function heartbeat(callback) {
   MongoClient.connect(url, function(err, database) {
     if (err) {
-      callback('error');
-      return;
+      return callback('error');
     }
     console.log('Connection established to ' + url);
     const collection = database.collection('heartbeat');
 
     collection.find({}).toArray(function(err, result) {
-      if (err) {
-        callback('error');
-        return;
-      }
-      if (result.length === noResult) {
-        callback('error');
-      } else {
-        callback('ok');
+      if (err || result.length === noResult) {
+        return callback('error');
       }
       database.close();
+      callback('ok');
     });
   });
 }

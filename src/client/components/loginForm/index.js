@@ -23,50 +23,44 @@ class LoginForm extends React.Component {
   }
 
   onLogin() {
-    function isValidEmail(email) {
-      return Validator.isEmail(email);
-    }
-
-    function isValidPassword(password) {
-      return password.length >= MIN_PASSWORD_LENGTH;
-    }
-
-    function doLogin(state, username, password) {
-      let API = '/api/login';
-
-      let myHeaders = new Headers();
-
-      myHeaders.append('Content-Type', 'application/json');
-      let myRequest = new Request(API, {
-        'method': 'POST',
-        'headers': myHeaders,
-        'body': JSON.stringify({'username': username, 'password': password}),
-      });
-
-      fetch(myRequest).then((response) => {
-        if (response.status === STATUS_CODE_OK) return response.json();
-        throw new Error('error.');
-      }).then((response) => {
-        localStorage.token = response.token;
-        state.setState({isLoading: false, isLoggedIn: true});
-      }).catch((error) => {
-        state.setState({isLoading: false, isLoginFailure: true});
-      });
-    }
-    if (!isValidEmail(this.state.username)
-     || !isValidPassword(this.state.password)) {
-      let that = this;
-
-      that.setState({isInvalidFields: true});
+    if (!this.isValidEmail(this.state.username)
+     || !this.isValidPassword(this.state.password)) {
+      this.setState({isInvalidFields: true});
       setTimeout(() => {
-        that.setState({isInvalidFields: false});
+        this.setState({isInvalidFields: false});
       }, ANIMATION_SHAKING_DURATION);
-      return;
+    } else {
+      this.setState({isLoading: true});
+      this.doLogin(this.state.username, this.state.password).bind(this);
     }
-    this.setState({isLoading: true});
-    let that = this;
+  }
+  isValidEmail(email) {
+    return Validator.isEmail(email);
+  }
+  isValidPassword(password) {
+    return password.length >= MIN_PASSWORD_LENGTH;
+  }
+  doLogin(username, password) {
+    let API = '/api/login';
 
-    doLogin(that, this.state.username, this.state.password);
+    let myHeaders = new Headers();
+
+    myHeaders.append('Content-Type', 'application/json');
+    let myRequest = new Request(API, {
+      'method': 'POST',
+      'headers': myHeaders,
+      'body': JSON.stringify({'username': username, 'password': password}),
+    });
+
+    fetch(myRequest).then((response) => {
+      if (response.status === STATUS_CODE_OK) return response.json();
+      throw new Error('error.');
+    }).then((response) => {
+      localStorage.token = response.token;
+      this.setState({isLoading: false, isLoggedIn: true});
+    }).catch((error) => {
+      this.setState({isLoading: false, isLoginFailure: true});
+    });
   }
   onUsernameChange(ev) {
     this.setState({username: ev.target.value});
