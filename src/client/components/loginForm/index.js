@@ -25,7 +25,8 @@ class LoginForm extends React.Component {
     function isValidPassword(password) {
       return password.length >= minPwdLength;
     }
-    if (!isValidEmail(this.state.username) || !isValidPassword(this.state.password)) {
+    if (!isValidEmail(this.state.username)
+      || !isValidPassword(this.state.password)) {
       let that = this;
 
       that.setState({isInvalidFields: true});

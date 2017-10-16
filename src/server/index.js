@@ -17,6 +17,7 @@ const badRequest = 400;
 const statusOK = 200;
 const internalError = 500;
 const forbidden = 403;
+const forbiddenMessage = 'User does not exists or bad credential!';
 
 app.set('jwtTokenSecret', 'black_pearl');
 
@@ -37,7 +38,7 @@ router.post('/login', function(req, res) {
       if (result === 'error' || !result) {
         res.status(internalError).json({message: 'Something went wrong!'});
       } else if (result === 'nocredential') {
-        res.status(forbidden).json({message: 'User does not exists or bad credential!'});
+        res.status(forbidden).json({message: forbiddenMessage});
       } else if (result === 'ok') {
         res.status(statusOK).json(generateToken(req.body.username));
       }

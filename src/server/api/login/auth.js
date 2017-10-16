@@ -20,11 +20,14 @@ function createUsernameQuery(credentials) {
 }
 
 function verifyUsernamePasswordFormat(username, password) {
-  return validator.isEmail(username) && password.length >= minPwdLength && password.length <= maxPwdLength;
+  return validator.isEmail(username)
+    && password.length >= minPwdLength
+    && password.length <= maxPwdLength;
 }
 
 function auth(credentials, callback) {
-  if (!verifyUsernamePasswordFormat(credentials.username, credentials.password)) {
+  if (!verifyUsernamePasswordFormat(credentials.username,
+    credentials.password)) {
     callback('error');
     return;
   }
@@ -36,7 +39,6 @@ function auth(credentials, callback) {
     console.log('Connection established to ' + url);
     const collection = database.collection('users');
     let query = createUsernameQuery(credentials);
-
     collection.findOne(query, function(err, document) {
       if (!document) {
         callback('nocredential');
