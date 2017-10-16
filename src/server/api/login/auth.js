@@ -39,6 +39,7 @@ function auth(credentials, callback) {
     console.log('Connection established to ' + url);
     const collection = database.collection('users');
     let query = createUsernameQuery(credentials);
+
     collection.findOne(query, function(err, document) {
       if (!document) {
         callback('nocredential');
