@@ -1,6 +1,6 @@
-$lightOrange: #fdbd39;
+$light-orange: #fdbd39;
 
-@mixin loginButton {
+@mixin login-button {
   border-radius: 25px;
   height: 60px;
 }
@@ -33,7 +33,7 @@ $lightOrange: #fdbd39;
   }
 
   input {
-    background-color: $lightOrange;
+    background-color: $light-orange;
     border: 0;
     color: #fff;
     cursor: pointer;
@@ -41,7 +41,7 @@ $lightOrange: #fdbd39;
     font-size: 25px;
     line-height: 2rem;
     width: 100%;
-    @include loginButton;
+    @include login-button;
   }
 
   input:not([type='button']) {
@@ -57,7 +57,7 @@ $lightOrange: #fdbd39;
   }
 
   input:focus {
-    border-bottom: 1px solid $lightOrange;
+    border-bottom: 1px solid $light-orange;
     outline: none;
   }
 }
@@ -68,7 +68,7 @@ $lightOrange: #fdbd39;
   cursor: not-allowed;
   display: flex;
   justify-content: center;
-  @include loginButton;
+  @include login-button;
 }
 
 .shaking {
