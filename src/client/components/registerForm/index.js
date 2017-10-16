@@ -18,6 +18,7 @@ class RegisterForm extends React.Component {
       isInvalidFields: false,
       isLoggedIn: false,
       isRegistrationFailure: false,
+      registrationFailureMessage: '',
     };
   }
 
@@ -34,7 +35,11 @@ class RegisterForm extends React.Component {
 
     that.setState({isLoading: true});
     setTimeout(() => {
-      that.setState({isLoading: false});
+      that.setState({
+        isLoading: false,
+        isRegistrationFailure: true,
+        registrationFailureMessage: 'Registration failed!',
+      });
     }, TEST);
   }
 
@@ -48,20 +53,20 @@ class RegisterForm extends React.Component {
   }
 
   doRegist(username, password) {
-    let that = this;
-
-    if (!that.isValidEmail(that.state.username)
-    || !that.isValidPassword(this.state.password)) {
-      that.shakingAnimation();
+    if (!this.isValidEmail(this.state.username)
+    || !this.isValidPassword(this.state.password)) {
+      this.setState({
+        isRegistrationFailure: true,
+        registrationFailureMessage: 'Invalid email or password!',
+      });
+      this.shakingAnimation();
       return;
     }
-    that.registrationHttpRequest(username, password);
+    this.registrationHttpRequest(username, password);
   }
 
   onRegist() {
-    let that = this;
-
-    that.doRegist(that.state.username, that.state.password);
+    this.doRegist(this.state.username, this.state.password);
     return;
   }
 
@@ -73,7 +78,7 @@ class RegisterForm extends React.Component {
     this.setState({password: ev.target.value});
   }
 
-  onLoading() {
+  generateLoadingButton() {
     let button = null;
 
     if (!this.state.isLoading) {
@@ -96,12 +101,28 @@ class RegisterForm extends React.Component {
     return button;
   }
 
+  generateWarningMessage(message) {
+    let warning = null;
+
+    if (this.state.isRegistrationFailure) {
+      warning = (
+        <p>{message}</p>
+      );
+    } else {
+      warning = null;
+    }
+    return warning;
+  }
+
   render() {
-    let button = this.onLoading();
+    let button = this.generateLoadingButton();
+    let warning = this.generateWarningMessage(
+      this.state.registrationFailureMessage);
 
     return (
       <form className="login-form">
         <div className="warning">
+          {warning}
         </div>
         <input type="text" placeholder="Email"
           onChange={this.onUsernameChange.bind(this)} />
