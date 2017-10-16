@@ -1,8 +1,9 @@
 import React from 'react';
-import './index.scss';
-
-import Spinner from '../../../img/spinner.svg';
+import { Route, Redirect } from 'react-router';
 import Validator from 'validator';
+
+import './index.scss';
+import Spinner from '../../../img/spinner.svg';
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class LoginForm extends React.Component {
       password: '',
       isLoading: false,
       isInvalidFields: false,
+      isLoggedIn: false,
     };
   }
   onLogin() {
@@ -23,9 +25,9 @@ class LoginForm extends React.Component {
     }
     if (!isValidEmail(this.state.username) || !isValidPassword(this.state.password)) {
       let that = this;
-      that.setState({isInvalidFields: true});
-      setTimeout(function() {
-        that.setState({isInvalidFields: false});
+      that.setState({ isInvalidFields: true });
+      setTimeout(function () {
+        that.setState({ isInvalidFields: false });
       }, 500);
       return;
     }
@@ -41,20 +43,21 @@ class LoginForm extends React.Component {
       let myRequest = new Request(API, {
         'method': 'POST',
         'headers': myHeaders,
-        'body': JSON.stringify({'username': username, 'password': password}),
+        'body': JSON.stringify({ 'username': username, 'password': password }),
       });
-      fetch(myRequest).then(function(response) {
+      fetch(myRequest).then(function (response) {
         if (response.status === 200) return response.json();
         throw new Error('error.');
-      }).then(function(response) {
+      }).then(function (response) {
         localStorage.token = response.token;
-        state.setState({isLoading: false});
-        window.location.href = '/board';
-      }).catch(function(error) {
         state.setState({
-          isLoginFailure: true,
+          isLoading: false,
+          isLoggedIn: true,
         });
-        state.setState({isLoading: false});
+      }).catch(function (error) {
+        state.setState({
+          isLoading: false,
+        });
       });
     }
   }
@@ -69,44 +72,50 @@ class LoginForm extends React.Component {
     });
   }
   render() {
-    let button = null;
-    if (!this.state.isLoading) {
-      button = (
-        <div>
-          <input type="button" value="Login"
-            onClick={this.onLogin.bind(this)}
-            className={this.state.isInvalidFields ? 'shaking' : ''} />
-        </div>
-      );
+    if (this.state.isLoggedIn) {
+      return (
+        <Redirect to='/board' />
+      )
     } else {
-      button = (
-        <div>
-          <div className="loadingInput">
-            <Spinner width={50} height={50} />
+      let button = null;
+      if (!this.state.isLoading) {
+        button = (
+          <div>
+            <input type="button" value="Login"
+              onClick={this.onLogin.bind(this)}
+              className={this.state.isInvalidFields ? 'shaking' : ''} />
           </div>
-        </div>
+        );
+      } else {
+        button = (
+          <div>
+            <div className="loadingInput">
+              <Spinner width={50} height={50} />
+            </div>
+          </div>
+        );
+      }
+      let warning = null;
+      if (this.state.isLoginFailure) {
+        warning = (
+          <p>Login failed.</p>
+        );
+      } else {
+        warning = null;
+      }
+      return (
+        <form className="login-form">
+          <div className="warning">
+            {warning}
+          </div>
+          <input type="text" placeholder="Email"
+            onChange={this.onUsernameChange.bind(this)} />
+          <input type="password" placeholder="Password"
+            onChange={this.onPasswordChange.bind(this)} />
+          {button}
+        </form>
       );
     }
-    let warning = null;
-    if (this.state.isLoginFailure) {
-      warning = (
-        <p>Login failed.</p>
-      );
-    } else {
-      warning = null;
-    }
-    return (
-      <form className="login-form">
-        <div className="warning">
-          {warning}
-        </div>
-        <input type="text" placeholder="Email"
-          onChange={this.onUsernameChange.bind(this)} />
-        <input type="password" placeholder="Password"
-          onChange={this.onPasswordChange.bind(this)} />
-        {button}
-      </form>
-    );
   }
 }
 
