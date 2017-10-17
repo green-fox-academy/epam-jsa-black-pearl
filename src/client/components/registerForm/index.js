@@ -84,7 +84,7 @@ class RegisterForm extends React.Component {
     if (!this.state.isLoading) {
       button = (
         <div>
-          <input type="button" value="Creat Account"
+          <input type="button" value="Create Account"
             onClick={this.onRegist.bind(this)}
             className={this.state.isInvalidFields ? 'shaking' : ''} />
         </div>
