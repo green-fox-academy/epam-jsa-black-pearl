@@ -7,7 +7,7 @@ import Spinner from '../../../img/spinner.svg';
 import $api from '../../api/api.json';
 
 const MIN_PASSWORD_LENGTH = 6;
-const ANIMATION_SHAKING_DURATION = 500;
+const ANIMATION_SHAKING_DURATION = 250;
 const SUCCESSFUL_RESPONSE = /^20.$/;
 const CONFLICT_RESPONSE = 409;
 
@@ -50,40 +50,32 @@ class RegisterForm extends React.Component {
   }
 
   registrationHttpRequest() {
-    let that = this;
-
-    that.setState({isLoading: true});
-    fetch(that.formHttpRequest()).then((response) => {
+    this.setState({isLoading: true});
+    fetch(this.formHttpRequest()).then((response) => {
       if (SUCCESSFUL_RESPONSE.test(response.status)) {
-        that.setState({
+        this.setState({
           isRegistered: true,
           isLoading: false,
         });
       } else if (response.status === CONFLICT_RESPONSE) {
-        that.setState({
-          isLoading: false,
-          isRegistrationFailure: true,
-          registrationFailureMessage: 'Email exists!',
-        });
+        this.shakingAnimation('Email exists!');
       } else {
-        that.setState({
-          isLoading: false,
-          isRegistrationFailure: true,
-          registrationFailureMessage: 'Registration failed!',
-        });
+        this.shakingAnimation('Registration failed!');
       }
     }).catch((error) => {
-      that.setState({
-        isRegistrationFailure: true,
-        registrationFailureMessage: 'Registration failed!',
-      });
+      this.shakingAnimation('Registration failed!');
     });
   }
 
-  shakingAnimation() {
+  shakingAnimation(errorMessage) {
     let that = this;
 
-    that.setState({isInvalidFields: true});
+    that.setState({
+      isLoading: false,
+      isInvalidFields: true,
+      isRegistrationFailure: true,
+      registrationFailureMessage: errorMessage,
+    });
     setTimeout(() => {
       that.setState({isInvalidFields: false});
     }, ANIMATION_SHAKING_DURATION);
@@ -92,11 +84,7 @@ class RegisterForm extends React.Component {
   doRegister(username, password) {
     if (!this.isValidEmail(this.state.username)
       || !this.isValidPassword(this.state.password)) {
-      this.setState({
-        isRegistrationFailure: true,
-        registrationFailureMessage: 'Invalid email or password!',
-      });
-      this.shakingAnimation();
+      this.shakingAnimation('Invalid email or password!');
       return;
     }
     this.registrationHttpRequest();
