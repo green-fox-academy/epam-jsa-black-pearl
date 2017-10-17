@@ -1,5 +1,10 @@
 $light-orange: #fdbd39;
 
+@mixin register-button {
+  border-radius: 25px;
+  height: 60px;
+}
+
 .register-form {
   border-radius: 3px;
   margin: auto;
@@ -7,20 +12,39 @@ $light-orange: #fdbd39;
   padding: 1rem;
   // width: 35%;
 
+  .warning {
+    height: 16px;
+    overflow: hidden;
+    text-align: center;
+
+    p {
+      font-size: 14px;
+      margin: 0;
+    }
+  }
+
+  >div {
+    position: relative;
+  }
+
+  p {
+    color: #ff6347;
+    margin: .5rem 0;
+  }
+
   input {
     background-color: $light-orange;
     border: 0;
-    border-radius: 25px;
     color: #fff;
     cursor: pointer;
     display: block;
     font-size: 25px;
-    height: 60px;
     line-height: 2rem;
     width: 100%;
+    @include register-button;
   }
 
-  input:not([type='submit']) {
+  input:not([type='button']) {
     background-color: transparent;
     border: 0;
     border-bottom: 1px solid #dcd9db;
@@ -35,5 +59,39 @@ $light-orange: #fdbd39;
   input:focus {
     border-bottom: 1px solid $light-orange;
     outline: none;
+  }
+}
+
+.loading-input {
+  align-items: center;
+  background-color: #4168df;
+  cursor: not-allowed;
+  display: flex;
+  justify-content: center;
+  @include register-button;
+}
+
+.shaking {
+  animation: shaking .25s linear infinite;
+  @keyframes shaking {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    25% {
+      transform: rotate(5deg);
+    }
+
+    50% {
+      transform: rotate(0deg);
+    }
+
+    75% {
+      transform: rotate(-5deg);
+    }
+
+    100% {
+      transform: rotate(0deg);
+    }
   }
 }
