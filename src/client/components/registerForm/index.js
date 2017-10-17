@@ -8,6 +8,8 @@ import $api from '../../api/api.json';
 
 const MIN_PASSWORD_LENGTH = 6;
 const ANIMATION_SHAKING_DURATION = 500;
+const SUCCESSFUL_RESPONSE = /^20.$/;
+const CONFLICT_RESPONSE = 409;
 
 class RegisterForm extends React.Component {
   constructor(props) {
@@ -52,10 +54,24 @@ class RegisterForm extends React.Component {
 
     that.setState({isLoading: true});
     fetch(that.formHttpRequest()).then((response) => {
-      that.setState({
-        isRegistered: true,
-        isLoading: false,
-      });
+      if (SUCCESSFUL_RESPONSE.test(response.status)) {
+        that.setState({
+          isRegistered: true,
+          isLoading: false,
+        });
+      } else if (response.status === CONFLICT_RESPONSE) {
+        that.setState({
+          isLoading: false,
+          isRegistrationFailure: true,
+          registrationFailureMessage: 'Email exists!',
+        });
+      } else {
+        that.setState({
+          isLoading: false,
+          isRegistrationFailure: true,
+          registrationFailureMessage: 'Registration failed!',
+        });
+      }
     }).catch((error) => {
       that.setState({
         isRegistrationFailure: true,
