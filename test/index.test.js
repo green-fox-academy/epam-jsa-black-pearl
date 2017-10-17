@@ -1,4 +1,6 @@
 /* eslint-env mocha */
+/* eslint-disable */
+
 const assert = require('assert');
 
 describe('Dummy Backend Test', () => {

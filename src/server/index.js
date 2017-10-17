@@ -9,9 +9,15 @@ const heartbeat = require('./api/heartbeat/heartbeat.js');
 const auth = require('./api/login/auth.js');
 const generateToken = require('./api/login/generateToken.js');
 
-const PORT = process.env.PORT || 3000;
+const localHost = 3000;
+const PORT = process.env.PORT || localHost;
 const app = express();
 const router = new express.Router();
+const badRequest = 400;
+const statusOK = 200;
+const internalError = 500;
+const forbidden = 403;
+const forbiddenMessage = 'User does not exists or bad credential!';
 
 app.set('jwtTokenSecret', 'black_pearl');
 
@@ -24,17 +30,17 @@ router.get('/', function(req, res) {
 
 router.post('/login', function(req, res) {
   if (!req.is('application/json')) {
-    res.status(400).json({message: 'Content type error!'});
+    res.status(badRequest).json({message: 'Content type error!'});
   } else if (!req.body.username || !req.body.password) {
-    res.status(400).json({message: 'Missing field(s)!'});
+    res.status(badRequest).json({message: 'Missing field(s)!'});
   } else {
     auth(req.body, function(result) {
       if (result === 'error' || !result) {
-        res.status(500).json({message: 'Something went wrong!'});
+        res.status(internalError).json({message: 'Something went wrong!'});
       } else if (result === 'nocredential') {
-        res.status(403).json({message: 'User does not exists or bad credential!'});
+        res.status(forbidden).json({message: forbiddenMessage});
       } else if (result === 'ok') {
-        res.status(200).json(generateToken(req.body.username));
+        res.status(statusOK).json(generateToken(req.body.username));
       }
     });
   }
@@ -53,6 +59,7 @@ app.get('/heartbeat', (req, res) => {
     } else {
       res.json({'status': 'ok', 'database': 'ok'});
     }
+    return;
   });
 });
 

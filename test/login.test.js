@@ -1,6 +1,9 @@
 const assert = require('assert');
 let supertest = require('supertest');
 let server = supertest.agent('http://localhost:3000');
+const badRequest = 400;
+const statusOK = 200;
+const forbidden = 403;
 
 describe('Test Login', function() {
   it('login success', function(done) {
@@ -8,9 +11,9 @@ describe('Test Login', function() {
       .post('/api/login')
       .send({'username': 'test@test.com', 'password': '123456'})
       .expect('Content-type', /json/)
-      .expect(200)
+      .expect(statusOK)
       .end(function(err, res) {
-        assert.equal(res.status, 200);
+        assert.equal(res.status, statusOK);
         done();
       });
   });
@@ -19,9 +22,9 @@ describe('Test Login', function() {
       .post('/api/login')
       .send({'username': 'test@test.com', 'password': '12345678'})
       .expect('Content-type', /json/)
-      .expect(403)
+      .expect(forbidden)
       .end(function(err, res) {
-        assert.equal(res.status, 403);
+        assert.equal(res.status, forbidden);
         assert.equal(res.body.message, 'Bad credential!');
         done();
       });
@@ -31,9 +34,9 @@ describe('Test Login', function() {
       .post('/api/login')
       .send({'username': 'test@test.com'})
       .expect('Content-type', /json/)
-      .expect(400)
+      .expect(badRequest)
       .end(function(err, res) {
-        assert.equal(res.status, 400);
+        assert.equal(res.status, badRequest);
         assert.equal(res.body.message, 'Missing field(s)!');
         done();
       });
