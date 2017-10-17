@@ -21,10 +21,10 @@ function encryptPassword(password) {
   return cryption.encrypt(password);
 }
 
-function createInsertQuert(request) {
+function createInsertQuert(request, res) {
   return {
     'username': request.username,
-    'password': encryptPassword(request.password),
+    'password': res,
   };
 }
 
@@ -38,13 +38,16 @@ function register(request, callback) {
       return callback('error');
     }
     console.log('Connection established to ' + url);
-    let query = createInsertQuert(request);
+    encryptPassword(request.password).then(function(res) {
+      let query = createInsertQuert(request, res);
 
-    database.collection('users').insert(query, function(err, result) {
-      if (err) {
-        console.log('error: ' + err);
-        return callback('nocredential');
-      }
+      database.collection('users').insert(query, function(err, result) {
+        database.close();
+        if (err) {
+          return callback('conflict');
+        }
+        return callback('ok');
+      });
     });
   });
 }

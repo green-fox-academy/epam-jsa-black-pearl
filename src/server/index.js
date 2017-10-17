@@ -18,6 +18,7 @@ const badRequest = 400;
 const statusOK = 200;
 const internalError = 500;
 const forbidden = 403;
+const conflict = 409;
 const forbiddenMessage = 'User does not exists or bad credential!';
 
 app.set('jwtTokenSecret', 'black_pearl');
@@ -54,7 +55,13 @@ router.post('/register', function(req, res) {
     res.status(badRequest).json({message: 'Missing field(s)!'});
   } else {
     register(req.body, function(result) {
-      console.log(result);
+      if (result === 'error' || !result) {
+        res.status(internalError).json({message: 'Something went wrong!'});
+      } else if (result === 'conflict') {
+        res.status(conflict).json({message: 'The username already exists!'});
+      } else if (result === 'ok') {
+        res.status(statusOK).json({result: 'Register success!'});
+      }
     });
   }
 });
