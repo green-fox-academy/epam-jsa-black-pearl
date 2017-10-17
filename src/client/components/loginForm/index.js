@@ -31,7 +31,7 @@ class LoginForm extends React.Component {
       }, ANIMATION_SHAKING_DURATION);
     } else {
       this.setState({isLoading: true});
-      this.doLogin(this.state.username, this.state.password).bind(this);
+      this.doLogin(this.state.username, this.state.password);
     }
   }
   isValidEmail(email) {
