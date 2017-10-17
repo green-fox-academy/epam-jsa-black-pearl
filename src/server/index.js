@@ -8,6 +8,7 @@ const path = require('path');
 const heartbeat = require('./api/heartbeat/heartbeat.js');
 const auth = require('./api/login/auth.js');
 const generateToken = require('./api/login/generateToken.js');
+const register = require('./api/register/register.js');
 
 const localHost = 3000;
 const PORT = process.env.PORT || localHost;
@@ -17,6 +18,7 @@ const badRequest = 400;
 const statusOK = 200;
 const internalError = 500;
 const forbidden = 403;
+const conflict = 409;
 const forbiddenMessage = 'User does not exists or bad credential!';
 
 app.set('jwtTokenSecret', 'black_pearl');
@@ -41,6 +43,24 @@ router.post('/login', function(req, res) {
         res.status(forbidden).json({message: forbiddenMessage});
       } else if (result === 'ok') {
         res.status(statusOK).json(generateToken(req.body.username));
+      }
+    });
+  }
+});
+
+router.post('/register', function(req, res) {
+  if (!req.is('application/json')) {
+    res.status(badRequest).json({message: 'Content type error!'});
+  } else if (!req.body.username || !req.body.password) {
+    res.status(badRequest).json({message: 'Missing field(s)!'});
+  } else {
+    register(req.body, function(result) {
+      if (result === 'error' || !result) {
+        res.status(internalError).json({message: 'Something went wrong!'});
+      } else if (result === 'conflict') {
+        res.status(conflict).json({message: 'The username already exists!'});
+      } else if (result === 'ok') {
+        res.status(statusOK).json({result: 'Register success!'});
       }
     });
   }
