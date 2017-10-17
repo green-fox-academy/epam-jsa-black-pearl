@@ -18,9 +18,12 @@ class Board extends React.Component {
     return (
       <nav className="board-nav">
         <div className="nav-item">
-          <img src={menuNavigation} alt="navicon" />
-          <p>board</p>
-          <input className="searchBar" required type="text" name="searchBar" />
+          <div className="nav-left">
+            <img src={menuNavigation} alt="navicon" />
+            <p>board</p>
+            <input className="searchBar" required
+              type="text" name="searchBar" />
+          </div>
         </div>
         <div className="nav-item">
           <p>Black Pearl</p>

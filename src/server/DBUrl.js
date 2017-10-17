@@ -7,6 +7,7 @@ function getDBUrl() {
   const DB_USER = process.env.DB_USER;
   const DB_PASS = process.env.DB_PASS;
   let url = 'mongodb://';
+
   if (DB_USER && DB_PASS) {
     url = url + DB_USER + ':' + DB_PASS + '@';
   }

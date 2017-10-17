@@ -1,39 +1,39 @@
-$lightOrange: #fdbd39;
+$light-orange: #fdbd39;
 
 .register-form {
-  padding: 1rem;
   border-radius: 3px;
+  margin: auto;
   min-width: calc(260px - 2rem);
+  padding: 1rem;
   width: 35%;
-  margin:auto;
 
   input {
-      display: block;
-      width: 100%;
-      line-height: 2rem;
-      height: 60px;
-      background-color: $lightOrange;
-      font-size: 25px;
-      cursor: pointer;
-      color: #fff;
-      border: none;
-      border-radius: 25px;
+    background-color: $light-orange;
+    border: 0;
+    border-radius: 25px;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 25px;
+    height: 60px;
+    line-height: 2rem;
+    width: 100%;
   }
 
-  input:not([type="submit"]) {
-      background-color: transparent;
-      height: 30px;
-      font-size: 20px;
-      border: none;
-      border-radius: 0;
-      border-bottom: 1px solid #dcd9db;
-      margin-bottom: 1rem;
-      cursor: auto;
-      color: rgb(41, 39, 39);
+  input:not([type='submit']) {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 1px solid #dcd9db;
+    border-radius: 0;
+    color: rgb(41, 39, 39);
+    cursor: auto;
+    font-size: 20px;
+    height: 30px;
+    margin-bottom: 1rem;
   }
 
-  input:focus{
-      outline: none;
-      border-bottom: 1px solid $lightOrange;
+  input:focus {
+    border-bottom: 1px solid $light-orange;
+    outline: none;
   }
 }
