@@ -1,12 +1,13 @@
 import React from 'react';
+import {Redirect} from 'react-router';
 import Validator from 'validator';
 
 import './index.scss';
 import Spinner from '../../../img/spinner.svg';
+import $api from '../../api/api.json';
 
 const MIN_PASSWORD_LENGTH = 6;
 const ANIMATION_SHAKING_DURATION = 500;
-const TEST = 1000;
 
 class RegisterForm extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class RegisterForm extends React.Component {
       isLoading: false,
       isInvalidFields: false,
       isLoggedIn: false,
+      isRegistered: false,
       isRegistrationFailure: false,
       registrationFailureMessage: '',
     };
@@ -30,17 +32,34 @@ class RegisterForm extends React.Component {
     return password.length >= MIN_PASSWORD_LENGTH;
   }
 
+  formHttpHeader(username, password) {
+    let myHeaders = new Headers();
+
+    myHeaders.append('Content-Type', 'application/json');
+    let myRequest = new Request($api.register, {
+      'method': 'POST',
+      'headers': myHeaders,
+      'body': JSON.stringify({'username': username, 'password': password}),
+    });
+
+    return myRequest;
+  }
+
   registrationHttpRequest(username, password) {
     let that = this;
 
     that.setState({isLoading: true});
-    setTimeout(() => {
+    fetch(that.formHttpHeader(username, password)).then((response) => {
       that.setState({
+        isRegistered: true,
         isLoading: false,
+      });
+    }).catch((error) => {
+      that.setState({
         isRegistrationFailure: true,
         registrationFailureMessage: 'Registration failed!',
       });
-    }, TEST);
+    });
   }
 
   shakingAnimation() {
@@ -54,7 +73,7 @@ class RegisterForm extends React.Component {
 
   doRegist(username, password) {
     if (!this.isValidEmail(this.state.username)
-    || !this.isValidPassword(this.state.password)) {
+      || !this.isValidPassword(this.state.password)) {
       this.setState({
         isRegistrationFailure: true,
         registrationFailureMessage: 'Invalid email or password!',
@@ -111,6 +130,11 @@ class RegisterForm extends React.Component {
   }
 
   render() {
+    if (this.state.isRegistered) {
+      return (
+        <Redirect to="/login" />
+      );
+    }
     let button = this.generateLoadingButton();
     let warning = this.generateWarningMessage(
       this.state.registrationFailureMessage);
