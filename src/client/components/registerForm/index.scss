@@ -37,6 +37,7 @@ $light-orange: #fdbd39;
     display: block;
     font-size: 25px;
     line-height: 2rem;
+    margin-bottom: .5em;
     width: 100%;
     @include register-button;
   }

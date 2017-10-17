@@ -31,7 +31,9 @@
     "express": "^4.15.5",
     "mongodb": "^2.2.31",
     "react": "^15.6.2",
+    "react-async-script": "^0.9.1",
     "react-dom": "^15.6.2",
+    "react-google-recaptcha": "^0.9.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2"
   },
