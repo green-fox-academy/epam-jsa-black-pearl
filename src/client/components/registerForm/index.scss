@@ -72,7 +72,7 @@ $light-orange: #fdbd39;
 }
 
 .shaking {
-  animation: shaking .3s linear infinite;
+  animation: shaking .25s linear infinite;
   @keyframes shaking {
     0% {
       transform: rotate(0deg);
