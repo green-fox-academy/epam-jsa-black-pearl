@@ -1,15 +1,18 @@
 h1 {
   color: #67a2e7;
-  font-family: Helvetica;;
+  font-family: Helvetica;
+  text-transform: capitalize；
 }
 
-main {
+.loginMain {
   background-color: rgb(248, 247, 247);
   border-radius: 25px;
   box-shadow: -1px 2px 126px -14px rgba(102, 121, 143, 1);
   margin: 100px;
   padding: 20px 42px;
   text-align: center;
+  width: 50%;
+  min-width: calc(260px - 2rem);
 
   p {
     font-family: 'Raleway', sans-serif;

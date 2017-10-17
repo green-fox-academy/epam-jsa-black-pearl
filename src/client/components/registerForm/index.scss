@@ -3,9 +3,9 @@ $light-orange: #fdbd39;
 .register-form {
   border-radius: 3px;
   margin: auto;
-  min-width: calc(260px - 2rem);
+  // min-width: calc(260px - 2rem);
   padding: 1rem;
-  width: 35%;
+  // width: 35%;
 
   input {
     background-color: $light-orange;

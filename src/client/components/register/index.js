@@ -7,10 +7,10 @@ import img from '../../../img/black_pearl.png';
 class Register extends React.Component {
   render() {
     return (
-      <main>
+      <main className="loginMain">
         <header>
           <img src={img} alt="Logo of Black Pearl"/>
-          <h1>Sign Up</h1>
+          <h1>sigh up</h1>
         </header>
         <RegisterForm />
         <p>Already have an account? <Link to={'/login'}>Login here</Link></p>

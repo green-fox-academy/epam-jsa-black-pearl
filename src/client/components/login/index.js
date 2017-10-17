@@ -14,10 +14,10 @@ class Login extends React.Component {
       );
     }
     return (
-      <main>
+      <main className="loginMain">
         <header>
           <img src={img} alt="Logo of Black Pearl"/>
-          <h1>Welcome Onboard!</h1>
+          <h1>welcome onboard!</h1>
         </header>
         <LoginForm />
         <p>Don`t have an account? <Link to={'/register'}>Sign up</Link></p>

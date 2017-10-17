@@ -5,24 +5,26 @@ Black Pearl workspace -- Chris Alex Alfred
 {
     "id": 0,
     "username": "test@test.com",
-    "name": "test",
+    "title": "test",
+    "members":[],
     "content": [
         {
             "id": "",
-            "name": "todo",
+            "columnTitle": "todo",
             "events": []
         },
         {
-            "name": "in progress",
+            "columnTitle": "in progress",
             "event": [
                 {
                     "id": "1khj7uuk",
-                    "name": "999",
-                    "time": 173894127934,
+                    "eventName": "999",
+                    "postTime": 173894127934,
                     "due": 173912384082,
                     "tags": [],
-                    "members": [],
-                    "appendix": []
+                    "assignedMembers": [],
+                    "appendix": [],
+                    "comments":""
                 }
             ]
         },
