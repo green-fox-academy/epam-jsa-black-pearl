@@ -116,7 +116,7 @@ class RegisterForm extends React.Component {
       this.state.registrationFailureMessage);
 
     return (
-      <form className="login-form">
+      <form className="register-form">
         <div className="warning">
           {warning}
         </div>

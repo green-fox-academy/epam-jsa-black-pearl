@@ -1,11 +1,11 @@
 $light-orange: #fdbd39;
 
-@mixin login-button {
+@mixin register-button {
   border-radius: 25px;
   height: 60px;
 }
 
-.login-form {
+.register-form {
   border-radius: 3px;
   margin: -10px auto 0;
   min-width: calc(260px - 2rem);
@@ -41,7 +41,7 @@ $light-orange: #fdbd39;
     font-size: 25px;
     line-height: 2rem;
     width: 100%;
-    @include login-button;
+    @include register-button;
   }
 
   input:not([type='button']) {
@@ -68,7 +68,7 @@ $light-orange: #fdbd39;
   cursor: not-allowed;
   display: flex;
   justify-content: center;
-  @include login-button;
+  @include register-button;
 }
 
 .shaking {
