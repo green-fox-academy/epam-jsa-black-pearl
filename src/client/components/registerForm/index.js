@@ -32,7 +32,9 @@ class RegisterForm extends React.Component {
     return password.length >= MIN_PASSWORD_LENGTH;
   }
 
-  formHttpHeader(username, password) {
+  formHttpRequest() {
+    const {username, password} = this.state;
+
     let myHeaders = new Headers();
 
     myHeaders.append('Content-Type', 'application/json');
@@ -45,11 +47,11 @@ class RegisterForm extends React.Component {
     return myRequest;
   }
 
-  registrationHttpRequest(username, password) {
+  registrationHttpRequest() {
     let that = this;
 
     that.setState({isLoading: true});
-    fetch(that.formHttpHeader(username, password)).then((response) => {
+    fetch(that.formHttpRequest()).then((response) => {
       that.setState({
         isRegistered: true,
         isLoading: false,
@@ -71,7 +73,7 @@ class RegisterForm extends React.Component {
     }, ANIMATION_SHAKING_DURATION);
   }
 
-  doRegist(username, password) {
+  doRegister(username, password) {
     if (!this.isValidEmail(this.state.username)
       || !this.isValidPassword(this.state.password)) {
       this.setState({
@@ -81,11 +83,13 @@ class RegisterForm extends React.Component {
       this.shakingAnimation();
       return;
     }
-    this.registrationHttpRequest(username, password);
+    this.registrationHttpRequest();
   }
 
   onRegist() {
-    this.doRegist(this.state.username, this.state.password);
+    const {username, password} = this.state;
+
+    this.doRegister(username, password);
     return;
   }
 
