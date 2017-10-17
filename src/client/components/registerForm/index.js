@@ -102,16 +102,12 @@ class RegisterForm extends React.Component {
   }
 
   generateWarningMessage(message) {
-    let warning = null;
-
     if (this.state.isRegistrationFailure) {
-      warning = (
+      return (
         <p>{message}</p>
       );
-    } else {
-      warning = null;
     }
-    return warning;
+    return null;
   }
 
   render() {
