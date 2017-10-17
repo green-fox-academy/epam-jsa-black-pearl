@@ -1,85 +1,97 @@
-$lightOrange: #fdbd39;
-@mixin loginButton {
-    height: 60px;
-    border-radius: 25px;
+$light-orange: #fdbd39;
+
+@mixin login-button {
+  border-radius: 25px;
+  height: 60px;
 }
 
 .login-form {
-    padding: 0 1rem;
-    border-radius: 3px;
-    min-width: calc(260px - 2rem);
-    width: 35%;
-    margin: -10px auto 0;
-    .warning {
-        overflow: hidden;
-        height: 16px;
-        text-align: center;
-        p {
-            margin: 0;
-            font-size: 14px;
-        }
-    }
-    >div {
-        position: relative;
-    }
+  border-radius: 3px;
+  margin: -10px auto 0;
+  min-width: calc(260px - 2rem);
+  padding: 0 1rem;
+  width: 35%;
+
+  .warning {
+    height: 16px;
+    overflow: hidden;
+    text-align: center;
+
     p {
-        margin: 0.5rem 0;
-        color: tomato;
+      font-size: 14px;
+      margin: 0;
     }
-    input {
-        display: block;
-        width: 100%;
-        line-height: 2rem;
-        background-color: $lightOrange;
-        font-size: 25px;
-        cursor: pointer;
-        color: #fff;
-        border: none;
-        @include loginButton;
-    }
-    input:not([type="button"]) {
-        background-color: transparent;
-        height: 30px;
-        font-size: 20px;
-        border: none;
-        border-radius: 0;
-        border-bottom: 1px solid #dcd9db;
-        margin-bottom: 1rem;
-        cursor: auto;
-        color: rgb(41, 39, 39);
-    }
-    input:focus {
-        outline: none;
-        border-bottom: 1px solid $lightOrange;
-    }
+  }
+
+  >div {
+    position: relative;
+  }
+
+  p {
+    color: #ff6347;
+    margin: .5rem 0;
+  }
+
+  input {
+    background-color: $light-orange;
+    border: 0;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    font-size: 25px;
+    line-height: 2rem;
+    width: 100%;
+    @include login-button;
+  }
+
+  input:not([type='']) {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 1px solid #dcd9db;
+    border-radius: 0;
+    color: rgb(41, 39, 39);
+    cursor: auto;
+    font-size: 20px;
+    height: 30px;
+    margin-bottom: 1rem;
+  }
+
+  input:focus {
+    border-bottom: 1px solid $light-orange;
+    outline: none;
+  }
 }
 
 .loading-input {
-    background-color: royalblue;
-    cursor: not-allowed;
-    @include loginButton;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  align-items: center;
+  background-color: #4168df;
+  cursor: not-allowed;
+  display: flex;
+  justify-content: center;
+  @include login-button;
 }
 
 .shaking {
-    animation: shaking 0.3s linear infinite;
-    @keyframes shaking {
-        0% {
-            transform: rotate(0deg);
-        }
-        25% {
-            transform: rotate(5deg);
-        }
-        50% {
-            transform: rotate(0deg);
-        }
-        75% {
-            transform: rotate(-5deg);
-        }
-        100% {
-            transform: rotate(0deg);
-        }
+  animation: shaking .3s linear infinite;
+  @keyframes shaking {
+    0% {
+      transform: rotate(0deg);
     }
+
+    25% {
+      transform: rotate(5deg);
+    }
+
+    50% {
+      transform: rotate(0deg);
+    }
+
+    75% {
+      transform: rotate(-5deg);
+    }
+
+    100% {
+      transform: rotate(0deg);
+    }
+  }
 }
