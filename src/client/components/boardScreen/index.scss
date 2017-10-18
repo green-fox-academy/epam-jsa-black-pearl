@@ -1,7 +1,15 @@
-body {
+html, body {
   margin: 0;
   padding: 0;
+  height: 100%;
+  #root, {
+    height: 100%;
+    > div {
+      height: 100%;
+    }
+  }
   .board {
+    height: 100%;
     .board-header {
       color: #717171;
       font-family: Arial, Helvetica, sans-serif;
@@ -15,6 +23,9 @@ body {
       }
     }
     .board-main {
+      display: flex;
+      flex-direction: row;
+      height: calc(100% - 117px);
       padding: 5px 10px;
     }
   }

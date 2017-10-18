@@ -17,6 +17,7 @@ class BoardScreen extends React.Component {
         </div>
         <div className="board-main">
           <BoardColumn />
+          <BoardColumn />
         </div>
       </div>
     );
