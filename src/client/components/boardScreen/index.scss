@@ -38,3 +38,11 @@ body {
     padding: 5px 10px;
   }
 }
+
+.add-column {
+  .board-column {
+    cursor: pointer;
+    padding: 0 !important;
+    user-select: none;
+  }
+}
