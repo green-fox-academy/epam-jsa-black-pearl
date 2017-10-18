@@ -1,0 +1,25 @@
+{
+  "id": 0,
+  "username": "test@test.com",
+  "boardname": "jsa-demo",
+  "members": [],
+  "columns": [
+    {
+      "id": "8k12dijj",
+      "columnTitle": "To-do",
+      "events": [
+        {
+          "id": "",
+          "eventTitle": "Kick-Ass",
+          "eventSubtitle": "sssssmoking~~",
+          "postTime": 173894127934,
+          "due": 173912384082,
+          "tag": "coming",
+          "assignedMembers": [],
+          "appendix": [],
+          "comments": ""
+        }
+      ]
+    }
+  ]
+}
