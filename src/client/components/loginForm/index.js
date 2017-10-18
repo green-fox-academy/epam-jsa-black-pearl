@@ -25,6 +25,7 @@ class LoginForm extends React.Component {
   onLogin() {
     if (!this.isValidEmail(this.state.username)
      || !this.isValidPassword(this.state.password)) {
+      event.preventDefault();
       this.setState({
         isInvalidFields: true,
         isLoading: false,
@@ -84,13 +85,13 @@ class LoginForm extends React.Component {
     }
     return warning;
   }
-  onLoginSuccess() {
+  onLoginSuccess(event) {
     let button = null;
 
     if (!this.state.isLoading) {
       button = (
         <div>
-          <input type="button" value="Login"
+          <input type="submit" value="Login"
             onClick={this.onLogin.bind(this)}
             className={this.state.isInvalidFields ? 'shaking' : ''} />
         </div>
@@ -110,9 +111,9 @@ class LoginForm extends React.Component {
   render() {
     let warning = this.onWarningMessage();
 
-    if (this.state.isLoggedIn && this.captchaPass === true) {
+    if (this.state.isLoggedIn) {
       return (
-        <Redirect to="/boards" />
+        <Redirect to="/board" />
       );
     }
     let button = this.onLoginSuccess();

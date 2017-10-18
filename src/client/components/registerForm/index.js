@@ -93,9 +93,10 @@ class RegisterForm extends React.Component {
     this.registrationHttpRequest();
   }
 
-  onRegist() {
+  onRegist(event) {
     const {username, password} = this.state;
 
+    event.preventDefault();
     this.doRegister(username, password);
     return;
   }
@@ -114,7 +115,7 @@ class RegisterForm extends React.Component {
     if (!this.state.isLoading) {
       button = (
         <div>
-          <input type="button" value="Create Account"
+          <input type="submit" value="Create Account"
             onClick={this.onRegist.bind(this)}
             className={this.state.isInvalidFields ? 'shaking' : ''} />
         </div>

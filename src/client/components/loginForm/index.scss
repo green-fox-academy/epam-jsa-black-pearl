@@ -41,7 +41,7 @@ $light-orange: #fdbd39;
     @include login-button;
   }
 
-  input:not([type='button']) {
+  input:not([type='submit']) {
     background-color: transparent;
     border: 0;
     border-bottom: 1px solid #dcd9db;
