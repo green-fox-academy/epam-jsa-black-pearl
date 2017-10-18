@@ -60,8 +60,6 @@ class RegisterForm extends React.Component {
         });
       } else if (response.status === CONFLICT_RESPONSE) {
         this.shakingAnimation('Email exists!');
-      } else if (this.onChange !== true) {
-        this.shakingAnimation('Please complete the captcha!');
       } else {
         this.shakingAnimation('Registration failed!');
       }
@@ -88,6 +86,9 @@ class RegisterForm extends React.Component {
     if (!this.isValidEmail(this.state.username)
       || !this.isValidPassword(this.state.password)) {
       this.shakingAnimation('Invalid email or password!');
+      return;
+    } else if (this.onChange === '') {
+      this.shakingAnimation('Please complete the captcha!');
       return;
     }
     this.registrationHttpRequest();
@@ -138,7 +139,7 @@ class RegisterForm extends React.Component {
   }
 
   captchaPass() {
-    if (this.onChange === true) {
+    if (this.onChange !== '') {
       return true;
     }
   }
