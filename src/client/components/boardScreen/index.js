@@ -13,7 +13,7 @@ class BoardScreen extends React.Component {
       <div className="board">
         <BoardNav />
         <div className="board-header">
-          <p><span>JSA-DESIGN</span></p>
+          <p><span className="board-name">jsa-design</span></p>
         </div>
         <div className="board-main">
           <BoardColumn />
