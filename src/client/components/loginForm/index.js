@@ -25,7 +25,11 @@ class LoginForm extends React.Component {
   onLogin() {
     if (!this.isValidEmail(this.state.username)
      || !this.isValidPassword(this.state.password)) {
-      this.setState({isInvalidFields: true, isLoading: false, isLoginFailure: true});
+      this.setState({
+        isInvalidFields: true,
+        isLoading: false,
+        isLoginFailure: true,
+      });
       setTimeout(() => {
         this.setState({isInvalidFields: false});
       }, ANIMATION_SHAKING_DURATION);
