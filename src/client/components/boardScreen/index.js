@@ -8,9 +8,14 @@ class BoardScreen extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="board">
         <BoardNav />
-        <p>JSA - Design<span>Alex Alfred Chris</span></p>
+        <div className="board-header">
+          <p><span>JSA-DESIGN</span></p>
+        </div>
+        <div className="board-main">
+
+        </div>
       </div>
     );
   }

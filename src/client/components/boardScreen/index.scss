@@ -1,4 +1,21 @@
 body {
   margin: 0;
   padding: 0;
+  .board {
+    .board-header {
+      color: #717171;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 20px;
+      font-weight: bold;
+      padding: 10px;
+      p {
+        margin: 0;
+        height: 32px;
+        line-height: 32px;
+      }
+    }
+    .board-main {
+      padding: 10px;
+    }
+  }
 }
