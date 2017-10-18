@@ -24,6 +24,7 @@ class RegisterForm extends React.Component {
       isRegistered: false,
       isRegistrationFailure: false,
       registrationFailureMessage: '',
+      captcha: '',
     };
   }
 
@@ -87,7 +88,7 @@ class RegisterForm extends React.Component {
       || !this.isValidPassword(this.state.password)) {
       this.shakingAnimation('Invalid email or password!');
       return;
-    } else if (this.onChange === '') {
+    } else if (this.state.captcha === '') {
       this.shakingAnimation('Please complete the captcha!');
       return;
     }
@@ -133,15 +134,8 @@ class RegisterForm extends React.Component {
     return button;
   }
 
-  onChange(value) {
-    console.log(value);
-    return value;
-  }
-
-  captchaPass() {
-    if (this.onChange !== '') {
-      return true;
-    }
+  captchaPass(value) {
+    this.setState({captcha: value});
   }
 
   generateWarningMessage(message) {
@@ -154,7 +148,7 @@ class RegisterForm extends React.Component {
   }
 
   render() {
-    if (this.state.isRegistered && this.captchaPass === true) {
+    if (this.state.isRegistered) {
       return (
         <Redirect to="/login" />
       );
@@ -175,7 +169,7 @@ class RegisterForm extends React.Component {
         <div className="recaptcha">
           <ReCAPTCHA ref="recaptcha"
             sitekey="6LfMtzQUAAAAAMD920qYn8GBmjBKgv5QeOW_u2gH"
-            onChange={this.onChange} />
+            onChange={this.captchaPass.bind(this)} />
         </div>
         {button}
       </form>
