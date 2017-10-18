@@ -60,6 +60,12 @@ $light-orange: #fdbd39;
   }
 }
 
+.recaptcha {
+  display: flex;
+  justify-content: center;
+  margin-bottom: .5em;
+}
+
 .loading-input {
   align-items: center;
   background-color: #4168df;

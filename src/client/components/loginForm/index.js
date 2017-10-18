@@ -25,7 +25,7 @@ class LoginForm extends React.Component {
   onLogin() {
     if (!this.isValidEmail(this.state.username)
      || !this.isValidPassword(this.state.password)) {
-      this.setState({isInvalidFields: true});
+      this.setState({isInvalidFields: true, isLoading: false, isLoginFailure: true});
       setTimeout(() => {
         this.setState({isInvalidFields: false});
       }, ANIMATION_SHAKING_DURATION);
@@ -73,7 +73,7 @@ class LoginForm extends React.Component {
 
     if (this.state.isLoginFailure) {
       warning = (
-        <p>Login failed.</p>
+        <p>Invalid Email or Password!</p>
       );
     } else {
       warning = null;
@@ -102,12 +102,13 @@ class LoginForm extends React.Component {
     }
     return button;
   }
+
   render() {
     let warning = this.onWarningMessage();
 
-    if (this.state.isLoggedIn) {
+    if (this.state.isLoggedIn && this.captchaPass === true) {
       return (
-        <Redirect to="/board" />
+        <Redirect to="/boards" />
       );
     }
     let button = this.onLoginSuccess();

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import {Redirect} from 'react-router';
 import Validator from 'validator';
 
@@ -59,6 +60,8 @@ class RegisterForm extends React.Component {
         });
       } else if (response.status === CONFLICT_RESPONSE) {
         this.shakingAnimation('Email exists!');
+      } else if (this.onChange !== true) {
+        this.shakingAnimation('Please complete the captcha!');
       } else {
         this.shakingAnimation('Registration failed!');
       }
@@ -128,6 +131,17 @@ class RegisterForm extends React.Component {
     return button;
   }
 
+  onChange(value) {
+    console.log(value);
+    return value;
+  }
+
+  captchaPass() {
+    if (this.onChange === true) {
+      return true;
+    }
+  }
+
   generateWarningMessage(message) {
     if (this.state.isRegistrationFailure) {
       return (
@@ -138,7 +152,7 @@ class RegisterForm extends React.Component {
   }
 
   render() {
-    if (this.state.isRegistered) {
+    if (this.state.isRegistered && this.captchaPass === true) {
       return (
         <Redirect to="/login" />
       );
@@ -156,6 +170,11 @@ class RegisterForm extends React.Component {
           onChange={this.onUsernameChange.bind(this)} />
         <input type="password" placeholder="Password"
           onChange={this.onPasswordChange.bind(this)} />
+        <div className="recaptcha">
+          <ReCAPTCHA ref="recaptcha"
+            sitekey="6LfMtzQUAAAAAMD920qYn8GBmjBKgv5QeOW_u2gH"
+            onChange={this.onChange} />
+        </div>
         {button}
       </form>
     );
