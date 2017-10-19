@@ -8,9 +8,12 @@ $light-orange: #fdbd39;
 .login-form {
   border-radius: 3px;
   margin: -10px auto 0;
+<<<<<<< HEAD
   // min-width: calc(260px - 2rem);
   // padding: 0 1rem;
   // width: 35%;
+=======
+>>>>>>> develop
 
   .warning {
     height: 16px;
@@ -44,7 +47,7 @@ $light-orange: #fdbd39;
     @include login-button;
   }
 
-  input:not([type='button']) {
+  input:not([type='submit']) {
     background-color: transparent;
     border: 0;
     border-bottom: 1px solid #dcd9db;

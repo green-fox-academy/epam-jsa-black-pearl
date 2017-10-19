@@ -1,4 +1,5 @@
 import React from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import {Redirect} from 'react-router';
 import Validator from 'validator';
 
@@ -20,9 +21,9 @@ class RegisterForm extends React.Component {
       isLoading: false,
       isInvalidFields: false,
       isLoggedIn: false,
-      isRegistered: false,
       isRegistrationFailure: false,
       registrationFailureMessage: '',
+      captcha: '',
     };
   }
 
@@ -34,13 +35,13 @@ class RegisterForm extends React.Component {
     return password.length >= MIN_PASSWORD_LENGTH;
   }
 
-  formHttpRequest() {
+  formHttpRequest(path) {
     const {username, password} = this.state;
 
     let myHeaders = new Headers();
 
     myHeaders.append('Content-Type', 'application/json');
-    let myRequest = new Request($api.register, {
+    let myRequest = new Request(path, {
       'method': 'POST',
       'headers': myHeaders,
       'body': JSON.stringify({'username': username, 'password': password}),
@@ -51,12 +52,9 @@ class RegisterForm extends React.Component {
 
   registrationHttpRequest() {
     this.setState({isLoading: true});
-    fetch(this.formHttpRequest()).then((response) => {
+    fetch(this.formHttpRequest($api.register)).then((response) => {
       if (SUCCESSFUL_RESPONSE.test(response.status)) {
-        this.setState({
-          isRegistered: true,
-          isLoading: false,
-        });
+        this.loginHttpRequest();
       } else if (response.status === CONFLICT_RESPONSE) {
         this.shakingAnimation('Email exists!');
       } else {
@@ -64,6 +62,23 @@ class RegisterForm extends React.Component {
       }
     }).catch((error) => {
       this.shakingAnimation('Registration failed!');
+    });
+  }
+
+  loginHttpRequest() {
+    fetch(this.formHttpRequest($api.login)).then((response) => {
+      if (SUCCESSFUL_RESPONSE.test(response.status)) {
+        return response.json();
+      }
+      throw new Error('error.');
+    }).then((result) => {
+      localStorage.token = result.token;
+      this.setState({
+        isLoading: false,
+        isLoggedIn: true,
+      });
+    }).catch((error) => {
+      this.shakingAnimation('Login error!');
     });
   }
 
@@ -81,18 +96,21 @@ class RegisterForm extends React.Component {
     }, ANIMATION_SHAKING_DURATION);
   }
 
-  doRegister(username, password) {
-    if (!this.isValidEmail(this.state.username)
-      || !this.isValidPassword(this.state.password)) {
-      this.shakingAnimation('Invalid email or password!');
-      return;
+  doRegister(username, password, captcha) {
+    if (!this.isValidEmail(this.state.username)) {
+      return this.shakingAnimation('Invalid email!');
+    } else if (!this.isValidPassword(this.state.password)) {
+      return this.shakingAnimation('Password must be more than 6 characters!');
+    } else if (this.state.captcha === '') {
+      return this.shakingAnimation('Please complete the captcha!');
     }
     this.registrationHttpRequest();
   }
 
-  onRegist() {
+  onRegist(event) {
     const {username, password} = this.state;
 
+    event.preventDefault();
     this.doRegister(username, password);
     return;
   }
@@ -111,7 +129,7 @@ class RegisterForm extends React.Component {
     if (!this.state.isLoading) {
       button = (
         <div>
-          <input type="button" value="Create Account"
+          <input type="submit" value="Create Account"
             onClick={this.onRegist.bind(this)}
             className={this.state.isInvalidFields ? 'shaking' : ''} />
         </div>
@@ -128,6 +146,10 @@ class RegisterForm extends React.Component {
     return button;
   }
 
+  captchaPass(value) {
+    this.setState({captcha: value});
+  }
+
   generateWarningMessage(message) {
     if (this.state.isRegistrationFailure) {
       return (
@@ -138,9 +160,9 @@ class RegisterForm extends React.Component {
   }
 
   render() {
-    if (this.state.isRegistered) {
+    if (this.state.isLoggedIn) {
       return (
-        <Redirect to="/login" />
+        <Redirect to="/board" />
       );
     }
     let button = this.generateLoadingButton();
@@ -156,6 +178,11 @@ class RegisterForm extends React.Component {
           onChange={this.onUsernameChange.bind(this)} />
         <input type="password" placeholder="Password"
           onChange={this.onPasswordChange.bind(this)} />
+        <div className="recaptcha">
+          <ReCAPTCHA ref="recaptcha"
+            sitekey="6LfMtzQUAAAAAMD920qYn8GBmjBKgv5QeOW_u2gH"
+            onChange={this.captchaPass.bind(this)} />
+        </div>
         {button}
       </form>
     );

@@ -6,7 +6,7 @@ import './index.scss';
 import Spinner from '../../../img/spinner.svg';
 
 const MIN_PASSWORD_LENGTH = 6;
-const ANIMATION_SHAKING_DURATION = 500;
+const ANIMATION_SHAKING_DURATION = 250;
 const STATUS_CODE_OK = 200;
 
 class LoginForm extends React.Component {
@@ -19,27 +19,29 @@ class LoginForm extends React.Component {
       isInvalidFields: false,
       isLoggedIn: false,
       isLoginFailure: false,
+      loginFailureMessage: '',
     };
   }
 
-  onLogin() {
+  onLogin(ev) {
     if (!this.isValidEmail(this.state.username)
      || !this.isValidPassword(this.state.password)) {
-      this.setState({isInvalidFields: true});
-      setTimeout(() => {
-        this.setState({isInvalidFields: false});
-      }, ANIMATION_SHAKING_DURATION);
+      ev.preventDefault();
+      this.shakingAnimation('Invalid email or password!');
     } else {
       this.setState({isLoading: true});
       this.doLogin(this.state.username, this.state.password);
     }
   }
+
   isValidEmail(email) {
     return Validator.isEmail(email);
   }
+
   isValidPassword(password) {
     return password.length >= MIN_PASSWORD_LENGTH;
   }
+
   doLogin(username, password) {
     let API = '/api/login';
 
@@ -59,34 +61,39 @@ class LoginForm extends React.Component {
       localStorage.token = response.token;
       this.setState({isLoading: false, isLoggedIn: true});
     }).catch((error) => {
-      this.setState({isLoading: false, isLoginFailure: true});
+      // this.setState({isLoading: false, isLoginFailure: true});
+      this.shakingAnimation('Wrong Email or Passwrod!');
     });
   }
+
   onUsernameChange(ev) {
     this.setState({username: ev.target.value});
   }
+
   onPasswordChange(ev) {
     this.setState({password: ev.target.value});
   }
+
   onWarningMessage() {
     let warning = null;
 
     if (this.state.isLoginFailure) {
       warning = (
-        <p>Login failed.</p>
+        <p>{this.state.loginFailureMessage}</p>
       );
     } else {
       warning = null;
     }
     return warning;
   }
-  onLoginSuccess() {
+
+  onLoginSuccess(event) {
     let button = null;
 
     if (!this.state.isLoading) {
       button = (
         <div>
-          <input type="button" value="Login"
+          <input type="submit" value="Login"
             onClick={this.onLogin.bind(this)}
             className={this.state.isInvalidFields ? 'shaking' : ''} />
         </div>
@@ -102,12 +109,27 @@ class LoginForm extends React.Component {
     }
     return button;
   }
+
+  shakingAnimation(errorMessage) {
+    let that = this;
+
+    that.setState({
+      isLoading: false,
+      isInvalidFields: true,
+      isLoginFailure: true,
+      loginFailureMessage: errorMessage,
+    });
+    setTimeout(() => {
+      that.setState({isInvalidFields: false});
+    }, ANIMATION_SHAKING_DURATION);
+  }
+
   render() {
     let warning = this.onWarningMessage();
 
     if (this.state.isLoggedIn) {
       return (
-        <Redirect to="/board" />
+        <Redirect to="/boards" />
       );
     }
     let button = this.onLoginSuccess();

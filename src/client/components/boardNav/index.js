@@ -1,5 +1,6 @@
 import React from 'react';
 import {Redirect} from 'react-router';
+
 import './index.scss';
 import menuNavigation from '../../../img/nav/menunavigation.png';
 import isLoggedIn from '../../controller/isLoggedIn';
@@ -34,6 +35,7 @@ class Board extends React.Component {
       </nav>
     );
   }
+
   logout() {
     localStorage.token = '';
     this.setState({isLoggedIn: false});

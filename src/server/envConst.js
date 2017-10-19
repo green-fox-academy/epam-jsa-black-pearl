@@ -15,4 +15,11 @@ function getDBUrl() {
   return url;
 }
 
-module.exports = getDBUrl;
+function getJwtKey() {
+  return process.env.JWT_KEY;
+}
+
+module.exports = {
+  'getDBUrl': getDBUrl,
+  'getJwtKey': getJwtKey,
+};

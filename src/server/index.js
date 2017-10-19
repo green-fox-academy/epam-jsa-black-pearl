@@ -22,8 +22,6 @@ const forbidden = 403;
 const conflict = 409;
 const forbiddenMessage = 'User does not exists or bad credential!';
 
-app.set('jwtTokenSecret', 'black_pearl');
-
 app.use(express.static(path.resolve(__dirname, '../../dist')));
 app.use(bodyParser.json());
 
@@ -75,7 +73,7 @@ router.get('/boards', function(req, res) {
 
 app.use('/api', router);
 
-app.get(['/login', '/register', '/board'], (req, res) => {
+app.get(['/login', '/register', '/boards'], (req, res) => {
   res.sendFile('index.html', {root: path.join(__dirname, '../../dist')});
 });
 
