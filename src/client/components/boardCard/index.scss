@@ -1,0 +1,60 @@
+.board-card {
+  background-color: #fafafa;
+  border-left: 4px solid #f00;
+  margin: 0 0 10px;
+  padding: 5px 10px;
+
+  &:last-child {
+    margin: 0 0 5px;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .card-title {
+    font-weight: bold;
+  }
+
+  .card-subtitle {
+    color: #bbb;
+    font-size: 14px;
+  }
+
+  .card-info {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+
+.card-footer {
+  align-items: center;
+  display: flex;
+  margin-top: 10px;
+
+  .card-tag {
+    background-color: #f00;
+    border-radius: 25px;
+    color: #fff;
+    padding: 2px 5px;
+  }
+
+  .card-stat {
+    color: #bbb;
+    margin-left: 5px;
+  }
+
+  .card-users {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-grow: 2;
+
+    > div {
+      background: rgba(0, 0, 255, .2);
+      border-radius: 10px;
+      height: 20px;
+      margin-left: 3px;
+      width: 20px;
+    }
+  }
+}
