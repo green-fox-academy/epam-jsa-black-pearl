@@ -11,6 +11,10 @@ const generateToken = require('./api/login/generateToken.js');
 const jwtVerify  = require('./jwtVerify.js');
 const register = require('./api/register/register.js');
 const boards = require('./api/boards/boards.js');
+<<<<<<< HEAD
+=======
+const jwtVerify = require('./jwtVerify');
+>>>>>>> develop
 
 const localHost = 3000;
 const PORT = process.env.PORT || localHost;
@@ -92,7 +96,7 @@ router.post('/boards', function(req, res) {
     res.status(forbidden).json({message: 'Please login first!'});
   } else {
     boards.createNewBoard(req.body, username, function(result) {
-      console.log(result);
+      res.status(statusOK).json({result: 'Add new board success!'});
     });
   }
 });
