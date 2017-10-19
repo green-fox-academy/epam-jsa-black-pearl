@@ -21,8 +21,6 @@ const forbidden = 403;
 const conflict = 409;
 const forbiddenMessage = 'User does not exists or bad credential!';
 
-app.set('jwtTokenSecret', 'black_pearl');
-
 app.use(express.static(path.resolve(__dirname, '../../dist')));
 app.use(bodyParser.json());
 

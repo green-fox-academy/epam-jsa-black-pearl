@@ -1,18 +1,12 @@
-import Jwt from 'jwt-simple';
-
-const jwtTokenSecret = 'black_pearl';
+'use strict';
 
 function isLoggedIn() {
   if (!localStorage.token) {
     return false;
   }
-  try {
-    let decoded = Jwt.decode(localStorage.token, jwtTokenSecret);
+  let decoded = JSON.parse(atob(localStorage.token.split('.')[1]));
 
-    return decoded.exp > Date.now();
-  } catch (err) {
-    return false;
-  }
+  return decoded.exp > Date.now();
 }
 
 export default isLoggedIn;
