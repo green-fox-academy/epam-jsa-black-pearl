@@ -11,6 +11,7 @@ const generateToken = require('./api/login/generateToken.js');
 const jwtVerify = require('./jwtVerify.js');
 const register = require('./api/register/register.js');
 const boards = require('./api/boards/boards.js');
+const jsonParser = bodyParser.json();
 
 const localHost = 3000;
 const PORT = process.env.PORT || localHost;
@@ -74,6 +75,22 @@ router.get('/boards', function(req, res) {
     res.status(STATUS_FORBIDDEN).json({message: 'Please login first!'});
   } else {
     boards.boardInfo(username, function(result) {
+      if (result === 'error' || !result) {
+        res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      }
+      res.json({'boards': result});
+    });
+  }
+});
+
+router.get('/boards/:id', jsonParser, function(req, res) {
+  let username = jwtVerify(req.headers.token);
+  let getId = req.params.id;
+
+  if (!username) {
+    res.status(STATUS_FORBIDDEN).json({message: 'Please login first!'});
+  } else {
+    boards.boardDetail(username, getId, function(result) {
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       }

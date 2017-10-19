@@ -17,6 +17,21 @@ function createFindQuery(username) {
   return {'username': username};
 }
 
+function idQuery(username, id) {
+  return {
+    'username': username,
+    '_id': id,
+  };
+}
+
+function boardIdFilter() {
+  return {
+    '_id': 1,
+    'boardname': 1,
+    'columns': 1,
+  };
+}
+
 function createFieldsFilter() {
   return {
     'username': 1,
@@ -62,7 +77,28 @@ function boardInfo(username, callback) {
   });
 }
 
+function boardDetail(username, getId, callback) {
+  MongoClient.connect(url, function(err, database) {
+    if (err) {
+      return callback('error');
+    }
+    console.log('Connection established to ' + url);
+    let collection = database.collection('boards');
+    let query = idQuery(username, new mongodb.ObjectId(getId));
+    let field = boardIdFilter();
+
+    collection.find(query, field).toArray(function(err, result) {
+      database.close();
+      if (err) {
+        return callback('error');
+      }
+      callback(result);
+    });
+  });
+}
+
 module.exports = {
   'createNewBoard': createNewBoard,
   'boardInfo': boardInfo,
+  'boardDetail': boardDetail,
 };
