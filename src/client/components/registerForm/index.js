@@ -98,9 +98,9 @@ class RegisterForm extends React.Component {
 
   doRegister(username, password, captcha) {
     if (!this.isValidEmail(this.state.username)) {
-      return this.shakingAnimation('Invalid email');
+      return this.shakingAnimation('Invalid email!');
     } else if (!this.isValidPassword(this.state.password)) {
-      return this.shakingAnimation('Password must be more than 6 characters');
+      return this.shakingAnimation('Password must be more than 6 characters!');
     } else if (this.state.captcha === '') {
       return this.shakingAnimation('Please complete the captcha!');
     }
