@@ -83,10 +83,12 @@ class RegisterForm extends React.Component {
     }, ANIMATION_SHAKING_DURATION);
   }
 
-  doRegister(username, password) {
-    if (!this.isValidEmail(this.state.username)
-      || !this.isValidPassword(this.state.password)) {
-      this.shakingAnimation('Invalid email or password!');
+  doRegister(username, password,captcha) {
+    if (!this.isValidEmail(this.state.username)) {
+      this.shakingAnimation('Invalid email');
+      return;
+    } else if (!this.isValidPassword(this.state.password)) {
+      this.shakingAnimation('Password must be 6 characters');
       return;
     } else if (this.state.captcha === '') {
       this.shakingAnimation('Please complete the captcha!');
