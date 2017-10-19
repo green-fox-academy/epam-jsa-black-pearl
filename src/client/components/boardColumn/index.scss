@@ -1,0 +1,117 @@
+.board-column-wrapper {
+  color: #717171;
+  height: 100%;
+  margin-right: 20px;
+  min-width: 270px;
+  width: 270px;
+
+  .board-column {
+    background-color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0 0 5px;
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.column-header {
+  align-items: center;
+  display: flex;
+  font-weight: bold;
+  height: 50px;
+  justify-content: space-between;
+  padding: 0 10px;
+
+  .edit-icon {
+    background-color: #000;
+    height: 40px;
+    width: 40px;
+  }
+  
+  .column-card-count {
+    color: #add8e6;
+  }
+
+  input {
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    height: 60%;
+    padding: 0 5px;
+
+    &:focus {
+      box-shadow: inset 0 0 5px #bbb;
+      outline: none;
+    }
+  }
+
+  button {
+    border: 0;
+    cursor: pointer;
+    font-size: 20px;
+    height: calc(60% + 2px);
+    padding: 0;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+}
+
+@keyframes gradeToLimeGreen {
+  from {
+    background-color: #90ee90;
+  }
+
+  to {
+    background-color: #32cd32;
+  }
+}
+
+.ok-button {
+  background-color: #90ee90;
+  border-radius: 5px;
+  color: #fff;
+  width: 40px;
+
+  &:hover {
+    animation: .2s linear gradeToLimeGreen;
+    animation-fill-mode: forwards;
+  }
+}
+
+@mixin button-pseudo {
+  &::before,
+  &::after {
+    border-left: 2px solid #000;
+    content: '';
+    height: 70%;
+    position: absolute;
+    top: 15%;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+}
+
+.cancel-button {
+  background-color: #fff;
+  position: relative;
+  width: 20px;
+  @include button-pseudo;
+
+  &::before,
+  &::after {
+    border-left: 2px solid #bbb;
+  }
+
+  &:hover {
+    @include button-pseudo;
+  }
+}

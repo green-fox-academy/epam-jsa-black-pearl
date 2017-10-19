@@ -1,4 +1,49 @@
+html,
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
+  
+  > div {
+    height: 100%;
+
+    > div {
+      height: 100%;
+    }
+  }
+}
+
+.board {
+  height: 100%;
+
+  .board-header {
+    color: #717171;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 20px 10px 10px;
+
+    p {
+      height: 32px;
+      line-height: 32px;
+      margin: 0;
+      text-transform: uppercase;
+    }
+  }
+  
+  .board-main {
+    display: flex;
+    flex-direction: row;
+    height: calc(100% - 117px);
+    overflow-x: scroll;
+    padding: 5px 10px;
+  }
+}
+
+.add-column {
+  .board-column {
+    cursor: pointer;
+    padding: 0 !important;
+    user-select: none;
+  }
 }
