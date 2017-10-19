@@ -8,10 +8,9 @@ const path = require('path');
 const heartbeat = require('./api/heartbeat/heartbeat.js');
 const auth = require('./api/login/auth.js');
 const generateToken = require('./api/login/generateToken.js');
-const jwtVerify  = require('./jwtVerify.js')
+const jwtVerify  = require('./jwtVerify.js');
 const register = require('./api/register/register.js');
 const boards = require('./api/boards/boards.js');
-
 
 const localHost = 3000;
 const PORT = process.env.PORT || localHost;
@@ -68,14 +67,20 @@ router.post('/register', function(req, res) {
 });
 
 router.get('/boards', function(req, res) {
-  // let username = jwtVerify(req);
+  let username = jwtVerify(req.headers.token);
 
-  // if (username === '') {
-  //   res.status(internalError).json({message: 'You are not login!'});
-  // }
-  boards(function(result) {
-    res.send({'board': result});
-  });
+  if (!username) {
+    res.status(forbidden).json({message: 'Please login first!'});
+  } else {
+    boards.boardInfo(function(result) {
+      if (result === 'error' || !result) {
+        res.status(internalError).json({message: 'Something went wrong!'});
+      }
+      res.send({'boards': result});
+    });
+  }
+});
+
 router.post('/boards', function(req, res) {
   let username = jwtVerify(req.headers.token);
 

@@ -31,4 +31,24 @@ function createNewBoard(request, username, callback) {
   });
 }
 
-module.exports = {'createNewBoard': createNewBoard};
+function boardInfo(callback) {
+  MongoClient.connect(url, function(err, database) {
+    if (err) {
+      return callback('error');
+    }
+    console.log('Connection established to ' + url);
+    let collection = database.collection('boards');
+
+    collection.find().toArray(function(err, result) {
+      if (err) {
+        return callback('error');
+      }
+      callback(result);
+    });
+  });
+}
+
+module.exports = {
+  'createNewBoard': createNewBoard,
+  'boardInfo': boardInfo,
+};
