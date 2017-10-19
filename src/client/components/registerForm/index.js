@@ -1,4 +1,5 @@
 import React from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import {Redirect} from 'react-router';
 import Validator from 'validator';
 
@@ -22,6 +23,7 @@ class RegisterForm extends React.Component {
       isLoggedIn: false,
       isRegistrationFailure: false,
       registrationFailureMessage: '',
+      captcha: '',
     };
   }
 
@@ -94,18 +96,21 @@ class RegisterForm extends React.Component {
     }, ANIMATION_SHAKING_DURATION);
   }
 
-  doRegister(username, password) {
-    if (!this.isValidEmail(this.state.username)
-      || !this.isValidPassword(this.state.password)) {
-      this.shakingAnimation('Invalid email or password!');
-      return;
+  doRegister(username, password, captcha) {
+    if (!this.isValidEmail(this.state.username)) {
+      return this.shakingAnimation('Invalid email');
+    } else if (!this.isValidPassword(this.state.password)) {
+      return this.shakingAnimation('Password must be more than 6 characters');
+    } else if (this.state.captcha === '') {
+      return this.shakingAnimation('Please complete the captcha!');
     }
     this.registrationHttpRequest();
   }
 
-  onRegist() {
+  onRegist(event) {
     const {username, password} = this.state;
 
+    event.preventDefault();
     this.doRegister(username, password);
     return;
   }
@@ -124,7 +129,7 @@ class RegisterForm extends React.Component {
     if (!this.state.isLoading) {
       button = (
         <div>
-          <input type="button" value="Create Account"
+          <input type="submit" value="Create Account"
             onClick={this.onRegist.bind(this)}
             className={this.state.isInvalidFields ? 'shaking' : ''} />
         </div>
@@ -139,6 +144,10 @@ class RegisterForm extends React.Component {
       );
     }
     return button;
+  }
+
+  captchaPass(value) {
+    this.setState({captcha: value});
   }
 
   generateWarningMessage(message) {
@@ -169,6 +178,11 @@ class RegisterForm extends React.Component {
           onChange={this.onUsernameChange.bind(this)} />
         <input type="password" placeholder="Password"
           onChange={this.onPasswordChange.bind(this)} />
+        <div className="recaptcha">
+          <ReCAPTCHA ref="recaptcha"
+            sitekey="6LfMtzQUAAAAAMD920qYn8GBmjBKgv5QeOW_u2gH"
+            onChange={this.captchaPass.bind(this)} />
+        </div>
         {button}
       </form>
     );

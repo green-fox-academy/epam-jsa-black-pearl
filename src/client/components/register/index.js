@@ -14,7 +14,7 @@ class Register extends React.Component {
       );
     }
     return (
-      <main>
+      <main className="login-main">
         <header>
           <img src={img} alt="Logo of Black Pearl"/>
           <h1>Sign Up</h1>

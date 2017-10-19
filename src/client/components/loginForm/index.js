@@ -25,7 +25,12 @@ class LoginForm extends React.Component {
   onLogin() {
     if (!this.isValidEmail(this.state.username)
      || !this.isValidPassword(this.state.password)) {
-      this.setState({isInvalidFields: true});
+      event.preventDefault();
+      this.setState({
+        isInvalidFields: true,
+        isLoading: false,
+        isLoginFailure: true,
+      });
       setTimeout(() => {
         this.setState({isInvalidFields: false});
       }, ANIMATION_SHAKING_DURATION);
@@ -73,20 +78,20 @@ class LoginForm extends React.Component {
 
     if (this.state.isLoginFailure) {
       warning = (
-        <p>Login failed.</p>
+        <p>Invalid Email or Password!</p>
       );
     } else {
       warning = null;
     }
     return warning;
   }
-  onLoginSuccess() {
+  onLoginSuccess(event) {
     let button = null;
 
     if (!this.state.isLoading) {
       button = (
         <div>
-          <input type="button" value="Login"
+          <input type="submit" value="Login"
             onClick={this.onLogin.bind(this)}
             className={this.state.isInvalidFields ? 'shaking' : ''} />
         </div>
@@ -102,6 +107,7 @@ class LoginForm extends React.Component {
     }
     return button;
   }
+
   render() {
     let warning = this.onWarningMessage();
 

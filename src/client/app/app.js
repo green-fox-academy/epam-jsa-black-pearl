@@ -2,7 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Login from '../components/login';
 import Register from '../components/register';
-import Board from '../components/boardNav';
+import Board from '../components/boardScreen';
 
 class App extends React.Component {
   render() {

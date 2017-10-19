@@ -14,7 +14,7 @@ class Login extends React.Component {
       );
     }
     return (
-      <main>
+      <main className="login-main">
         <header>
           <img src={img} alt="Logo of Black Pearl"/>
           <h1>Welcome Onboard!</h1>
