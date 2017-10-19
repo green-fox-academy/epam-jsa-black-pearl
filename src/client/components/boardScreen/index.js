@@ -8,7 +8,11 @@ import data from './data.json';
 class BoardScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {data: null};
+    this.state = {
+      data: null,
+      isAddColumnTitleEditing: false,
+      addColumnTitleValue: '',
+    };
   }
 
   componentWillMount() {
@@ -20,26 +24,25 @@ class BoardScreen extends React.Component {
 
     json.columns.push({
       'id': '8k12dijk',
-      'columnTitle': 'To-do',
-      'events': [
-        {
-          'id': '',
-          'eventTitle': 'Kick-Ass',
-          'eventSubtitle': 'sssssmoking~~',
-          'postTime': 173894127934,
-          'due': 173912384082,
-          'tag': 'coming',
-          'assignedMembers': [],
-          'appendix': [],
-          'comments': '',
-        },
-      ],
+      'columnTitle': this.state.addColumnTitleValue,
+      'events': [],
     });
 
-    this.setState({data: json});
+    this.setState({
+      data: json,
+      isAddColumnTitleEditing: false,
+    });
   }
 
-  render() {
+  onChangeAddColumnTitleState(state) {
+    this.setState({isAddColumnTitleEditing: state});
+  }
+
+  onInputChange(ev) {
+    this.setState({addColumnTitleValue: ev.target.value});
+  }
+
+  generateBoardColumn() {
     let boardDisplay = [];
 
     this.state.data.columns.forEach(function(element) {
@@ -47,6 +50,44 @@ class BoardScreen extends React.Component {
         <BoardColumn column={element} key={element.id} />
       );
     }, this);
+
+    return boardDisplay;
+  }
+
+  generateAddColumn() {
+    let addColumn = null;
+
+    if (!this.state.isAddColumnTitleEditing) {
+      addColumn = (
+        <div className="column-header"
+          onClick={this.onChangeAddColumnTitleState.bind(this, true)}>
+          Add A Column...
+        </div>
+      );
+    } else {
+      addColumn = (
+        <div className="column-header">
+          <input type="text"
+            onChange={this.onInputChange.bind(this)} />
+          <button
+            onClick={this.addColumn.bind(this)}>
+            √
+          </button>
+          <button
+            onClick={this.onChangeAddColumnTitleState.bind(this, false)}>
+            ×
+          </button>
+        </div>
+      );
+    }
+
+    return addColumn;
+  }
+
+  render() {
+    let boardDisplay = this.generateBoardColumn();
+
+    let addColumn = this.generateAddColumn();
 
     return (
       <div className="board">
@@ -59,10 +100,11 @@ class BoardScreen extends React.Component {
           <div className="add-column">
             <div className="board-column-wrapper">
               <div className="board-column">
-                <div className="column-header"
+                {/* <div className="column-header"
                   onClick={this.addColumn.bind(this)}>
                   Add A Column...
-                </div>
+                </div> */}
+                {addColumn}
               </div>
             </div>
           </div>
