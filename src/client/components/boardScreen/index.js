@@ -22,20 +22,25 @@ class BoardScreen extends React.Component {
   addColumn() {
     let json = this.state.data;
 
+    let id = Date.now();
+
     json.columns.push({
-      'id': '8k12dijk',
+      'id': id,
       'columnTitle': this.state.addColumnTitleValue,
       'events': [],
     });
 
     this.setState({
       data: json,
+      addColumnTitleValue: '',
       isAddColumnTitleEditing: false,
     });
   }
 
   onChangeAddColumnTitleState(state) {
-    this.setState({isAddColumnTitleEditing: state});
+    this.setState({isAddColumnTitleEditing: state}, () => {
+      this.input.focus();
+    });
   }
 
   onInputChange(ev) {
@@ -68,6 +73,9 @@ class BoardScreen extends React.Component {
       addColumn = (
         <div className="column-header">
           <input type="text"
+            ref={(c) => {
+              this.input = c;
+            }}
             onChange={this.onInputChange.bind(this)} />
           <button
             onClick={this.addColumn.bind(this)}>
