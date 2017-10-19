@@ -17,7 +17,7 @@ function createFindQuery(username) {
   return {'username': username};
 }
 
-function createFieldQuery() {
+function createFieldsFilter() {
   return {
     'username': 1,
     'boardname': 1,
@@ -50,9 +50,10 @@ function boardInfo(username, callback) {
     console.log('Connection established to ' + url);
     let collection = database.collection('boards');
     let query = createFindQuery(username);
-    let field = createFieldQuery();
+    let field = createFieldsFilter();
 
     collection.find(query, field).toArray(function(err, result) {
+      database.close();
       if (err) {
         return callback('error');
       }
