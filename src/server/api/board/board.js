@@ -3,10 +3,10 @@
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
-const dbUrl = require('../../DBUrl.js');
-const url = dbUrl();
+const envConst = require('../../envConst');
+const url = envConst.getDBUrl();
 
-function boardInfo(response, callback) {
+function boardInfo(callback) {
   MongoClient.connect(url, function(err, database) {
     if (err) {
       return callback('error');
