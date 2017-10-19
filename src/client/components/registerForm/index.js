@@ -21,7 +21,6 @@ class RegisterForm extends React.Component {
       isLoading: false,
       isInvalidFields: false,
       isLoggedIn: false,
-      isRegistered: false,
       isRegistrationFailure: false,
       registrationFailureMessage: '',
       captcha: '',
@@ -36,13 +35,13 @@ class RegisterForm extends React.Component {
     return password.length >= MIN_PASSWORD_LENGTH;
   }
 
-  formHttpRequest() {
+  formHttpRequest(path) {
     const {username, password} = this.state;
 
     let myHeaders = new Headers();
 
     myHeaders.append('Content-Type', 'application/json');
-    let myRequest = new Request($api.register, {
+    let myRequest = new Request(path, {
       'method': 'POST',
       'headers': myHeaders,
       'body': JSON.stringify({'username': username, 'password': password}),
@@ -53,12 +52,9 @@ class RegisterForm extends React.Component {
 
   registrationHttpRequest() {
     this.setState({isLoading: true});
-    fetch(this.formHttpRequest()).then((response) => {
+    fetch(this.formHttpRequest($api.register)).then((response) => {
       if (SUCCESSFUL_RESPONSE.test(response.status)) {
-        this.setState({
-          isRegistered: true,
-          isLoading: false,
-        });
+        this.loginHttpRequest();
       } else if (response.status === CONFLICT_RESPONSE) {
         this.shakingAnimation('Email exists!');
       } else {
@@ -66,6 +62,23 @@ class RegisterForm extends React.Component {
       }
     }).catch((error) => {
       this.shakingAnimation('Registration failed!');
+    });
+  }
+
+  loginHttpRequest() {
+    fetch(this.formHttpRequest($api.login)).then((response) => {
+      if (SUCCESSFUL_RESPONSE.test(response.status)) {
+        return response.json();
+      }
+      throw new Error('error.');
+    }).then((result) => {
+      localStorage.token = result.token;
+      this.setState({
+        isLoading: false,
+        isLoggedIn: true,
+      });
+    }).catch((error) => {
+      this.shakingAnimation('Login error!');
     });
   }
 
@@ -147,9 +160,9 @@ class RegisterForm extends React.Component {
   }
 
   render() {
-    if (this.state.isRegistered) {
+    if (this.state.isLoggedIn) {
       return (
-        <Redirect to="/login" />
+        <Redirect to="/board" />
       );
     }
     let button = this.generateLoadingButton();

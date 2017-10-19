@@ -1,12 +1,18 @@
 import React from 'react';
+import {Link, Redirect} from 'react-router-dom';
 
-import {Link} from 'react-router-dom';
 import './index.scss';
 import RegisterForm from '../registerForm';
 import img from '../../../img/black_pearl.png';
+import isLoggedIn from '../../controller/isLoggedIn';
 
 class Register extends React.Component {
   render() {
+    if (isLoggedIn()) {
+      return (
+        <Redirect to="/board" />
+      );
+    }
     return (
       <main className="login-main">
         <header>
