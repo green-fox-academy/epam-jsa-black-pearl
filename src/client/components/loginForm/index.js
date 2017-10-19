@@ -129,7 +129,7 @@ class LoginForm extends React.Component {
 
     if (this.state.isLoggedIn) {
       return (
-        <Redirect to="/board" />
+        <Redirect to="/boards" />
       );
     }
     let button = this.onLoginSuccess();
