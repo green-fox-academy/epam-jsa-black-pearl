@@ -35,6 +35,7 @@ body {
     display: flex;
     flex-direction: row;
     height: calc(100% - 117px);
+    overflow-x: scroll;
     padding: 5px 10px;
   }
 }
