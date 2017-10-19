@@ -4,9 +4,9 @@ const mongodb = require('mongodb');
 const validator = require('validator');
 const MongoClient = mongodb.MongoClient;
 
-const dbUrl = require('../../DBUrl.js');
+const envConst = require('../../envConst.js');
 const cryption = require('./bcrypt.js');
-const url = dbUrl();
+const url = envConst.getDBUrl();
 
 const minPwdLength = 6;
 const maxPwdLength = 100;

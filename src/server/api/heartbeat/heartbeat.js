@@ -3,8 +3,8 @@
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
 
-const dbUrl = require('../../DBUrl.js');
-const url = dbUrl();
+const envConst = require('../../envConst.js');
+const url = envConst.getDBUrl();
 const noResult = 0;
 
 function heartbeat(callback) {
