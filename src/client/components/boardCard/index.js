@@ -20,10 +20,6 @@ class Cards extends React.Component {
               lorem ipsum
             </span>
             <div className="card-users">
-              {/* <img src="" alt="" /> */}
-              <div></div>
-              <div></div>
-              <div></div>
             </div>
           </div>
         </div>
