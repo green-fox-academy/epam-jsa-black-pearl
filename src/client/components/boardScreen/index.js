@@ -10,11 +10,7 @@ class BoardScreen extends React.Component {
     super(props);
     this.state = {
       data: null,
-<<<<<<< HEAD
-      isAddColumnTitleEditing: true,
-=======
       isAddColumnTitleEditing: false,
->>>>>>> develop
       addColumnTitleValue: '',
     };
   }
