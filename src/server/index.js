@@ -11,7 +11,6 @@ const generateToken = require('./api/login/generateToken.js');
 const jwtVerify = require('./jwtVerify.js');
 const register = require('./api/register/register.js');
 const boards = require('./api/boards/boards.js');
-const jsonParser = bodyParser.json();
 
 const localHost = 3000;
 const PORT = process.env.PORT || localHost;
@@ -83,7 +82,7 @@ router.get('/boards', function(req, res) {
   }
 });
 
-router.get('/boards/:id', jsonParser, function(req, res) {
+router.get('/boards/:id', function(req, res) {
   let username = jwtVerify(req.headers.token);
   let getId = req.params.id;
 
