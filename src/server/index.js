@@ -9,6 +9,8 @@ const heartbeat = require('./api/heartbeat/heartbeat.js');
 const auth = require('./api/login/auth.js');
 const generateToken = require('./api/login/generateToken.js');
 const register = require('./api/register/register.js');
+const boards = require('./api/boards/boards.js');
+const jwtVerify = require('./jwtVerify');
 
 const localHost = 3000;
 const PORT = process.env.PORT || localHost;
@@ -60,6 +62,22 @@ router.post('/register', function(req, res) {
       } else if (result === 'ok') {
         res.status(statusOK).json({result: 'Register success!'});
       }
+    });
+  }
+});
+
+router.post('/boards', function(req, res) {
+  let username = jwtVerify(req.headers.token);
+
+  if (!req.is('application/json')) {
+    res.status(badRequest).json({message: 'Content type error!'});
+  } else if (!req.body.name) {
+    res.status(badRequest).json({message: 'Missing field(s)!'});
+  } else if (!username) {
+    res.status(forbidden).json({message: 'Please login first!'});
+  } else {
+    boards.createNewBoard(req.body, username, function(result) {
+      res.status(statusOK).json({result: 'Add new board success!'});
     });
   }
 });
