@@ -6,10 +6,21 @@ const MongoClient = mongodb.MongoClient;
 const envConst = require('../../envConst.js');
 const url = envConst.getDBUrl();
 
-function createInsertQuert(request, username) {
+function createInsertQuery(request, username) {
   return {
     'username': username,
-    'name': request.name,
+    'boardname': request.boardname,
+  };
+}
+
+function createFindQuery(username) {
+  return {'username': username};
+}
+
+function createFieldQuery() {
+  return {
+    'username': 1,
+    'boardname': 1,
   };
 }
 
@@ -19,7 +30,7 @@ function createNewBoard(request, username, callback) {
       return callback('error');
     }
     console.log('Connection established to ' + url);
-    let query = createInsertQuert(request, username);
+    let query = createInsertQuery(request, username);
 
     database.collection('boards').insert(query, function(err, result) {
       database.close();
@@ -31,15 +42,17 @@ function createNewBoard(request, username, callback) {
   });
 }
 
-function boardInfo(callback) {
+function boardInfo(username, callback) {
   MongoClient.connect(url, function(err, database) {
     if (err) {
       return callback('error');
     }
     console.log('Connection established to ' + url);
     let collection = database.collection('boards');
+    let query = createFindQuery(username);
+    let field = createFieldQuery();
 
-    collection.find().toArray(function(err, result) {
+    collection.find(query, field).toArray(function(err, result) {
       if (err) {
         return callback('error');
       }

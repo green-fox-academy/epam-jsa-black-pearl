@@ -72,7 +72,7 @@ router.get('/boards', function(req, res) {
   if (!username) {
     res.status(forbidden).json({message: 'Please login first!'});
   } else {
-    boards.boardInfo(function(result) {
+    boards.boardInfo(username, function(result) {
       if (result === 'error' || !result) {
         res.status(internalError).json({message: 'Something went wrong!'});
       }
@@ -86,7 +86,7 @@ router.post('/boards', function(req, res) {
 
   if (!req.is('application/json')) {
     res.status(badRequest).json({message: 'Content type error!'});
-  } else if (!req.body.name) {
+  } else if (!req.body.boardname) {
     res.status(badRequest).json({message: 'Missing field(s)!'});
   } else if (!username) {
     res.status(forbidden).json({message: 'Please login first!'});
