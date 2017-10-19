@@ -77,7 +77,7 @@ router.post('/boards', function(req, res) {
     res.status(forbidden).json({message: 'Please login first!'});
   } else {
     boards.createNewBoard(req.body, username, function(result) {
-      console.log(result);
+      res.status(statusOK).json({result: 'Add new board success!'});
     });
   }
 });
