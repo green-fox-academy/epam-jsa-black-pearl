@@ -8,20 +8,21 @@ const path = require('path');
 const heartbeat = require('./api/heartbeat/heartbeat.js');
 const auth = require('./api/login/auth.js');
 const generateToken = require('./api/login/generateToken.js');
+const jwtVerify = require('./jwtVerify.js');
 const register = require('./api/register/register.js');
 const boards = require('./api/boards/boards.js');
-const jwtVerify = require('./jwtVerify');
 
 const localHost = 3000;
 const PORT = process.env.PORT || localHost;
 const app = express();
 const router = new express.Router();
-const badRequest = 400;
-const statusOK = 200;
-const internalError = 500;
-const forbidden = 403;
-const conflict = 409;
+const BAD_REQUEST = 400;
+const STATUS_OK = 200;
+const INTERNAL_SERVER_ERROR = 500;
+const STATUS_FORBIDDEN = 403;
+const CONFLICT = 409;
 const forbiddenMessage = 'User does not exists or bad credential!';
+const SERVER_ERROR_MESSAGE = 'Something went wrong!';
 
 app.use(express.static(path.resolve(__dirname, '../../dist')));
 app.use(bodyParser.json());
@@ -32,17 +33,17 @@ router.get('/', function(req, res) {
 
 router.post('/login', function(req, res) {
   if (!req.is('application/json')) {
-    res.status(badRequest).json({message: 'Content type error!'});
+    res.status(BAD_REQUEST).json({message: 'Content type error!'});
   } else if (!req.body.username || !req.body.password) {
-    res.status(badRequest).json({message: 'Missing field(s)!'});
+    res.status(BAD_REQUEST).json({message: 'Missing field(s)!'});
   } else {
     auth(req.body, function(result) {
       if (result === 'error' || !result) {
-        res.status(internalError).json({message: 'Something went wrong!'});
+        res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else if (result === 'nocredential') {
-        res.status(forbidden).json({message: forbiddenMessage});
+        res.status(STATUS_FORBIDDEN).json({message: forbiddenMessage});
       } else if (result === 'ok') {
-        res.status(statusOK).json(generateToken(req.body.username));
+        res.status(STATUS_OK).json(generateToken(req.body.username));
       }
     });
   }
@@ -50,18 +51,33 @@ router.post('/login', function(req, res) {
 
 router.post('/register', function(req, res) {
   if (!req.is('application/json')) {
-    res.status(badRequest).json({message: 'Content type error!'});
+    res.status(BAD_REQUEST).json({message: 'Content type error!'});
   } else if (!req.body.username || !req.body.password) {
-    res.status(badRequest).json({message: 'Missing field(s)!'});
+    res.status(BAD_REQUEST).json({message: 'Missing field(s)!'});
   } else {
     register(req.body, function(result) {
       if (result === 'error' || !result) {
-        res.status(internalError).json({message: 'Something went wrong!'});
+        res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else if (result === 'conflict') {
-        res.status(conflict).json({message: 'The username already exists!'});
+        res.status(CONFLICT).json({message: 'The username already exists!'});
       } else if (result === 'ok') {
-        res.status(statusOK).json({result: 'Register success!'});
+        res.status(STATUS_OK).json({result: 'Register success!'});
       }
+    });
+  }
+});
+
+router.get('/boards', function(req, res) {
+  let username = jwtVerify(req.headers.token);
+
+  if (!username) {
+    res.status(STATUS_FORBIDDEN).json({message: 'Please login first!'});
+  } else {
+    boards.boardInfo(username, function(result) {
+      if (result === 'error' || !result) {
+        res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      }
+      res.json({'boards': result});
     });
   }
 });
@@ -70,14 +86,17 @@ router.post('/boards', function(req, res) {
   let username = jwtVerify(req.headers.token);
 
   if (!req.is('application/json')) {
-    res.status(badRequest).json({message: 'Content type error!'});
-  } else if (!req.body.name) {
-    res.status(badRequest).json({message: 'Missing field(s)!'});
+    res.status(BAD_REQUEST).json({message: 'Content type error!'});
+  } else if (!req.body.boardname) {
+    res.status(BAD_REQUEST).json({message: 'Missing field(s)!'});
   } else if (!username) {
-    res.status(forbidden).json({message: 'Please login first!'});
+    res.status(STATUS_FORBIDDEN).json({message: 'Please login first!'});
   } else {
     boards.createNewBoard(req.body, username, function(result) {
-      res.status(statusOK).json({result: 'Add new board success!'});
+      if (result === 'error' || !result) {
+        res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      }
+      res.status(STATUS_OK).json({result: 'Add new board success!'});
     });
   }
 });

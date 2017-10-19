@@ -21,7 +21,7 @@ function encryptPassword(password) {
   return cryption.encrypt(password);
 }
 
-function createInsertQuert(request, res) {
+function createInsertQuery(request, res) {
   return {
     'username': request.username,
     'password': res,
@@ -39,7 +39,7 @@ function register(request, callback) {
     }
     console.log('Connection established to ' + url);
     encryptPassword(request.password).then(function(res) {
-      let query = createInsertQuert(request, res);
+      let query = createInsertQuery(request, res);
 
       database.collection('users').insert(query, function(err, result) {
         database.close();
