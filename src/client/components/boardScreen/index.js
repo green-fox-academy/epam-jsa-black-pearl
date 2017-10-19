@@ -10,7 +10,7 @@ class BoardScreen extends React.Component {
     super(props);
     this.state = {
       data: null,
-      isAddColumnTitleEditing: false,
+      isAddColumnTitleEditing: true,
       addColumnTitleValue: '',
     };
   }
@@ -77,13 +77,12 @@ class BoardScreen extends React.Component {
               this.input = c;
             }}
             onChange={this.onInputChange.bind(this)} />
-          <button
+          <button className="ok-button"
             onClick={this.addColumn.bind(this)}>
             √
           </button>
-          <button
+          <button className="cancel-button"
             onClick={this.onChangeAddColumnTitleState.bind(this, false)}>
-            ×
           </button>
         </div>
       );
