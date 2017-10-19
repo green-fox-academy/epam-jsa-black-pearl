@@ -10,7 +10,8 @@ const auth = require('./api/login/auth.js');
 const generateToken = require('./api/login/generateToken.js');
 const jwtVerify  = require('./jwtVerify.js')
 const register = require('./api/register/register.js');
-const board = require('./api/board/board.js');
+const boards = require('./api/boards/boards.js');
+
 
 const localHost = 3000;
 const PORT = process.env.PORT || localHost;
@@ -72,9 +73,23 @@ router.get('/boards', function(req, res) {
   // if (username === '') {
   //   res.status(internalError).json({message: 'You are not login!'});
   // }
-  board(function(result) {
+  boards(function(result) {
     res.send({'board': result});
   });
+router.post('/boards', function(req, res) {
+  let username = jwtVerify(req.headers.token);
+
+  if (!req.is('application/json')) {
+    res.status(badRequest).json({message: 'Content type error!'});
+  } else if (!req.body.name) {
+    res.status(badRequest).json({message: 'Missing field(s)!'});
+  } else if (!username) {
+    res.status(forbidden).json({message: 'Please login first!'});
+  } else {
+    boards.createNewBoard(req.body, username, function(result) {
+      console.log(result);
+    });
+  }
 });
 
 app.use('/api', router);
