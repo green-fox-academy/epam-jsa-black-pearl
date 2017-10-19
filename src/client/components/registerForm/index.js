@@ -83,7 +83,7 @@ class RegisterForm extends React.Component {
     }, ANIMATION_SHAKING_DURATION);
   }
 
-  doRegister(username, password,captcha) {
+  doRegister(username, password, captcha) {
     if (!this.isValidEmail(this.state.username)) {
       this.shakingAnimation('Invalid email');
       return;
