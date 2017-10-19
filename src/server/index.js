@@ -9,6 +9,7 @@ const heartbeat = require('./api/heartbeat/heartbeat.js');
 const auth = require('./api/login/auth.js');
 const generateToken = require('./api/login/generateToken.js');
 const register = require('./api/register/register.js');
+const board = require('./api/board/board.js');
 
 const localHost = 3000;
 const PORT = process.env.PORT || localHost;
@@ -64,6 +65,12 @@ router.post('/register', function(req, res) {
       }
     });
   }
+});
+
+router.get('/boards', function(req, res) {
+  board.boardInfo(function(result) {
+    res.send({'board': result});
+  });
 });
 
 app.use('/api', router);
