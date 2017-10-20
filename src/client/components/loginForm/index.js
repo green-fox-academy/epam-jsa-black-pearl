@@ -61,7 +61,6 @@ class LoginForm extends React.Component {
       localStorage.token = response.token;
       this.setState({isLoading: false, isLoggedIn: true});
     }).catch((error) => {
-      // this.setState({isLoading: false, isLoginFailure: true});
       this.shakingAnimation('Wrong Email or Password!');
     });
   }

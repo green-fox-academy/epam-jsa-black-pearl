@@ -3,7 +3,6 @@ import React from 'react';
 import './index.scss';
 import BoardNav from '../boardNav';
 import BoardList from '../boardList';
-// import data from './data.json';
 import $api from '../../api/api.json';
 
 const SUCCESSFUL_RESPONSE = /^20.$/;
@@ -75,22 +74,6 @@ class BoardScreen extends React.Component {
     if (!this.state.addBoardValue) {
       return;
     }
-    /* let json = this.state.data;
-
-    json.push({
-      'id': '1ksj9smi',
-      'username': 'test@test.com',
-      'boardname': this.state.addBoardValue,
-      'members': [],
-      'columns': [
-        {
-          'id': '8k12dijj',
-          'columnTitle': 'To-do',
-          'events': [],
-        },
-      ],
-    }); */
-
     this.sendPostHttpRequest();
 
     this.setState({
