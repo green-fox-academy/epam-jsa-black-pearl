@@ -82,6 +82,22 @@ router.get('/boards', function(req, res) {
   }
 });
 
+router.get('/boards/:id', function(req, res) {
+  let username = jwtVerify(req.headers.token);
+  let getId = req.params.id;
+
+  if (!username) {
+    res.status(STATUS_FORBIDDEN).json({message: 'Please login first!'});
+  } else {
+    boards.boardDetail(username, getId, function(result) {
+      if (result === 'error' || !result) {
+        res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      }
+      res.json({'boards': result});
+    });
+  }
+});
+
 router.post('/boards', function(req, res) {
   let username = jwtVerify(req.headers.token);
 
