@@ -57,7 +57,7 @@ function createNewBoard(request, username, callback) {
   });
 }
 
-function boardInfo(username, callback) {
+function getBoardsByUser(username, callback) {
   MongoClient.connect(url, function(err, database) {
     if (err) {
       return callback('error');
@@ -77,17 +77,16 @@ function boardInfo(username, callback) {
   });
 }
 
-function boardDetail(username, getId, callback) {
+function getBoardById(username, boardId, callback) {
   MongoClient.connect(url, function(err, database) {
     if (err) {
       return callback('error');
     }
     console.log('Connection established to ' + url);
-    let collection = database.collection('boards');
-    let query = idQuery(username, new mongodb.ObjectId(getId));
+    let query = idQuery(username, new mongodb.ObjectId(boardId));
     let field = boardIdFilter();
 
-    collection.find(query, field).toArray(function(err, result) {
+    database.collection('boards').findOne(query, field, function(err, result) {
       database.close();
       if (err) {
         return callback('error');
@@ -99,6 +98,6 @@ function boardDetail(username, getId, callback) {
 
 module.exports = {
   'createNewBoard': createNewBoard,
-  'boardInfo': boardInfo,
-  'boardDetail': boardDetail,
+  'getBoardsByUser': getBoardsByUser,
+  'getBoardById': getBoardById,
 };
