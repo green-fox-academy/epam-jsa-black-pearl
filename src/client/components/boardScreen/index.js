@@ -3,24 +3,52 @@ import React from 'react';
 import './index.scss';
 import BoardNav from '../boardNav';
 import BoardList from '../boardList';
-import data from './data.json';
+// import data from './data.json';
+import $api from '../../api/api.json';
 
 class BoardScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
+      data: [],
       isAddBoardEditing: false,
       addBoardValue: '',
     };
   }
 
-  componentWillMount() {
-    this.setState({data: data});
+  componentDidMount() {
+    this.sendHttpRequest();
+    // this.setState({data: data});
+  }
+
+  formHttpGetRequest(path) {
+    let httpHeaders = {
+      'Content-Type': 'application/json',
+      'token': localStorage.token,
+    };
+    let myHeaders = new Headers(httpHeaders);
+    let myRequest = new Request(path, {
+      'method': 'GET',
+      'headers': myHeaders,
+    });
+
+    return myRequest;
+  }
+
+  sendHttpRequest() {
+    let that = this;
+
+    fetch(this.formHttpGetRequest($api.boards)).then(function(res) {
+      return res.json();
+    }).then(function(result) {
+      that.setState({data: result.boards});
+    });
   }
 
   addBoard() {
-    let json = {
+    let json = this.state.data;
+
+    json.push({
       'id': '1ksj9smi',
       'username': 'test@test.com',
       'boardname': this.state.addBoardValue,
@@ -32,10 +60,10 @@ class BoardScreen extends React.Component {
           'events': [],
         },
       ],
-    };
+    });
 
     this.setState({
-      data: this.state.data.push(json),
+      data: json,
       isAddBoardEditing: false,
     });
   }
@@ -61,7 +89,7 @@ class BoardScreen extends React.Component {
   generateBoardListComponent() {
     let list = [];
 
-    data.forEach(function(element) {
+    this.state.data.forEach(function(element) {
       list.push(
         <BoardList
           boardId={element.id}
