@@ -10,8 +10,8 @@ class BoardScreen extends React.Component {
     super(props);
     this.state = {
       data: null,
-      isAddColumnTitleEditing: false,
-      addColumnTitleValue: '',
+      isAddBoardEditing: false,
+      addBoardValue: '',
     };
   }
 
@@ -19,21 +19,46 @@ class BoardScreen extends React.Component {
     this.setState({data: data});
   }
 
+  addBoard() {
+    let json = {
+      'id': '1ksj9smi',
+      'username': 'test@test.com',
+      'boardname': this.state.addBoardValue,
+      'members': [],
+      'columns': [
+        {
+          'id': '8k12dijj',
+          'columnTitle': 'To-do',
+          'events': [],
+        },
+      ],
+    };
+
+    this.setState({
+      data: this.state.data.push(json),
+      isAddBoardEditing: false,
+    });
+  }
+
   showBoardDetail(id) {
     this.props.history.push('/boards/' + id);
   }
 
-  onChangeAddColumnTitleState(state) {
-    this.setState({isAddColumnTitleEditing: state}, () => {
-      this.input.focus();
-    });
+  onChangeAddBoardState(state) {
+    if (state) {
+      this.setState({isAddBoardEditing: state}, () => {
+        this.input.focus();
+      });
+    } else {
+      this.setState({isAddBoardEditing: state});
+    }
   }
 
   onInputChange(ev) {
-    this.setState({addColumnTitleValue: ev.target.value});
+    this.setState({addBoardValue: ev.target.value});
   }
 
-  generateBoardList() {
+  generateBoardListComponent() {
     let list = [];
 
     data.forEach(function(element) {
@@ -50,14 +75,51 @@ class BoardScreen extends React.Component {
     return list;
   }
 
+  generateAddBoardComponent() {
+    if (!this.state.isAddBoardEditing) {
+      return (
+        <div className="board-add-list"
+          onClick={this.onChangeAddBoardState.bind(this, true)}>
+          <p className="board-name">Add A Board...</p>
+          <p className="board-id">#</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className="board-add-list">
+        <p>
+          <input type="text"
+            ref={(c) => {
+              this.input = c;
+            }}
+            onChange={this.onInputChange.bind(this)} />
+        </p>
+        <p>
+          <button
+            onClick={this.addBoard.bind(this)}>
+            √
+          </button>
+          <button
+            onClick={this.onChangeAddBoardState.bind(this, false)}>
+            ×
+          </button>
+        </p>
+      </div>
+    );
+  }
+
   render() {
-    let list = this.generateBoardList();
+    let list = this.generateBoardListComponent();
+
+    let addList = this.generateAddBoardComponent();
 
     return (
       <div className="board">
         <BoardNav />
         <div className="board-main-list">
           {list}
+          {addList}
         </div>
       </div>
     );
