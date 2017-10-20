@@ -11,11 +11,11 @@ class Board extends React.Component {
     this.state = {isLoggedIn: isLoggedIn()};
   }
   render() {
-    if (!this.state.isLoggedIn) {
+    /* if (!this.state.isLoggedIn) {
       return (
         <Redirect to="/login" />
       );
-    }
+    } */
     return (
       <nav className="board-nav">
         <div className="nav-item">
