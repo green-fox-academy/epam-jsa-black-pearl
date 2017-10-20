@@ -34,9 +34,8 @@ body {
   .board-main {
     display: flex;
     flex-direction: row;
-    height: calc(100% - 117px);
-    overflow-x: scroll;
-    padding: 5px 10px;
+    height: calc(100% - 137px);
+    padding: 15px 10px;
   }
 }
 
@@ -46,4 +45,14 @@ body {
     padding: 0 !important;
     user-select: none;
   }
+}
+
+.board-main-list {
+  align-content: flex-start;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: calc(100% - 117px);
+  justify-content: flex-start;
+  padding: 15px 10px;
 }
