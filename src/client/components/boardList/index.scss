@@ -1,0 +1,37 @@
+.board-list {
+  background-color: #add8e6;
+  border: 0;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgb(168, 90, 90);
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 80px;
+  line-height: 40px;
+  margin: 0 15px 12px 0;
+  min-width: 270px;
+  padding: 0 10px;
+  user-select: none;
+  width: 31%;
+
+  &:hover {
+    background-color: #3ab3ff;
+  }
+
+  p {
+    height: 40px;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .board-name {
+    font-size: 24px;
+  }
+
+  .board-id {
+    color: #888;
+    font-size: 14px;
+  }
+}

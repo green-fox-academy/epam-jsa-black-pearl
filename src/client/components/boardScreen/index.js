@@ -2,119 +2,166 @@ import React from 'react';
 
 import './index.scss';
 import BoardNav from '../boardNav';
-import BoardColumn from '../boardColumn';
-import data from './data.json';
+import BoardList from '../boardList';
+import $api from '../../api/api.json';
+
+const SUCCESSFUL_RESPONSE = /^20.$/;
 
 class BoardScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
-      isAddColumnTitleEditing: false,
-      addColumnTitleValue: '',
+      data: [],
+      isAddBoardEditing: false,
+      addBoardValue: '',
     };
   }
 
-  componentWillMount() {
-    this.setState({data: data});
+  componentDidMount() {
+    this.sendGetHttpRequest();
   }
 
-  addColumn() {
-    let json = this.state.data;
-
-    let id = Date.now();
-
-    json.columns.push({
-      'id': id,
-      'columnTitle': this.state.addColumnTitleValue,
-      'events': [],
+  formHttpGetRequest(path) {
+    let httpHeaders = {
+      'Content-Type': 'application/json',
+      'token': localStorage.token,
+    };
+    let myHeaders = new Headers(httpHeaders);
+    let myRequest = new Request(path, {
+      'method': 'GET',
+      'headers': myHeaders,
     });
+
+    return myRequest;
+  }
+
+  formHttpPostRequest(path) {
+    let httpHeaders = {
+      'Content-Type': 'application/json',
+      'token': localStorage.token,
+    };
+    let myHeaders = new Headers(httpHeaders);
+    let myRequest = new Request(path, {
+      'method': 'POST',
+      'headers': myHeaders,
+      'body': JSON.stringify({'boardname': this.state.addBoardValue}),
+    });
+
+    return myRequest;
+  }
+
+  sendGetHttpRequest() {
+    let that = this;
+
+    fetch(that.formHttpGetRequest($api.boards)).then(function(res) {
+      return res.json();
+    }).then(function(result) {
+      that.setState({data: result.boards});
+    });
+  }
+
+  sendPostHttpRequest() {
+    let that = this;
+
+    fetch(that.formHttpPostRequest($api.boards)).then(function(res) {
+      if (SUCCESSFUL_RESPONSE.test(res.status)) {
+        that.sendGetHttpRequest();
+      }
+    });
+  }
+
+  addBoard() {
+    if (!this.state.addBoardValue) {
+      return;
+    }
+    this.sendPostHttpRequest();
 
     this.setState({
-      data: json,
-      addColumnTitleValue: '',
-      isAddColumnTitleEditing: false,
+      isAddBoardEditing: false,
+      addBoardValue: '',
     });
   }
 
-  onChangeAddColumnTitleState(state) {
-    this.setState({isAddColumnTitleEditing: state}, () => {
-      this.input.focus();
-    });
+  showBoardDetail(id) {
+    this.props.history.push('/boards/' + id);
+  }
+
+  onChangeAddBoardState(state) {
+    if (state) {
+      this.setState({isAddBoardEditing: state}, () => {
+        this.input.focus();
+      });
+    } else {
+      this.setState({isAddBoardEditing: state});
+    }
   }
 
   onInputChange(ev) {
-    this.setState({addColumnTitleValue: ev.target.value});
+    this.setState({addBoardValue: ev.target.value});
   }
 
-  generateBoardColumn() {
-    let boardDisplay = [];
+  generateBoardListComponent() {
+    let list = [];
 
-    this.state.data.columns.forEach(function(element) {
-      boardDisplay.push(
-        <BoardColumn column={element} key={element.id} />
+    this.state.data.forEach(function(element) {
+      list.push(
+        <BoardList
+          boardId={element._id}
+          boardName={element.boardname}
+          showBoardDetail={this.showBoardDetail.bind(this, element._id)}
+          key={element._id}
+        />
       );
     }, this);
 
-    return boardDisplay;
+    return list;
   }
 
-  generateAddColumn() {
-    let addColumn = null;
-
-    if (!this.state.isAddColumnTitleEditing) {
-      addColumn = (
-        <div className="column-header"
-          onClick={this.onChangeAddColumnTitleState.bind(this, true)}>
-          Add A Column...
+  generateAddBoardComponent() {
+    if (!this.state.isAddBoardEditing) {
+      return (
+        <div className="board-add-list"
+          onClick={this.onChangeAddBoardState.bind(this, true)}>
+          <p className="board-name">Add A Board...</p>
+          <p className="board-id">#</p>
         </div>
       );
-    } else {
-      addColumn = (
-        <div className="column-header">
+    }
+
+    return (
+      <div className="board-add-list">
+        <p>
           <input type="text"
             ref={(c) => {
               this.input = c;
             }}
             onChange={this.onInputChange.bind(this)} />
-          <button className="ok-button"
-            onClick={this.addColumn.bind(this)}>
+        </p>
+        <p>
+          <button
+            onClick={this.addBoard.bind(this)}>
             √
           </button>
-          <button className="cancel-button"
-            onClick={this.onChangeAddColumnTitleState.bind(this, false)}>
+          <button
+            onClick={this.onChangeAddBoardState.bind(this, false)}>
+            ×
           </button>
-        </div>
-      );
-    }
-
-    return addColumn;
+        </p>
+      </div>
+    );
   }
 
   render() {
-    let boardDisplay = this.generateBoardColumn();
+    let list = this.generateBoardListComponent();
 
-    let addColumn = this.generateAddColumn();
+    let addList = this.generateAddBoardComponent();
 
     return (
       <div className="board">
         <BoardNav />
-        <div className="board-header">
-          <p><span className="board-name">{data.boardname}</span></p>
-        </div>
-        <div className="board-main">
-          {boardDisplay}
-          <div className="add-column">
-            <div className="board-column-wrapper">
-              <div className="board-column">
-                {/* <div className="column-header"
-                  onClick={this.addColumn.bind(this)}>
-                  Add A Column...
-                </div> */}
-                {addColumn}
-              </div>
-            </div>
-          </div>
+        <div className="board-main-list">
+          {list}
+          {addList}
         </div>
       </div>
     );
