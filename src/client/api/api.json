@@ -1,4 +1,5 @@
 {
     "login": "/api/login",
-    "register": "/api/register"
+    "register": "/api/register",
+    "boards": "/api/boards"
 }
