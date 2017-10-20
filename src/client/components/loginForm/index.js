@@ -62,7 +62,7 @@ class LoginForm extends React.Component {
       this.setState({isLoading: false, isLoggedIn: true});
     }).catch((error) => {
       // this.setState({isLoading: false, isLoginFailure: true});
-      this.shakingAnimation('Wrong Email or Passwrod!');
+      this.shakingAnimation('Wrong Email or Password!');
     });
   }
 
