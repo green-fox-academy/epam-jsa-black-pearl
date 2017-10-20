@@ -18,7 +18,6 @@ class BoardScreen extends React.Component {
 
   componentDidMount() {
     this.sendHttpRequest();
-    // this.setState({data: data});
   }
 
   formHttpGetRequest(path) {
@@ -92,10 +91,10 @@ class BoardScreen extends React.Component {
     this.state.data.forEach(function(element) {
       list.push(
         <BoardList
-          boardId={element.id}
+          boardId={element._id}
           boardName={element.boardname}
-          showBoardDetail={this.showBoardDetail.bind(this, element.id)}
-          key={element.id}
+          showBoardDetail={this.showBoardDetail.bind(this, element._id)}
+          key={element._id}
         />
       );
     }, this);
