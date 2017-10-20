@@ -162,7 +162,7 @@ class RegisterForm extends React.Component {
   render() {
     if (this.state.isLoggedIn) {
       return (
-        <Redirect to="/board" />
+        <Redirect to="/boards" />
       );
     }
     let button = this.generateLoadingButton();

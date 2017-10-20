@@ -10,7 +10,7 @@ class Register extends React.Component {
   render() {
     if (isLoggedIn()) {
       return (
-        <Redirect to="/board" />
+        <Redirect to="/boards" />
       );
     }
     return (
