@@ -6,6 +6,8 @@ import BoardList from '../boardList';
 // import data from './data.json';
 import $api from '../../api/api.json';
 
+const SUCCESSFUL_RESPONSE = /^20.$/;
+
 class BoardScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -17,7 +19,7 @@ class BoardScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.sendHttpRequest();
+    this.sendGetHttpRequest();
   }
 
   formHttpGetRequest(path) {
@@ -34,18 +36,46 @@ class BoardScreen extends React.Component {
     return myRequest;
   }
 
-  sendHttpRequest() {
+  formHttpPostRequest(path) {
+    let httpHeaders = {
+      'Content-Type': 'application/json',
+      'token': localStorage.token,
+    };
+    let myHeaders = new Headers(httpHeaders);
+    let myRequest = new Request(path, {
+      'method': 'POST',
+      'headers': myHeaders,
+      'body': JSON.stringify({'boardname': this.state.addBoardValue}),
+    });
+
+    return myRequest;
+  }
+
+  sendGetHttpRequest() {
     let that = this;
 
-    fetch(this.formHttpGetRequest($api.boards)).then(function(res) {
+    fetch(that.formHttpGetRequest($api.boards)).then(function(res) {
       return res.json();
     }).then(function(result) {
       that.setState({data: result.boards});
     });
   }
 
+  sendPostHttpRequest() {
+    let that = this;
+
+    fetch(that.formHttpPostRequest($api.boards)).then(function(res) {
+      if (SUCCESSFUL_RESPONSE.test(res.status)) {
+        that.sendGetHttpRequest();
+      }
+    });
+  }
+
   addBoard() {
-    let json = this.state.data;
+    if (!this.state.addBoardValue) {
+      return;
+    }
+    /* let json = this.state.data;
 
     json.push({
       'id': '1ksj9smi',
@@ -59,11 +89,13 @@ class BoardScreen extends React.Component {
           'events': [],
         },
       ],
-    });
+    }); */
+
+    this.sendPostHttpRequest();
 
     this.setState({
-      data: json,
       isAddBoardEditing: false,
+      addBoardValue: '',
     });
   }
 
