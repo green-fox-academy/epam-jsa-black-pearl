@@ -3,27 +3,32 @@
       {
           "_id": "59e98863f249866075502910",
           "username": "test@test.com",
-          "boardname": "jsa-demo"
+          "boardname": "jsa-demo",
+          "timestamp": 1508671739683
       },
       {
           "_id": "59e98877f24986607550291e",
           "username": "test@test.com",
-          "boardname": "test-test_test~testtest-test_test~test"
+          "boardname": "test-test_test~testtest-test_test~test",
+          "timestamp": 1503671739683
       },
       {
           "_id": "59e98ebb582f572ca8243bf9",
           "username": "test@test.com",
-          "boardname": "test"
+          "boardname": "test",
+          "timestamp": 1508671739681
       },
       {
           "_id": "59e98ec5582f572ca8243bfa",
           "username": "test@test.com",
-          "boardname": " "
+          "boardname": " ",
+          "timestamp": 1408671739683
       },
       {
           "_id": "59e98ec7582f572ca8243bfb",
           "username": "test@test.com",
-          "boardname": "sadfadsf"
+          "boardname": "sadfadsf",
+          "timestamp": 1503431739683
       }
   ]
 }
