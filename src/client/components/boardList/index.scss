@@ -10,6 +10,7 @@
   margin: 0 15px 12px 0;
   min-width: 270px;
   padding: 0 10px;
+  transition:all .2s ease-in 0s;
   user-select: none;
   width: 31%;
 
@@ -31,7 +32,34 @@
   }
 
   .board-date {
+    align-items: center;
     color: #bbb;
+    display: flex;
     font-size: 14px;
+  }
+}
+
+.delete-icon {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-grow: 5;
+
+  a {
+    background-color: rgba(255,255,255,.3);
+    background-image: url('../../../img/delete.png');
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: 60%;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    height: 28px;
+    transition:all .2s ease-in 0s;
+    width: 28px;
+
+    &:hover {
+      background-color: rgba(255,255,255,.5);
+    }
   }
 }
