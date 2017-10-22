@@ -34,8 +34,28 @@ body {
   .board-main {
     display: flex;
     flex-direction: row;
-    height: calc(100% - 137px);
-    padding: 15px 10px;
+    height: calc(100% - 150px);
+    margin: 0 10px;
+    overflow-x: scroll;
+    padding: 15px 0;
+
+    &::-webkit-scrollbar {
+      height: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color:#ddd;
+      -webkit-border-radius: 2em;
+      -moz-border-radius: 2em;
+      border-radius: 2em;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color:#026AA7;
+      -webkit-border-radius: 2em;
+      -moz-border-radius: 2em;
+      border-radius: 2em;
+    }
   }
 }
 
