@@ -11,9 +11,9 @@ class List extends React.Component {
   render() {
     let cardDisplay = [];
 
-    this.props.column.events.forEach(function(element) {
+    this.props.column.cards.forEach(function(element) {
       cardDisplay.push(
-        <Card card={element} key={element.id} />
+        <Card card={element} key={element._id} />
       );
     }, this);
 
@@ -22,9 +22,9 @@ class List extends React.Component {
         <div className="board-column">
           <div className="column-header">
             <div className="edit-icon"></div>
-            <div className="column-title">{this.props.column.columnTitle}</div>
+            <div className="column-title">{this.props.column.columnname}</div>
             <div className="column-card-count">
-              {this.props.column.events.length}
+              {this.props.column.cards.length}
             </div>
           </div>
           <div>
