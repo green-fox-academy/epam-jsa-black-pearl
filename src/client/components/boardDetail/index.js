@@ -2,7 +2,7 @@ import React from 'react';
 
 import BoardNav from '../boardNav';
 import BoardColumn from '../boardColumn';
-import data from '../boardScreen/data.json';
+import data from './columndata.json';
 import './index.scss';
 
 class BoardDetail extends React.Component {
@@ -20,18 +20,18 @@ class BoardDetail extends React.Component {
   }
 
   addColumn() {
-    let json = this.state.data;
+    let tempColumns = this.state.data.columns;
 
     let id = Date.now();
 
-    json[0].columns.push({
+    tempColumns.columns.push({
       'id': id,
       'columnTitle': this.state.addColumnTitleValue,
       'events': [],
     });
 
     this.setState({
-      data: json,
+      data: tempColumns,
       addColumnTitleValue: '',
       isAddColumnTitleEditing: false,
     });
@@ -40,9 +40,9 @@ class BoardDetail extends React.Component {
   generateBoardColumn() {
     let boardDisplay = [];
 
-    this.state.data[0].columns.forEach(function(element) {
+    this.state.data.columns.forEach(function(element) {
       boardDisplay.push(
-        <BoardColumn column={element} key={element.id} />
+        <BoardColumn column={element} key={element._id} />
       );
     }, this);
 
@@ -54,14 +54,14 @@ class BoardDetail extends React.Component {
 
     if (!this.state.isAddColumnTitleEditing) {
       addColumn = (
-        <div className="column-header"
+        <div className="add-column"
           onClick={this.onChangeAddColumnTitleState.bind(this, true)}>
           Add A Column...
         </div>
       );
     } else {
       addColumn = (
-        <div className="column-header">
+        <div className="add-column">
           <input type="text"
             ref={(c) => {
               this.input = c;
@@ -104,15 +104,13 @@ class BoardDetail extends React.Component {
       <div className="board">
         <BoardNav />
         <div className="board-header">
-          <p><span className="board-name">{data[0].boardname}</span></p>
+          <p><span className="board-name">{this.state.data.boardname}</span></p>
         </div>
         <div className="board-main">
           {boardDisplay}
-          <div className="add-column">
-            <div className="board-column-wrapper">
-              <div className="board-column">
-                {addColumn}
-              </div>
+          <div className="board-column-wrapper">
+            <div className="board-column">
+              {addColumn}
             </div>
           </div>
         </div>
