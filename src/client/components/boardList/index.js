@@ -25,8 +25,15 @@ class BoardList extends React.Component {
         onClick={this.props.showBoardDetail}>
         <p
           className="board-name"
-          title={this.props.boardName}>{this.props.boardName}</p>
-        <p className="board-date">Created at {createDate}</p>
+          title={this.props.boardName}>
+          {this.props.boardName || '(No Title)'}
+        </p>
+        <p className="board-date">
+          Created at {createDate}
+          <span className="delete-icon">
+            <a></a>
+          </span>
+        </p>
       </div>
     );
   }
