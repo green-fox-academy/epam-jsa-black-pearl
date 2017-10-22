@@ -30,6 +30,9 @@ class List extends React.Component {
           <div>
             {cardDisplay}
           </div>
+          <div className="add-card">
+            <a>Add A Card...</a>
+          </div>
         </div>
       </div>
     );

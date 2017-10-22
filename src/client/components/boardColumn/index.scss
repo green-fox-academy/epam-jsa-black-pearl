@@ -114,3 +114,22 @@
     @include button-pseudo;
   }
 }
+
+.add-card {
+  align-items: center;
+  background-color: #fafafa;
+  cursor: pointer;
+  display: flex;
+  height: 46px;
+  margin: 10px 0 0;
+  padding: 5px 10px;
+
+  &:hover {
+    background-color: #eee;
+  }
+
+  a {
+    color: #bbb;
+    font-size: 14px;
+  }
+}
