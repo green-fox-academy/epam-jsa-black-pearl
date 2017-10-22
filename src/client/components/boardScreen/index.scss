@@ -54,26 +54,28 @@ body {
   flex-wrap: wrap;
   height: calc(100% - 117px);
   justify-content: flex-start;
-  padding: 15px 10px;
+  margin: 20px 50px;
 }
 
 .board-add-list {
-  background-color: #ffb6c1;
+  background-color: #ddd;
   border: 0;
   border-radius: 5px;
-  box-shadow: 0 0 5px rgb(168, 90, 90);
   box-sizing: border-box;
   cursor: pointer;
   font-family: Arial, Helvetica, sans-serif;
   height: 80px;
-  line-height: 40px;
+  line-height: 80px;
+  justify-content: space-between;
   margin: 0 15px 12px 0;
   min-width: 270px;
   padding: 0 10px;
+  text-align: center;
   user-select: none;
   width: 31%;
 
   p {
+    color: #888;
     margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -83,17 +85,22 @@ body {
   .board-name {
     font-size: 24px;
   }
+}
 
-  .board-id {
-    color: #888;
-    font-size: 14px;
-  }
+.board-add-list-row {
+  align-items: center;
+  display: flex;
+  height: 40px;
+  justify-content: flex-start;
+  line-height: 40px;
 
   input {
     border: 1px solid #bbb;
     border-radius: 5px;
-    height: 25px;
+    height: 70%;
+    margin-top: 5px;
     padding: 0 5px;
+    width: 100%;
 
     &:focus {
       box-shadow: inset 0 0 5px #bbb;
@@ -122,35 +129,60 @@ body {
 
     &:last-child {
       background-color: #666;
+      width: 30px;
     }
   }
 }
 
-@keyframes gradeToLimeGreen {
-  from {
-    background-color: #90ee90;
-  }
+.personal-board {
+  flex-basis: 100%;
+  height: 24px;
+  margin-bottom: 20px;
 
-  to {
-    background-color: #32cd32;
+  p {
+    align-items: center;
+    display: flex;
+    margin: 0;
+
+    img {
+      display: inline-block;
+      height: 24px;
+      width: 24px;
+      margin-right: 20px;
+    }
   }
 }
 
-@mixin button-pseudo {
-  &::before,
-  &::after {
-    border-left: 2px solid #000;
-    content: '';
-    height: 70%;
-    position: absolute;
-    top: 15%;
+.board-welcome-list {
+  background-color:rgb(75, 191, 107);
+  border: 0;
+  border-radius: 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-family: Arial, Helvetica, sans-serif;
+  height: 80px;
+  line-height: 80px;
+  justify-content: space-between;
+  margin: 0 15px 12px 0;
+  min-width: 270px;
+  padding: 0 10px;
+  text-align: center;
+  user-select: none;
+  width: 31%;
+
+  &:hover {
+    background-color:rgb(62, 160, 88);
   }
 
-  &::before {
-    transform: rotate(45deg);
+  p {
+    color: #fff;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
-  &::after {
-    transform: rotate(-45deg);
+  .board-name {
+    font-size: 24px;
   }
 }
