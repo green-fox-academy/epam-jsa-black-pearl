@@ -1,5 +1,5 @@
+$theme-bule: #026aa7;
 $forgiveness: #4bbf6b;
-$themeBule: #026aa7;
 
 @mixin login-button {
   border-radius: 25px;
@@ -55,14 +55,14 @@ $themeBule: #026aa7;
   }
 
   input:focus {
-    border-bottom: 1px solid $themeBule;
+    border-bottom: 1px solid $theme-bule;
     outline: none;
   }
 }
 
 .loading-input {
   align-items: center;
-  background-color: themeBule;
+  background-color: $theme-bule;
   cursor: not-allowed;
   display: flex;
   justify-content: center;
