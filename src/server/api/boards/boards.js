@@ -10,6 +10,7 @@ function createInsertQuery(request, username) {
   return {
     'username': username,
     'boardname': request.boardname,
+    'timestamp': request.timestamp,
   };
 }
 
@@ -36,6 +37,7 @@ function createFieldsFilter() {
   return {
     'username': 1,
     'boardname': 1,
+    'timestamp': 1,
   };
 }
 
