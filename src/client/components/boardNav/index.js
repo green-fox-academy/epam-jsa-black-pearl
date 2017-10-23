@@ -27,7 +27,7 @@ class Board extends React.Component {
           </div>
         </div>
         <div className="nav-item"></div>
-        <div className="nav-item">
+        <div className="nav-item" title="Log Out">
           <a onClick={this.logout.bind(this)}></a>
         </div>
       </nav>
