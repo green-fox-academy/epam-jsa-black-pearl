@@ -28,6 +28,13 @@ class BoardList extends React.Component {
       this.addDigitZero(date.getSeconds());
   }
 
+  onClickDelete(ev) {
+    let that = this;
+
+    ev.stopPropagation();
+    that.props.deleteBoard(this.props.boardId);
+  }
+
   render() {
     let createDate = this.generateFullDate(this.props.boardDate);
 
@@ -41,7 +48,8 @@ class BoardList extends React.Component {
         </p>
         <p className="board-date">
           Created at {createDate}
-          <span className="delete-icon">
+          <span className="delete-icon"
+            onClick={this.onClickDelete.bind(this)}>
             <a></a>
           </span>
         </p>
