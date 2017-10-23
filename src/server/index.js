@@ -76,8 +76,9 @@ router.get('/boards', function(req, res) {
     boards.getBoardsByUser(username, function(result) {
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      } else {
+        res.json({'boards': result});
       }
-      res.json({'boards': result});
     });
   }
 });
@@ -92,8 +93,9 @@ router.get('/boards/:id', function(req, res) {
     boards.getBoardById(username, boardId, function(result) {
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      } else {
+        res.json(result);
       }
-      res.json(result);
     });
   }
 });
@@ -111,8 +113,9 @@ router.post('/boards', function(req, res) {
     boards.createNewBoard(req.body, username, function(result) {
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      } else {
+        res.status(STATUS_OK).json({result: 'Add new board success!'});
       }
-      res.status(STATUS_OK).json({result: 'Add new board success!'});
     });
   }
 });
