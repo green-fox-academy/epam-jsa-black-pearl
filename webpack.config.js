@@ -1,19 +1,23 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'src/client/index.js'),
+  entry: [
+    path.resolve(__dirname, 'src/client/index.js'),
+  ],
   output: {
-    path: path.resolve(__dirname, 'dist/app'),
-    filename: 'bundle.js',
-    publicPath: '/app/',
+    path: path.resolve(__dirname, 'dist'),
+    filename: './bundle.js',
+    publicPath: '/',
+  },
+  devServer: {
+    historyApiFallback: true,
   },
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.js[x]?$/,
         include: path.resolve(__dirname, 'src'),
         loader: 'babel-loader',
         query: {
@@ -35,6 +39,34 @@ module.exports = {
           {loader: 'sass-loader'},
         ],
       },
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[path][name].[ext]',
+            },
+          },
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: [
+          'babel-loader',
+          {
+            loader: 'react-svg-loader',
+            options: {
+              svgo: {
+                plugins: [
+                  {removeTitle: false},
+                ],
+                floatPrecision: 2,
+              },
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
@@ -44,6 +76,5 @@ module.exports = {
       filename: 'index.html',
       inject: 'body',
     }),
-    new ExtractTextPlugin('style.css'),
   ],
 };
