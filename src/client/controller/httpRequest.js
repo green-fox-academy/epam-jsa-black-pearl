@@ -1,3 +1,5 @@
+'use strict';
+
 function formHttpGetRequest(path) {
   let httpHeaders = {
     'Content-Type': 'application/json',
@@ -35,4 +37,22 @@ function formHttpPostRequest(path, reqBody) {
 
 export function sendPostHttpRequest(path, reqBody) {
   return fetch(formHttpPostRequest(path, reqBody));
+}
+
+function formHttpDeleteRequest(path) {
+  let httpHeaders = {
+    'Content-Type': 'application/json',
+    'token': localStorage.token,
+  };
+  let myHeaders = new Headers(httpHeaders);
+  let myRequest = new Request(path, {
+    'method': 'DELETE',
+    'headers': myHeaders,
+  });
+
+  return myRequest;
+}
+
+export function sendDeleteHttpRequest(path) {
+  return fetch(formHttpDeleteRequest(path));
 }
