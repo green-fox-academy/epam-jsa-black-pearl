@@ -3,7 +3,9 @@ import React from 'react';
 import './index.scss';
 import BoardNav from '../boardNav';
 import BoardList from '../boardList';
+import person from '../../../img/person.png';
 import $api from '../../api/api.json';
+import data from './data.json';
 
 const SUCCESSFUL_RESPONSE = /^20.$/;
 
@@ -11,14 +13,14 @@ class BoardScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
+      data: data.boards,
       isAddBoardEditing: false,
       addBoardValue: '',
     };
   }
 
   componentDidMount() {
-    this.sendGetHttpRequest();
+    // this.sendGetHttpRequest();
   }
 
   formHttpGetRequest(path) {
@@ -106,7 +108,7 @@ class BoardScreen extends React.Component {
     this.state.data.forEach(function(element) {
       list.push(
         <BoardList
-          boardId={element._id}
+          boardDate={element.timestamp}
           boardName={element.boardname}
           showBoardDetail={this.showBoardDetail.bind(this, element._id)}
           key={element._id}
@@ -123,21 +125,20 @@ class BoardScreen extends React.Component {
         <div className="board-add-list"
           onClick={this.onChangeAddBoardState.bind(this, true)}>
           <p className="board-name">Add A Board...</p>
-          <p className="board-id">#</p>
         </div>
       );
     }
 
     return (
       <div className="board-add-list">
-        <p>
+        <div className="board-add-list-row">
           <input type="text"
             ref={(c) => {
               this.input = c;
             }}
             onChange={this.onInputChange.bind(this)} />
-        </p>
-        <p>
+        </div>
+        <div className="board-add-list-row">
           <button
             onClick={this.addBoard.bind(this)}>
             √
@@ -146,7 +147,15 @@ class BoardScreen extends React.Component {
             onClick={this.onChangeAddBoardState.bind(this, false)}>
             ×
           </button>
-        </p>
+        </div>
+      </div>
+    );
+  }
+
+  generateWelcomeList() {
+    return (
+      <div className="board-welcome-list">
+        <p className="board-name">Welcome onboard...</p>
       </div>
     );
   }
@@ -156,11 +165,20 @@ class BoardScreen extends React.Component {
 
     let addList = this.generateAddBoardComponent();
 
+    let welcomeList = this.generateWelcomeList();
+
     return (
       <div className="board">
         <BoardNav />
         <div className="board-main-list">
+          <section className="personal-board">
+            <p>
+              <img src={person} alt="icon" />
+              <span>Personal Board</span>
+            </p>
+          </section>
           {list}
+          {welcomeList}
           {addList}
         </div>
       </div>

@@ -26,11 +26,9 @@ class Board extends React.Component {
               type="text" name="searchBar" />
           </div>
         </div>
-        <div className="nav-item">
-          <p>Black Pearl</p>
-        </div>
-        <div className="nav-item">
-          <button onClick={this.logout.bind(this)}>Logout</button>
+        <div className="nav-item"></div>
+        <div className="nav-item" title="Log Out">
+          <a onClick={this.logout.bind(this)}></a>
         </div>
       </nav>
     );
