@@ -127,7 +127,7 @@ router.delete('/boards/:id', function(req, res) {
   if (!username) {
     res.status(STATUS_FORBIDDEN).json({message: 'Please login first!'});
   } else {
-    boards.deleteBoardById(username, boardId, function(result) {
+    boards.deleteboardId(username, boardId, function(result) {
       if (result === 'error' || !result || result.result.n === 0) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else {

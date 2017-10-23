@@ -29,7 +29,7 @@ function idQuery(username, id) {
   } catch (error) {
     return {
       'username': username,
-      '_id': '',
+      '_id': null,
     };
   }
 }
@@ -107,7 +107,7 @@ function getBoardById(username, boardId, callback) {
   });
 }
 
-function deleteBoardById(username, boardId, callback) {
+function deleteboardId(username, boardId, callback) {
   MongoClient.connect(url, function(err, database) {
     if (err) {
       return callback('error');
