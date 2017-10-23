@@ -5,7 +5,7 @@ import BoardNav from '../boardNav';
 import BoardList from '../boardList';
 import person from '../../../img/person.png';
 import $api from '../../api/api.json';
-import {sendGetHttpRequest, sendPostHttpRequest}
+import {sendGetHttpRequest, sendPostHttpRequest, sendDeleteHttpRequest}
   from '../../controller/httpRequest.js';
 
 const SUCCESSFUL_RESPONSE = /^20.$/;
@@ -26,34 +26,6 @@ class BoardScreen extends React.Component {
         this.setState({data: result.boards});
       });
   }
-
-  /* formHttpPostRequest(path) {
-    let httpHeaders = {
-      'Content-Type': 'application/json',
-      'token': localStorage.token,
-    };
-    let myHeaders = new Headers(httpHeaders);
-    let myRequest = new Request(path, {
-      'method': 'POST',
-      'headers': myHeaders,
-      'body': JSON.stringify({
-        'boardname': this.state.addBoardValue,
-        'timestamp': (new Date()).getTime(),
-      }),
-    });
-
-    return myRequest;
-  } */
-
-  /* sendPostHttpRequest() {
-    let that = this;
-
-    fetch(that.formHttpPostRequest($api.boards)).then(function(res) {
-      if (SUCCESSFUL_RESPONSE.test(res.status)) {
-        that.sendGetHttpRequest();
-      }
-    });
-  } */
 
   addBoard() {
     if (!this.state.addBoardValue) {
@@ -80,6 +52,19 @@ class BoardScreen extends React.Component {
     });
   }
 
+  deleteBoard(id) {
+    /* sendDeleteHttpRequest($api.boards + '/' + id)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards)
+            .then((result) => {
+              this.setState({data: result.boards});
+            });
+        }
+      }); */
+    console.log(id);
+  }
+
   showBoardDetail(id) {
     this.props.history.push('/boards/' + id);
   }
@@ -104,9 +89,11 @@ class BoardScreen extends React.Component {
     this.state.data.forEach(function(element) {
       list.push(
         <BoardList
+          boardId={element._id}
           boardDate={element.timestamp}
           boardName={element.boardname}
           showBoardDetail={this.showBoardDetail.bind(this, element._id)}
+          deleteBoard={this.deleteBoard}
           key={element._id}
         />
       );
@@ -173,8 +160,8 @@ class BoardScreen extends React.Component {
               <span>Personal Board</span>
             </p>
           </section>
-          {list}
           {welcomeList}
+          {list}
           {addList}
         </div>
       </div>
