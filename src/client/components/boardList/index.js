@@ -3,18 +3,29 @@ import React from 'react';
 import './index.scss';
 
 const MONTH_PLUS_NUMBER = 1;
+const ADD_DIGIT_THRESHOLD = 10;
 
 class BoardList extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  addDigitZero(time) {
+    if (time < ADD_DIGIT_THRESHOLD) {
+      return '0' + time;
+    }
+    return time;
+  }
+
   generateFullDate(dateObj) {
     let date = new Date(dateObj);
 
-    return date.getFullYear() + '-' + (date.getMonth() + MONTH_PLUS_NUMBER) +
-      '-' + date.getDate() + ' ' + date.getHours() + ':' +
-      date.getMinutes() + ':' + date.getSeconds();
+    return date.getFullYear() + '-' +
+      this.addDigitZero((date.getMonth() + MONTH_PLUS_NUMBER)) + '-' +
+      this.addDigitZero(date.getDate()) + ' ' +
+      this.addDigitZero(date.getHours()) + ':' +
+      this.addDigitZero(date.getMinutes()) + ':' +
+      this.addDigitZero(date.getSeconds());
   }
 
   render() {
