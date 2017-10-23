@@ -131,7 +131,7 @@ router.delete('/boards/:id', function(req, res) {
       if (result === 'error' || !result || result.result.n === 0) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else {
-        res.status(STATUS_OK).json({result: 'Delete board success!'});
+        res.status(STATUS_OK).json({message: SERVER_ERROR_MESSAGE});
       }
     });
   }

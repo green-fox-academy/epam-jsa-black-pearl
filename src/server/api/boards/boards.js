@@ -129,5 +129,5 @@ module.exports = {
   'createNewBoard': createNewBoard,
   'getBoardsByUser': getBoardsByUser,
   'getBoardById': getBoardById,
-  'deleteBoardById': deleteBoardById,
+  'deleteboardId': deleteboardId,
 };
