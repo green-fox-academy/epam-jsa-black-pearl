@@ -5,6 +5,8 @@ import BoardNav from '../boardNav';
 import BoardList from '../boardList';
 import person from '../../../img/person.png';
 import $api from '../../api/api.json';
+import {sendGetHttpRequest, sendPostHttpRequest}
+  from '../../controller/httpRequest.js';
 
 const SUCCESSFUL_RESPONSE = /^20.$/;
 
@@ -19,24 +21,13 @@ class BoardScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.sendGetHttpRequest();
+    sendGetHttpRequest($api.boards)
+      .then((result) => {
+        this.setState({data: result.boards});
+      });
   }
 
-  formHttpGetRequest(path) {
-    let httpHeaders = {
-      'Content-Type': 'application/json',
-      'token': localStorage.token,
-    };
-    let myHeaders = new Headers(httpHeaders);
-    let myRequest = new Request(path, {
-      'method': 'GET',
-      'headers': myHeaders,
-    });
-
-    return myRequest;
-  }
-
-  formHttpPostRequest(path) {
+  /* formHttpPostRequest(path) {
     let httpHeaders = {
       'Content-Type': 'application/json',
       'token': localStorage.token,
@@ -52,19 +43,9 @@ class BoardScreen extends React.Component {
     });
 
     return myRequest;
-  }
+  } */
 
-  sendGetHttpRequest() {
-    let that = this;
-
-    fetch(that.formHttpGetRequest($api.boards)).then(function(res) {
-      return res.json();
-    }).then(function(result) {
-      that.setState({data: result.boards});
-    });
-  }
-
-  sendPostHttpRequest() {
+  /* sendPostHttpRequest() {
     let that = this;
 
     fetch(that.formHttpPostRequest($api.boards)).then(function(res) {
@@ -72,13 +53,26 @@ class BoardScreen extends React.Component {
         that.sendGetHttpRequest();
       }
     });
-  }
+  } */
 
   addBoard() {
     if (!this.state.addBoardValue) {
       return;
     }
-    this.sendPostHttpRequest();
+    let reqObj = {
+      'boardname': this.state.addBoardValue,
+      'timestamp': (new Date()).getTime(),
+    };
+
+    sendPostHttpRequest($api.boards, reqObj)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards)
+            .then((result) => {
+              this.setState({data: result.boards});
+            });
+        }
+      });
 
     this.setState({
       isAddBoardEditing: false,
