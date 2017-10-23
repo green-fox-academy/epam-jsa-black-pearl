@@ -120,6 +120,23 @@ router.post('/boards', function(req, res) {
   }
 });
 
+router.delete('/boards/:id', function(req, res) {
+  let username = jwtVerify(req.headers.token);
+  let boardId = req.params.id;
+
+  if (!username) {
+    res.status(STATUS_FORBIDDEN).json({message: 'Please login first!'});
+  } else {
+    boards.deleteBoardById(username, boardId, function(result) {
+      if (result === 'error' || !result || result.result.n === 0) {
+        res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      } else {
+        res.status(STATUS_OK).json({result: 'Delete board success!'});
+      }
+    });
+  }
+});
+
 app.use('/api', router);
 
 app.get(['/login', '/register', '/boards'], (req, res) => {
