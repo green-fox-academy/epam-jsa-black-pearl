@@ -5,7 +5,6 @@ import BoardNav from '../boardNav';
 import BoardList from '../boardList';
 import person from '../../../img/person.png';
 import $api from '../../api/api.json';
-import data from './data.json';
 
 const SUCCESSFUL_RESPONSE = /^20.$/;
 
@@ -13,14 +12,14 @@ class BoardScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: data.boards,
+      data: [],
       isAddBoardEditing: false,
       addBoardValue: '',
     };
   }
 
   componentDidMount() {
-    // this.sendGetHttpRequest();
+    this.sendGetHttpRequest();
   }
 
   formHttpGetRequest(path) {
@@ -46,7 +45,10 @@ class BoardScreen extends React.Component {
     let myRequest = new Request(path, {
       'method': 'POST',
       'headers': myHeaders,
-      'body': JSON.stringify({'boardname': this.state.addBoardValue}),
+      'body': JSON.stringify({
+        'boardname': this.state.addBoardValue,
+        'timestamp': (new Date()).getTime(),
+      }),
     });
 
     return myRequest;
