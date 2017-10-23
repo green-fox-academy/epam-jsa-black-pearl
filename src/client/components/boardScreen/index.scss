@@ -44,14 +44,14 @@ body {
     }
 
     &::-webkit-scrollbar-track {
-      background-color:#ddd;
+      background-color: #ddd;
       -webkit-border-radius: 2em;
       -moz-border-radius: 2em;
       border-radius: 2em;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color:#026AA7;
+      background-color: #026aa7;
       -webkit-border-radius: 2em;
       -moz-border-radius: 2em;
       border-radius: 2em;
@@ -85,8 +85,8 @@ body {
   cursor: pointer;
   font-family: Arial, Helvetica, sans-serif;
   height: 80px;
-  line-height: 80px;
   justify-content: space-between;
+  line-height: 80px;
   margin: 0 15px 12px 0;
   min-width: 270px;
   padding: 0 10px;
@@ -168,22 +168,22 @@ body {
     img {
       display: inline-block;
       height: 24px;
-      width: 24px;
       margin-right: 20px;
+      width: 24px;
     }
   }
 }
 
 .board-welcome-list {
-  background-color:rgb(75, 191, 107);
+  background-color: rgb(75, 191, 107);
   border: 0;
   border-radius: 5px;
   box-sizing: border-box;
   cursor: pointer;
   font-family: Arial, Helvetica, sans-serif;
   height: 80px;
-  line-height: 80px;
   justify-content: space-between;
+  line-height: 80px;
   margin: 0 15px 12px 0;
   min-width: 270px;
   padding: 0 10px;
@@ -192,7 +192,7 @@ body {
   width: 31%;
 
   &:hover {
-    background-color:rgb(62, 160, 88);
+    background-color: rgb(62, 160, 88);
   }
 
   p {

@@ -1,11 +1,11 @@
 .board-nav {
-  background-color: #026AA7;
+  background-color: #026aa7;
   box-sizing: border-box;
   display: flex;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 20px;
-  min-width: 768px;
   justify-content: space-between;
+  min-width: 768px;
   padding: 10px;
   width: 100%;
   
@@ -33,7 +33,7 @@
     }
 
     input {
-      background-color: rgba(255,255,255,.3);
+      background-color: rgba(255, 255, 255, .3);
       background-image: url('../../../img/nav/Loupe.png');
       background-position: 95% 50%;
       background-repeat: no-repeat;
@@ -71,7 +71,7 @@
   }
 
   a {
-    background-color: rgba(255,255,255,.3);
+    background-color: rgba(255, 255, 255, .3);
     background-image: url('../../../img/nav/logout.png');
     background-position: 50% 50%;
     background-repeat: no-repeat;
@@ -80,11 +80,11 @@
     border-radius: 5px;
     cursor: pointer;
     height: 28px;
-    transition:all .2s ease-in 0s;
+    transition: all .2s ease-in 0s;
     width: 28px;
 
     &:hover {
-      background-color: rgba(255,255,255,.5);
+      background-color: rgba(255, 255, 255, .5);
     }
   }
 }
