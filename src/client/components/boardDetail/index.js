@@ -67,11 +67,14 @@ class BoardDetail extends React.Component {
   generateBoardColumn() {
     let boardDisplay = [];
 
-    this.state.data.columns.forEach(function(element) {
-      boardDisplay.push(
-        <BoardColumn column={element} key={element._id} />
-      );
-    }, this);
+    if (Object.prototype.toString.call(this.state.data.columns)
+      === '[object Array]') {
+      this.state.data.columns.forEach(function(element) {
+        boardDisplay.push(
+          <BoardColumn column={element} key={element._id} />
+        );
+      }, this);
+    }
 
     return boardDisplay;
   }
