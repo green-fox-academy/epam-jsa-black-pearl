@@ -31,14 +31,17 @@ function idQuery(username, id) {
   }
 }
 
-function columnQuery(username, boardId, columnsId ) {
+function columnQuery(username, boardId) {
   try {
-    let boardId = new new mongodb.ObjectId(boardId);
-    let columnsId = new new mongodb.ObjectId(columnsId)
+    let findBoardId = new mongodb.ObjectId(boardId);
 
     return {
-      
-    }
+      'username': username,
+      '_id': findBoardId,
+      //  'columns.id': columnsId,
+    };
+  } catch (error) {
+    return null;
   }
 }
 
@@ -144,6 +147,26 @@ function deleteColumnId(username, boardId, columnsId, callback) {
     }
     console.log('Connection established to ' + url);
 
+    let query = columnQuery(username, boardId);
+
+    if (query !== null) {
+      database.collection('boards').findOne(query, function(err, result) {
+        result.columns.map(function(e, i) {
+          if (e.id === columnsId) {
+            result.columns = result.columns.splice(i+1, 1);
+            return callback(result);
+          }
+          return callback('notFind');
+        });
+        database.close();
+        if (err) {
+          return callback('error');
+        }
+        callback(result);
+      });
+    } else {
+      return callback('notFind');
+    }
   });
 }
 

@@ -28,7 +28,6 @@ const NO_BOARD_MESSAGE = 'No such board found!';
 const DELETE_BOARD_MESSAGE = 'Delete board success!';
 const NO_INFO = 0;
 
-
 app.use(express.static(path.resolve(__dirname, '../../dist')));
 app.use(bodyParser.json());
 
@@ -136,6 +135,26 @@ router.delete('/boards/:id', function(req, res) {
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else if (result === 'notFind' || result.result.n === NO_INFO) {
+        res.json({message: NO_BOARD_MESSAGE});
+      } else {
+        res.status(STATUS_OK).json({message: DELETE_BOARD_MESSAGE});
+      }
+    });
+  }
+});
+
+router.delete('/boards/:id/columns/:columsid', function(req, res) {
+  let username = jwtVerify(req.headers.token);
+  let boardId = req.params.id;
+  let columnsId = req.params.columsid;
+
+  if (!username) {
+    res.status(STATUS_FORBIDDEN).json({message: LOGIN_MESSAGE});
+  } else {
+    boards.deleteColumnId(username, boardId, columnsId, function(result) {
+      if (result === 'error' || !result) {
+        res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      } else if (result === 'notFind') {
         res.json({message: NO_BOARD_MESSAGE});
       } else {
         res.status(STATUS_OK).json({message: DELETE_BOARD_MESSAGE});
