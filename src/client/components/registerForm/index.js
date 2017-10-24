@@ -9,7 +9,7 @@ import $api from '../../api/api.json';
 
 const MIN_PASSWORD_LENGTH = 6;
 const ANIMATION_SHAKING_DURATION = 250;
-const SUCCESSFUL_RESPONSE = /^20.$/;
+const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
 const CONFLICT_RESPONSE = 409;
 
 class RegisterForm extends React.Component {
