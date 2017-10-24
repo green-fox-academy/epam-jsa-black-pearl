@@ -1,4 +1,5 @@
 import React from 'react';
+import {Redirect} from 'react-router';
 
 import './index.scss';
 import menuNavigation from '../../../img/nav/menunavigation.png';
