@@ -23,6 +23,11 @@ const STATUS_FORBIDDEN = 403;
 const CONFLICT = 409;
 const forbiddenMessage = 'User does not exists or bad credential!';
 const SERVER_ERROR_MESSAGE = 'Something went wrong!';
+const LOGIN_MESSAGE = 'Please login first!';
+const NO_BOARD_MESSAGE = 'No such board found!';
+const DELETE_BOARD_MESSAGE = 'Delete board success!';
+const NO_INFO = 0;
+
 
 app.use(express.static(path.resolve(__dirname, '../../dist')));
 app.use(bodyParser.json());
@@ -115,6 +120,25 @@ router.post('/boards', function(req, res) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else {
         res.status(STATUS_OK).json({result: 'Add new board success!'});
+      }
+    });
+  }
+});
+
+router.delete('/boards/:id', function(req, res) {
+  let username = jwtVerify(req.headers.token);
+  let boardId = req.params.id;
+
+  if (!username) {
+    res.status(STATUS_FORBIDDEN).json({message: LOGIN_MESSAGE});
+  } else {
+    boards.deleteboardId(username, boardId, function(result) {
+      if (result === 'error' || !result) {
+        res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      } else if (result === 'notFind' || result.result.n === NO_INFO) {
+        res.json({message: NO_BOARD_MESSAGE});
+      } else {
+        res.status(STATUS_OK).json({message: DELETE_BOARD_MESSAGE});
       }
     });
   }
