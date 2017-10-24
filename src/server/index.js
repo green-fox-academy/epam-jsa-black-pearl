@@ -29,6 +29,8 @@ const CONTENT_TYPE_ERROR_MESSAGE = 'Content type error!';
 const MISSING_FIELD_MESSAGE = 'Missing field(s)!';
 const NO_BOARD_MESSAGE = 'No such board found!';
 const DELETE_BOARD_MESSAGE = 'Delete board success!';
+const NO_COLUMN_MESSAGE = 'No such board found!';
+const DELETE_COLUMN_MESSAGE = 'Delete column success!';
 const NO_INFO = 0;
 
 app.use(express.static(path.resolve(__dirname, '../../dist')));
@@ -183,9 +185,9 @@ router.put('/boards/:id/columns/:columsid', function(req, res) {
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else if (result === 'notFind') {
-        res.json({message: NO_BOARD_MESSAGE});
+        res.status(NOT_FOUND).json({message: NO_COLUMN_MESSAGE});
       } else {
-        res.status(STATUS_OK).json({message: DELETE_BOARD_MESSAGE});
+        res.status(STATUS_OK).json({message: DELETE_COLUMN_MESSAGE});
       }
     });
   }
