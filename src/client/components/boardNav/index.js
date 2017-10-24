@@ -1,5 +1,5 @@
 import React from 'react';
-import {Redirect} from 'react-router';
+import {Redirect, Link} from 'react-router-dom';
 
 import './index.scss';
 import menuNavigation from '../../../img/nav/menunavigation.png';
@@ -17,10 +17,6 @@ class Board extends React.Component {
     this.setState({isLoggedIn: false});
   }
 
-  redirectHome() {
-    window.location.href = '/boards';
-  }
-
   render() {
     if (!this.state.isLoggedIn) {
       return (
@@ -31,11 +27,12 @@ class Board extends React.Component {
       <nav className="board-nav">
         <div className="nav-item">
           <div className="nav-left">
-            <div className="nav-button"
-              onClick={this.redirectHome.bind(this)}>
-              <div><img src={menuNavigation} alt="navicon" /></div>
-              <p>home</p>
-            </div>
+            <Link to="/boards">
+              <div className="nav-button">
+                <div><img src={menuNavigation} alt="navicon" /></div>
+                <p>home</p>
+              </div>
+            </Link>
             <input className="searchBar" required
               type="text" name="searchBar" />
           </div>
