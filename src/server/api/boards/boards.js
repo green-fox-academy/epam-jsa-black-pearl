@@ -38,14 +38,15 @@ function idQuery(username, id) {
   }
 }
 
-function columnQuery(username, boardId) {
+function columnQuery(username, boardId, columnsId) {
   try {
     let findBoardId = new mongodb.ObjectId(boardId);
+    let findcolumnsId = new mongodb.ObjectId(columnsId)
 
     return {
       'username': username,
       '_id': findBoardId,
-      // 'columns.id': columnsId,
+      'columns._id': findcolumnsId,
     };
   } catch (error) {
     return null;
@@ -119,7 +120,6 @@ function getBoardById(username, boardId, callback) {
       return callback('notFound');
     }
     database.collection('boards').findOne(query, field, function(err, result) {
-      console.log(result);
       database.close();
       if (err) {
         return callback('error');
@@ -181,22 +181,22 @@ function deleteColumnId(username, boardId, columnsId, callback) {
       return callback('error');
     }
     console.log('Connection established to ' + url);
-
     let query = idQuery(username, boardId);
 
     if (!query) {
       return callback('notFound');
     }
     database.collection('boards').findOne(query, function(err, result) {
+      console.log(result.columns);
       result.columns.forEach(function(e, i) {
-        if (e.id === columnsId) {
-          result.columns = result.columns.splice(i-1, 1);
-          console.log(result.columns);
-          console.log(result);
-          database.collection('boards').update(query, {$set: {'columns': result.columns}});
-          console.log();
+        if (e._id === columnsId) {
+          console.log('same: ', e._id, i);
+          let newColumns = result.columns.splice(i+1, 1);
+
+          console.log(newColumns);
+          // console.log(result);
+          // database.collection('boards').update(query, {$set: {'columns': result.columns}});
         }
-        //  return callback('notFound');
       });
       database.close();
       if (err) {
