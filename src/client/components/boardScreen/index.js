@@ -92,7 +92,7 @@ class BoardScreen extends React.Component {
           boardDate={element.timestamp}
           boardName={element.boardname}
           showBoardDetail={this.showBoardDetail.bind(this, element._id)}
-          deleteBoard={this.deleteBoard}
+          deleteBoard={this.deleteBoard.bind(this)}
           key={element._id}
         />
       );
