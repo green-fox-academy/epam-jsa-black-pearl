@@ -50,6 +50,11 @@
   text-decoration: none;
   width: calc(100% / 3);
 
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+
   &:last-child {
     display: flex;
     justify-content: flex-end;
