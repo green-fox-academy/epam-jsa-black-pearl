@@ -27,7 +27,8 @@ class BoardDetail extends React.Component {
   }
 
   addColumn() {
-    sendPostHttpRequest($api.boards + '/' + this.props.match.params.id)
+    sendPostHttpRequest($api.boards + '/' +
+      this.props.match.params.id + '/columns')
       .then((res) => {
         if (SUCCESSFUL_RESPONSE.test(res.status)) {
           sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
