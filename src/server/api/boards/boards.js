@@ -137,7 +137,7 @@ function deleteboardId(username, boardId, callback) {
 
 function createNewColumn(request, username, boardId, callback) {
   getBoardById(username, boardId, function(board) {
-    if (board === 'error' || !board) {
+    if (board === 'notFound' || !board) {
       return callback('notFound');
     } else if (board === 'error') {
       return callback('error');

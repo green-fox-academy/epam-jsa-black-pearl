@@ -21,6 +21,7 @@ const STATUS_OK = 200;
 const INTERNAL_SERVER_ERROR = 500;
 const STATUS_FORBIDDEN = 403;
 const CONFLICT = 409;
+const NOT_FOUND = 404;
 const forbiddenMessage = 'User does not exists or bad credential!';
 const SERVER_ERROR_MESSAGE = 'Something went wrong!';
 const NOT_LOGIN_MESSAGE = 'Please login first!';
@@ -83,7 +84,7 @@ router.get('/boards', function(req, res) {
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else {
-        res.json({'boards': result});
+        res.status(STATUS_OK).json({'boards': result});
       }
     });
   }
@@ -100,9 +101,9 @@ router.get('/boards/:id', function(req, res) {
       if (result === 'error') {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else if (result === 'notFound' || !result) {
-        res.json({message: NO_BOARD_MESSAGE});
+        res.status(NOT_FOUND).json({message: NO_BOARD_MESSAGE});
       } else {
-        res.json(result);
+        res.status(STATUS_OK).json(result);
       }
     });
   }
@@ -143,7 +144,7 @@ router.post('/boards/:id/columns', function(req, res) {
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else if (result === 'notFound') {
-        res.json({message: NO_BOARD_MESSAGE});
+        res.status(NOT_FOUND).json({message: NO_BOARD_MESSAGE});
       } else {
         res.status(STATUS_OK).json({message: 'Add new column success!'});
       }
@@ -162,7 +163,7 @@ router.delete('/boards/:id', function(req, res) {
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else if (result === 'notFound' || result.result.n === NO_INFO) {
-        res.json({message: NO_BOARD_MESSAGE});
+        res.status(NOT_FOUND).json({message: NO_BOARD_MESSAGE});
       } else {
         res.status(STATUS_OK).json({message: DELETE_BOARD_MESSAGE});
       }
