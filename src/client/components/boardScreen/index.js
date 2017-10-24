@@ -31,10 +31,7 @@ class BoardScreen extends React.Component {
     if (!this.state.addBoardValue) {
       return;
     }
-    let reqObj = {
-      'boardname': this.state.addBoardValue,
-      'timestamp': (new Date()).getTime(),
-    };
+    let reqObj = {'boardname': this.state.addBoardValue};
 
     sendPostHttpRequest($api.boards, reqObj)
       .then((res) => {

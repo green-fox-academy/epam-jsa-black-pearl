@@ -10,7 +10,7 @@ function createInsertQuery(request, username) {
   return {
     'username': username,
     'boardname': request.boardname,
-    'timestamp': request.timestamp,
+    'timestamp': (new Date()).getTime(),
   };
 }
 
