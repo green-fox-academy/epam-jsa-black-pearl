@@ -31,6 +31,17 @@ function idQuery(username, id) {
   }
 }
 
+function columnQuery(username, boardId, columnsId ) {
+  try {
+    let boardId = new new mongodb.ObjectId(boardId);
+    let columnsId = new new mongodb.ObjectId(columnsId)
+
+    return {
+      
+    }
+  }
+}
+
 function boardIdFilter() {
   return {
     '_id': 1,
@@ -126,9 +137,20 @@ function deleteboardId(username, boardId, callback) {
   });
 }
 
+function deleteColumnId(username, boardId, columnsId, callback) {
+  MongoClient.connect(url, function(err, database) {
+    if (err) {
+      return callback('error');
+    }
+    console.log('Connection established to ' + url);
+
+  });
+}
+
 module.exports = {
   'createNewBoard': createNewBoard,
   'getBoardsByUser': getBoardsByUser,
   'getBoardById': getBoardById,
   'deleteboardId': deleteboardId,
+  'deleteColumnId': deleteColumnId,
 };
