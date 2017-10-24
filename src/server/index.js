@@ -120,6 +120,12 @@ router.post('/boards', function(req, res) {
   }
 });
 
+router.post('/boards/:id/columns', function(req, res) {
+  let username = jwtVerify(req.headers.token);
+
+  
+});
+
 app.use('/api', router);
 
 app.get(['/login', '/register', '/boards'], (req, res) => {
