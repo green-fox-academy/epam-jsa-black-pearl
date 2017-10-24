@@ -10,12 +10,19 @@ function createInsertQuery(request, username) {
   return {
     'username': username,
     'boardname': request.boardname,
-    'timestamp': request.timestamp,
+    'timestamp': (new Date()).getTime(),
   };
 }
 
 function createFindQuery(username) {
   return {'username': username};
+}
+
+function createNewColumnQuery(request) {
+  return {
+    '_id': new mongodb.ObjectId(),
+    'columnName': request.columnName,
+  };
 }
 
 function idQuery(username, id) {
@@ -108,6 +115,9 @@ function getBoardById(username, boardId, callback) {
     let query = idQuery(username, boardId);
     let field = boardIdFilter();
 
+    if (!query) {
+      return callback('notFound');
+    }
     database.collection('boards').findOne(query, field, function(err, result) {
       database.close();
       if (err) {
@@ -126,17 +136,41 @@ function deleteboardId(username, boardId, callback) {
     console.log('Connection established to ' + url);
     let query = idQuery(username, boardId);
 
-    if (query !== null) {
-      database.collection('boards').remove(query, function(err, result) {
-        database.close();
-        if (err) {
-          return callback('error');
-        }
-        callback(result);
-      });
-    } else {
-      return callback('notFind');
+    if (!query) {
+      return callback('notFound');
     }
+    database.collection('boards').remove(query, function(err, result) {
+      database.close();
+      if (err) {
+        return callback('error');
+      }
+      callback(result);
+    });
+  });
+}
+
+function createNewColumn(request, username, boardId, callback) {
+  getBoardById(username, boardId, function(board) {
+    if (board === 'notFound' || !board) {
+      return callback('notFound');
+    } else if (board === 'error') {
+      return callback('error');
+    }
+    let newBoard = createNewColumnQuery(request);
+
+    MongoClient.connect(url, function(err, database) {
+      if (err) {
+        return callback('error');
+      }
+      database.collection('boards').update(board,
+        {$push: {'columns': newBoard}}, function(err, result) {
+          database.close();
+          if (err || !result.result.nModified) {
+            return callback('error');
+          }
+          return callback('updated');
+        });
+    });
   });
 }
 
@@ -175,5 +209,9 @@ module.exports = {
   'getBoardsByUser': getBoardsByUser,
   'getBoardById': getBoardById,
   'deleteboardId': deleteboardId,
+<<<<<<< HEAD
   'deleteColumnId': deleteColumnId,
+=======
+  'createNewColumn': createNewColumn,
+>>>>>>> develop
 };

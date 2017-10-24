@@ -3,7 +3,11 @@ import React from 'react';
 import BoardNav from '../boardNav';
 import BoardColumn from '../boardColumn';
 import $api from '../../api/api.json';
+import {sendGetHttpRequest, sendPostHttpRequest}
+  from '../../controller/httpRequest.js';
 import './index.scss';
+
+const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
 
 class BoardDetail extends React.Component {
   constructor(props) {
@@ -16,49 +20,27 @@ class BoardDetail extends React.Component {
   }
 
   componentWillMount() {
-    this.sendGetHttpRequest();
-  }
-
-  formHttpGetRequest(path) {
-    let httpHeaders = {
-      'Content-Type': 'application/json',
-      'token': localStorage.token,
-    };
-    let myHeaders = new Headers(httpHeaders);
-    let myRequest = new Request(path, {
-      'method': 'GET',
-      'headers': myHeaders,
-    });
-
-    return myRequest;
-  }
-
-  sendGetHttpRequest() {
-    let that = this;
-    let id = this.props.match.params.id;
-
-    fetch(that.formHttpGetRequest($api.boards + '/' + id))
-      .then(function(res) {
-        return res.json();
-      })
-      .then(function(result) {
-        that.setState({data: result});
+    sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+      .then((result) => {
+        this.setState({data: result});
       });
   }
 
   addColumn() {
-    let tempColumns = this.state.data.columns;
+    let reqObj = {columnname: this.state.addColumnTitleValuea};
 
-    let id = Date.now();
-
-    tempColumns.columns.push({
-      'id': id,
-      'columnTitle': this.state.addColumnTitleValue,
-      'events': [],
-    });
+    sendPostHttpRequest($api.boards + '/' +
+      this.props.match.params.id + '/columns', reqObj)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+            .then((result) => {
+              this.setState({data: result});
+            });
+        }
+      });
 
     this.setState({
-      data: tempColumns,
       addColumnTitleValue: '',
       isAddColumnTitleEditing: false,
     });
