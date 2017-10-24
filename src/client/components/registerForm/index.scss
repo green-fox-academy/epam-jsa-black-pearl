@@ -1,4 +1,5 @@
-$light-orange: #fdbd39;
+$forgiveness: #4bbf6b;
+$theme-bule: #026aa7;
 
 @mixin register-button {
   border-radius: 25px;
@@ -30,7 +31,7 @@ $light-orange: #fdbd39;
   }
 
   input {
-    background-color: $light-orange;
+    background-color: $forgiveness;
     border: 0;
     color: #fff;
     cursor: pointer;
@@ -55,7 +56,7 @@ $light-orange: #fdbd39;
   }
 
   input:focus {
-    border-bottom: 1px solid $light-orange;
+    border-bottom: 1px solid $theme-bule;
     outline: none;
   }
 }
@@ -68,7 +69,7 @@ $light-orange: #fdbd39;
 
 .loading-input {
   align-items: center;
-  background-color: #4168df;
+  background-color: $theme-bule;
   cursor: not-allowed;
   display: flex;
   justify-content: center;

@@ -10,6 +10,7 @@ function createInsertQuery(request, username) {
   return {
     'username': username,
     'boardname': request.boardname,
+    'timestamp': (new Date()).getTime(),
   };
 }
 
@@ -17,11 +18,24 @@ function createFindQuery(username) {
   return {'username': username};
 }
 
-function idQuery(username, id) {
+function createNewColumnQuery(request) {
   return {
-    'username': username,
-    '_id': id,
+    '_id': new mongodb.ObjectId(),
+    'columnName': request.columnName,
   };
+}
+
+function idQuery(username, id) {
+  try {
+    let mongoId = new mongodb.ObjectId(id);
+
+    return {
+      'username': username,
+      '_id': mongoId,
+    };
+  } catch (error) {
+    return null;
+  }
 }
 
 function boardIdFilter() {
@@ -36,6 +50,7 @@ function createFieldsFilter() {
   return {
     'username': 1,
     'boardname': 1,
+    'timestamp': 1,
   };
 }
 
@@ -83,9 +98,12 @@ function getBoardById(username, boardId, callback) {
       return callback('error');
     }
     console.log('Connection established to ' + url);
-    let query = idQuery(username, new mongodb.ObjectId(boardId));
+    let query = idQuery(username, boardId);
     let field = boardIdFilter();
 
+    if (!query) {
+      return callback('notFound');
+    }
     database.collection('boards').findOne(query, field, function(err, result) {
       database.close();
       if (err) {
@@ -96,8 +114,56 @@ function getBoardById(username, boardId, callback) {
   });
 }
 
+function deleteboardId(username, boardId, callback) {
+  MongoClient.connect(url, function(err, database) {
+    if (err) {
+      return callback('error');
+    }
+    console.log('Connection established to ' + url);
+    let query = idQuery(username, boardId);
+
+    if (!query) {
+      return callback('notFound');
+    }
+    database.collection('boards').remove(query, function(err, result) {
+      database.close();
+      if (err) {
+        return callback('error');
+      }
+      callback(result);
+    });
+  });
+}
+
+function createNewColumn(request, username, boardId, callback) {
+  getBoardById(username, boardId, function(board) {
+    if (board === 'notFound' || !board) {
+      return callback('notFound');
+    } else if (board === 'error') {
+      return callback('error');
+    }
+    let newBoard = createNewColumnQuery(request);
+
+    MongoClient.connect(url, function(err, database) {
+      if (err) {
+        return callback('error');
+      }
+      database.collection('boards').update(board,
+        {$push: {'columns': newBoard}}, function(err, result) {
+          database.close();
+          if (err || !result.result.nModified) {
+            return callback('error');
+          }
+          return callback('updated');
+        });
+    });
+  });
+}
+
 module.exports = {
   'createNewBoard': createNewBoard,
   'getBoardsByUser': getBoardsByUser,
   'getBoardById': getBoardById,
+  'deleteboardId': deleteboardId,
+  'createNewColumn': createNewColumn,
 };

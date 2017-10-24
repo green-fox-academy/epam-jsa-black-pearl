@@ -23,7 +23,7 @@ module.exports = {
     'max-lines': ['error', 200],
     'max-nested-callbacks': ['error', 3],
     'max-params': ['error', 5],
-    'max-statements': ['error', 5, {'ignoreTopLevelFunctions': true}],
+    'max-statements': ['error', 10, {'ignoreTopLevelFunctions': true}],
     'no-else-return': 'error',
     'no-empty-function': 'error',
     'no-implicit-globals': 'error',

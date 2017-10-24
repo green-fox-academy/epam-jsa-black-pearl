@@ -2,36 +2,45 @@ import React from 'react';
 
 import BoardNav from '../boardNav';
 import BoardColumn from '../boardColumn';
-import data from '../boardScreen/data.json';
+import $api from '../../api/api.json';
+import {sendGetHttpRequest, sendPostHttpRequest}
+  from '../../controller/httpRequest.js';
 import './index.scss';
+
+const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
 
 class BoardDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
+      data: {columns: []},
       isAddColumnTitleEditing: false,
       addColumnTitleValue: '',
     };
   }
 
   componentWillMount() {
-    this.setState({data: data});
+    sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+      .then((result) => {
+        this.setState({data: result});
+      });
   }
 
   addColumn() {
-    let json = this.state.data;
+    let reqObj = {columnname: this.state.addColumnTitleValuea};
 
-    let id = Date.now();
-
-    json[0].columns.push({
-      'id': id,
-      'columnTitle': this.state.addColumnTitleValue,
-      'events': [],
-    });
+    sendPostHttpRequest($api.boards + '/' +
+      this.props.match.params.id + '/columns', reqObj)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+            .then((result) => {
+              this.setState({data: result});
+            });
+        }
+      });
 
     this.setState({
-      data: json,
       addColumnTitleValue: '',
       isAddColumnTitleEditing: false,
     });
@@ -40,11 +49,13 @@ class BoardDetail extends React.Component {
   generateBoardColumn() {
     let boardDisplay = [];
 
-    this.state.data[0].columns.forEach(function(element) {
-      boardDisplay.push(
-        <BoardColumn column={element} key={element.id} />
-      );
-    }, this);
+    if (Array.isArray(this.state.data.columns)) {
+      this.state.data.columns.forEach(function(element) {
+        boardDisplay.push(
+          <BoardColumn column={element} key={element._id} />
+        );
+      }, this);
+    }
 
     return boardDisplay;
   }
@@ -54,14 +65,14 @@ class BoardDetail extends React.Component {
 
     if (!this.state.isAddColumnTitleEditing) {
       addColumn = (
-        <div className="column-header"
+        <div className="add-column"
           onClick={this.onChangeAddColumnTitleState.bind(this, true)}>
           Add A Column...
         </div>
       );
     } else {
       addColumn = (
-        <div className="column-header">
+        <div className="add-column">
           <input type="text"
             ref={(c) => {
               this.input = c;
@@ -104,15 +115,13 @@ class BoardDetail extends React.Component {
       <div className="board">
         <BoardNav />
         <div className="board-header">
-          <p><span className="board-name">{data[0].boardname}</span></p>
+          <p><span className="board-name">{this.state.data.boardname}</span></p>
         </div>
         <div className="board-main">
           {boardDisplay}
-          <div className="add-column">
-            <div className="board-column-wrapper">
-              <div className="board-column">
-                {addColumn}
-              </div>
+          <div className="board-column-wrapper">
+            <div className="board-column">
+              {addColumn}
             </div>
           </div>
         </div>

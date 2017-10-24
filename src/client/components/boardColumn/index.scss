@@ -7,8 +7,8 @@
 
   .board-column {
     background-color: #fff;
+    box-shadow: 0 1px 5px #ddd;
     font-family: Arial, Helvetica, sans-serif;
-    padding: 0 0 5px;
 
     p {
       margin: 0;
@@ -25,9 +25,11 @@
   padding: 0 10px;
 
   .edit-icon {
-    background-color: #000;
-    height: 40px;
-    width: 40px;
+    background-image: url('../../../img/edit.png');
+    background-size: 100%;
+    filter: contrast(2.5);
+    height: 28px;
+    width: 28px;
   }
   
   .column-card-count {
@@ -113,5 +115,24 @@
 
   &:hover {
     @include button-pseudo;
+  }
+}
+
+.add-card {
+  align-items: center;
+  background-color: #fafafa;
+  cursor: pointer;
+  display: flex;
+  height: 46px;
+  margin: 10px 0 0;
+  padding: 5px 10px;
+
+  &:hover {
+    background-color: #eee;
+  }
+
+  a {
+    color: #bbb;
+    font-size: 14px;
   }
 }
