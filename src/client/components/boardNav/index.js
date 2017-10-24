@@ -1,5 +1,4 @@
 import React from 'react';
-import {Redirect} from 'react-router';
 
 import './index.scss';
 import menuNavigation from '../../../img/nav/menunavigation.png';
@@ -11,6 +10,16 @@ class Board extends React.Component {
     super(props);
     this.state = {isLoggedIn: isLoggedIn()};
   }
+
+  logout() {
+    localStorage.token = '';
+    this.setState({isLoggedIn: false});
+  }
+
+  redirectHome() {
+    window.location.href = '/boards';
+  }
+
   render() {
     if (!this.state.isLoggedIn) {
       return (
@@ -21,7 +30,8 @@ class Board extends React.Component {
       <nav className="board-nav">
         <div className="nav-item">
           <div className="nav-left">
-            <div className="nav-button">
+            <div className="nav-button"
+              onClick={this.redirectHome.bind(this)}>
               <div><img src={menuNavigation} alt="navicon" /></div>
               <p>home</p>
             </div>
@@ -31,18 +41,14 @@ class Board extends React.Component {
         </div>
         <div className="nav-item"></div>
         <div className="nav-item">
-          <div className="nav-button">
+          <div className="nav-button"
+            onClick={this.logout.bind(this)}>
             <div><img src={logout} alt="navicon" /></div>
             <p>log out</p>
           </div>
         </div>
       </nav>
     );
-  }
-
-  logout() {
-    localStorage.token = '';
-    this.setState({isLoggedIn: false});
   }
 }
 
