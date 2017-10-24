@@ -5,8 +5,10 @@ import BoardNav from '../boardNav';
 import BoardList from '../boardList';
 import person from '../../../img/person.png';
 import $api from '../../api/api.json';
+import {sendGetHttpRequest, sendPostHttpRequest, sendDeleteHttpRequest}
+  from '../../controller/httpRequest.js';
 
-const SUCCESSFUL_RESPONSE = /^20.$/;
+const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
 
 class BoardScreen extends React.Component {
   constructor(props) {
@@ -19,71 +21,47 @@ class BoardScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.sendGetHttpRequest();
-  }
-
-  formHttpGetRequest(path) {
-    let httpHeaders = {
-      'Content-Type': 'application/json',
-      'token': localStorage.token,
-    };
-    let myHeaders = new Headers(httpHeaders);
-    let myRequest = new Request(path, {
-      'method': 'GET',
-      'headers': myHeaders,
-    });
-
-    return myRequest;
-  }
-
-  formHttpPostRequest(path) {
-    let httpHeaders = {
-      'Content-Type': 'application/json',
-      'token': localStorage.token,
-    };
-    let myHeaders = new Headers(httpHeaders);
-    let myRequest = new Request(path, {
-      'method': 'POST',
-      'headers': myHeaders,
-      'body': JSON.stringify({
-        'boardname': this.state.addBoardValue,
-        'timestamp': (new Date()).getTime(),
-      }),
-    });
-
-    return myRequest;
-  }
-
-  sendGetHttpRequest() {
-    let that = this;
-
-    fetch(that.formHttpGetRequest($api.boards)).then(function(res) {
-      return res.json();
-    }).then(function(result) {
-      that.setState({data: result.boards});
-    });
-  }
-
-  sendPostHttpRequest() {
-    let that = this;
-
-    fetch(that.formHttpPostRequest($api.boards)).then(function(res) {
-      if (SUCCESSFUL_RESPONSE.test(res.status)) {
-        that.sendGetHttpRequest();
-      }
-    });
+    sendGetHttpRequest($api.boards)
+      .then((result) => {
+        this.setState({data: result.boards});
+      });
   }
 
   addBoard() {
     if (!this.state.addBoardValue) {
       return;
     }
-    this.sendPostHttpRequest();
+    let reqObj = {
+      'boardname': this.state.addBoardValue,
+      'timestamp': (new Date()).getTime(),
+    };
+
+    sendPostHttpRequest($api.boards, reqObj)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards)
+            .then((result) => {
+              this.setState({data: result.boards});
+            });
+        }
+      });
 
     this.setState({
       isAddBoardEditing: false,
       addBoardValue: '',
     });
+  }
+
+  deleteBoard(id) {
+    sendDeleteHttpRequest($api.boards + '/' + id)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards)
+            .then((result) => {
+              this.setState({data: result.boards});
+            });
+        }
+      });
   }
 
   showBoardDetail(id) {
@@ -110,9 +88,11 @@ class BoardScreen extends React.Component {
     this.state.data.forEach(function(element) {
       list.push(
         <BoardList
+          boardId={element._id}
           boardDate={element.timestamp}
           boardName={element.boardname}
           showBoardDetail={this.showBoardDetail.bind(this, element._id)}
+          deleteBoard={this.deleteBoard}
           key={element._id}
         />
       );
@@ -179,8 +159,8 @@ class BoardScreen extends React.Component {
               <span>Personal Board</span>
             </p>
           </section>
-          {list}
           {welcomeList}
+          {list}
           {addList}
         </div>
       </div>

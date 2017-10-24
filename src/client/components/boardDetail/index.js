@@ -2,21 +2,48 @@ import React from 'react';
 
 import BoardNav from '../boardNav';
 import BoardColumn from '../boardColumn';
-import data from './columndata.json';
+import $api from '../../api/api.json';
 import './index.scss';
 
 class BoardDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
+      data: {columns: []},
       isAddColumnTitleEditing: false,
       addColumnTitleValue: '',
     };
   }
 
   componentWillMount() {
-    this.setState({data: data});
+    this.sendGetHttpRequest();
+  }
+
+  formHttpGetRequest(path) {
+    let httpHeaders = {
+      'Content-Type': 'application/json',
+      'token': localStorage.token,
+    };
+    let myHeaders = new Headers(httpHeaders);
+    let myRequest = new Request(path, {
+      'method': 'GET',
+      'headers': myHeaders,
+    });
+
+    return myRequest;
+  }
+
+  sendGetHttpRequest() {
+    let that = this;
+    let id = this.props.match.params.id;
+
+    fetch(that.formHttpGetRequest($api.boards + '/' + id))
+      .then(function(res) {
+        return res.json();
+      })
+      .then(function(result) {
+        that.setState({data: result});
+      });
   }
 
   addColumn() {
@@ -40,11 +67,13 @@ class BoardDetail extends React.Component {
   generateBoardColumn() {
     let boardDisplay = [];
 
-    this.state.data.columns.forEach(function(element) {
-      boardDisplay.push(
-        <BoardColumn column={element} key={element._id} />
-      );
-    }, this);
+    if (Array.isArray(this.state.data.columns)) {
+      this.state.data.columns.forEach(function(element) {
+        boardDisplay.push(
+          <BoardColumn column={element} key={element._id} />
+        );
+      }, this);
+    }
 
     return boardDisplay;
   }

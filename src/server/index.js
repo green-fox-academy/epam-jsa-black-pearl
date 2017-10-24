@@ -143,7 +143,7 @@ router.delete('/boards/:id', function(req, res) {
 
 app.use('/api', router);
 
-app.get(['/login', '/register', '/boards'], (req, res) => {
+app.get(['/login', '/register', '/boards', '/boards/:id'], (req, res) => {
   res.sendFile('index.html', {root: path.join(__dirname, '../../dist')});
 });
 
