@@ -3,6 +3,7 @@ import {Redirect} from 'react-router';
 
 import './index.scss';
 import menuNavigation from '../../../img/nav/menunavigation.png';
+import logout from '../../../img/nav/logout.png';
 import isLoggedIn from '../../controller/isLoggedIn';
 
 class Board extends React.Component {
@@ -20,15 +21,20 @@ class Board extends React.Component {
       <nav className="board-nav">
         <div className="nav-item">
           <div className="nav-left">
-            <img src={menuNavigation} alt="navicon" />
-            <p>board</p>
+            <div className="nav-button">
+              <div><img src={menuNavigation} alt="navicon" /></div>
+              <p>home</p>
+            </div>
             <input className="searchBar" required
               type="text" name="searchBar" />
           </div>
         </div>
         <div className="nav-item"></div>
-        <div className="nav-item" title="Log Out">
-          <a onClick={this.logout.bind(this)}></a>
+        <div className="nav-item">
+          <div className="nav-button">
+            <div><img src={logout} alt="navicon" /></div>
+            <p>log out</p>
+          </div>
         </div>
       </nav>
     );
