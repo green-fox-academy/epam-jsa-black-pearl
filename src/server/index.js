@@ -97,7 +97,6 @@ router.get('/boards/:id', function(req, res) {
     res.status(STATUS_FORBIDDEN).json({message: NOT_LOGIN_MESSAGE});
   } else {
     boards.getBoardById(username, boardId, function(result) {
-      console.log(result);
       if (result === 'error') {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else if (result === 'notFound' || !result) {

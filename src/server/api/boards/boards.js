@@ -144,7 +144,6 @@ function createNewColumn(request, username, boardId, callback) {
     }
     let newBoard = createNewColumnQuery(request);
 
-    console.log(newBoard);
     MongoClient.connect(url, function(err, database) {
       if (err) {
         return callback('error');
