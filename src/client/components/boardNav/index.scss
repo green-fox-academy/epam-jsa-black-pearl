@@ -75,15 +75,15 @@
   cursor: pointer;
   display: flex;
   height: 30px;
+  max-width: 30px;
   overflow: hidden;
   transition: all .3s ease-in 0s;
-  max-width: 30px;
 
   p {
     color: #fff;
     overflow: hidden;
-    text-transform: uppercase;
     text-overflow: clip;
+    text-transform: uppercase;
     white-space: nowrap;
   }
 
