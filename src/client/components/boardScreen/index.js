@@ -53,7 +53,7 @@ class BoardScreen extends React.Component {
   }
 
   deleteBoard(id) {
-    /* sendDeleteHttpRequest($api.boards + '/' + id)
+    sendDeleteHttpRequest($api.boards + '/' + id)
       .then((res) => {
         if (SUCCESSFUL_RESPONSE.test(res.status)) {
           sendGetHttpRequest($api.boards)
@@ -61,8 +61,7 @@ class BoardScreen extends React.Component {
               this.setState({data: result.boards});
             });
         }
-      }); */
-    console.log(id);
+      });
   }
 
   showBoardDetail(id) {
