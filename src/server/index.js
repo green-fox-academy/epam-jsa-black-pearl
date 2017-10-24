@@ -23,6 +23,8 @@ const STATUS_FORBIDDEN = 403;
 const CONFLICT = 409;
 const forbiddenMessage = 'User does not exists or bad credential!';
 const SERVER_ERROR_MESSAGE = 'Something went wrong!';
+const LOGIN = 'Please login first!';
+const NO_INFO = 0;
 
 app.use(express.static(path.resolve(__dirname, '../../dist')));
 app.use(bodyParser.json());
@@ -71,7 +73,7 @@ router.get('/boards', function(req, res) {
   let username = jwtVerify(req.headers.token);
 
   if (!username) {
-    res.status(STATUS_FORBIDDEN).json({message: 'Please login first!'});
+    res.status(STATUS_FORBIDDEN).json({message: LOGIN});
   } else {
     boards.getBoardsByUser(username, function(result) {
       if (result === 'error' || !result) {
@@ -128,10 +130,12 @@ router.delete('/boards/:id', function(req, res) {
     res.status(STATUS_FORBIDDEN).json({message: 'Please login first!'});
   } else {
     boards.deleteboardId(username, boardId, function(result) {
-      if (result === 'error' || !result || result.result.n === 0) {
+      if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      } else if (result === 'notFind' || result.result.n === NO_INFO) {
+        res.json({message: 'No such board found!'});
       } else {
-        res.status(STATUS_OK).json({message: SERVER_ERROR_MESSAGE});
+        res.status(STATUS_OK).json({message: 'Delete board success!'});
       }
     });
   }

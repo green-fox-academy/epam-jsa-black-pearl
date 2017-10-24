@@ -27,10 +27,7 @@ function idQuery(username, id) {
       '_id': mongoId,
     };
   } catch (error) {
-    return {
-      'username': username,
-      '_id': null,
-    };
+    return null;
   }
 }
 
@@ -115,13 +112,17 @@ function deleteboardId(username, boardId, callback) {
     console.log('Connection established to ' + url);
     let query = idQuery(username, boardId);
 
-    database.collection('boards').remove(query, function(err, result) {
-      database.close();
-      if (err) {
-        return callback('error');
-      }
-      callback(result);
-    });
+    if (query !== null) {
+      database.collection('boards').remove(query, function(err, result) {
+        database.close();
+        if (err) {
+          return callback('error');
+        }
+        callback(result);
+      });
+    } else {
+      return callback('notFind');
+    }
   });
 }
 
