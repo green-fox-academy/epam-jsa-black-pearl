@@ -209,9 +209,6 @@ module.exports = {
   'getBoardsByUser': getBoardsByUser,
   'getBoardById': getBoardById,
   'deleteboardId': deleteboardId,
-<<<<<<< HEAD
   'deleteColumnId': deleteColumnId,
-=======
   'createNewColumn': createNewColumn,
->>>>>>> develop
 };
