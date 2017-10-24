@@ -8,7 +8,7 @@ import $api from '../../api/api.json';
 import {sendGetHttpRequest, sendPostHttpRequest, sendDeleteHttpRequest}
   from '../../controller/httpRequest.js';
 
-const SUCCESSFUL_RESPONSE = /^20.$/;
+const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
 
 class BoardScreen extends React.Component {
   constructor(props) {
