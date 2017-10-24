@@ -171,13 +171,13 @@ router.delete('/boards/:id', function(req, res) {
   }
 });
 
-router.delete('/boards/:id/columns/:columsid', function(req, res) {
+router.put('/boards/:id/columns/:columsid', function(req, res) {
   let username = jwtVerify(req.headers.token);
   let boardId = req.params.id;
   let columnsId = req.params.columsid;
 
   if (!username) {
-    res.status(STATUS_FORBIDDEN).json({message: LOGIN_MESSAGE});
+    res.status(STATUS_FORBIDDEN).json({message: NOT_LOGIN_MESSAGE});
   } else {
     boards.deleteColumnId(username, boardId, columnsId, function(result) {
       if (result === 'error' || !result) {

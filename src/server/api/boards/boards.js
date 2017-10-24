@@ -45,7 +45,7 @@ function columnQuery(username, boardId) {
     return {
       'username': username,
       '_id': findBoardId,
-      //  'columns.id': columnsId,
+      // 'columns.id': columnsId,
     };
   } catch (error) {
     return null;
@@ -119,6 +119,7 @@ function getBoardById(username, boardId, callback) {
       return callback('notFound');
     }
     database.collection('boards').findOne(query, field, function(err, result) {
+      console.log(result);
       database.close();
       if (err) {
         return callback('error');
@@ -181,26 +182,28 @@ function deleteColumnId(username, boardId, columnsId, callback) {
     }
     console.log('Connection established to ' + url);
 
-    let query = columnQuery(username, boardId);
+    let query = idQuery(username, boardId);
 
-    if (query !== null) {
-      database.collection('boards').findOne(query, function(err, result) {
-        result.columns.map(function(e, i) {
-          if (e.id === columnsId) {
-            result.columns = result.columns.splice(i+1, 1);
-            return callback(result);
-          }
-          return callback('notFind');
-        });
-        database.close();
-        if (err) {
-          return callback('error');
-        }
-        callback(result);
-      });
-    } else {
-      return callback('notFind');
+    if (!query) {
+      return callback('notFound');
     }
+    database.collection('boards').findOne(query, function(err, result) {
+      result.columns.forEach(function(e, i) {
+        if (e.id === columnsId) {
+          result.columns = result.columns.splice(i-1, 1);
+          console.log(result.columns);
+          console.log(result);
+          database.collection('boards').update(query, {$set: {'columns': result.columns}});
+          console.log();
+        }
+        //  return callback('notFound');
+      });
+      database.close();
+      if (err) {
+        return callback('error');
+      }
+      callback(result);
+    });
   });
 }
 
