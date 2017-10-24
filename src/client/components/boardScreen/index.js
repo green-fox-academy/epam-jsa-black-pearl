@@ -153,7 +153,7 @@ class BoardScreen extends React.Component {
           <section className="personal-board">
             <p>
               <img src={person} alt="icon" />
-              <span>Personal Board</span>
+              <span>Personal Boards</span>
             </p>
           </section>
           {welcomeList}
