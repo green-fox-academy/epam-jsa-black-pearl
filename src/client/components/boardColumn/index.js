@@ -54,6 +54,7 @@ class List extends React.Component {
               <Menu
                 columnId={this.props.column._id}
                 closeDropDownMenu={this.closeDropDownMenu.bind(this)}
+                deleteColumn={this.props.deleteColumn}
                 isEditing={this.state.isEditing} /> :
               null}
           </div>
