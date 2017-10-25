@@ -29,7 +29,7 @@ const CONTENT_TYPE_ERROR_MESSAGE = 'Content type error!';
 const MISSING_FIELD_MESSAGE = 'Missing field(s)!';
 const NO_BOARD_MESSAGE = 'No such board found!';
 const DELETE_BOARD_MESSAGE = 'Delete board success!';
-const NO_COLUMN_MESSAGE = 'No such board found!';
+const NO_COLUMN_MESSAGE = 'No such columns found!';
 const DELETE_COLUMN_MESSAGE = 'Delete column success!';
 
 app.use(express.static(path.resolve(__dirname, '../../dist')));

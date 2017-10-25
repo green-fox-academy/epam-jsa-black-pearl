@@ -183,12 +183,14 @@ function deleteColumnId(username, boardId, columnsId, callback) {
     console.log('Connection established to ' + url);
     let query = columnQuery(username, boardId, columnsId);
 
-    console.log(query);
     if (!query) {
       return callback('notFound');
     }
     database.collection('boards').findOne(query, function(err, result) {
       console.log(result);
+      if (result === null) {
+        return callback('notFound');
+      }
       let newColumns = result.columns.filter(function(e) {
         if (e._id.toString() !== new mongodb.ObjectId(columnsId).toString()) {
           return e;
