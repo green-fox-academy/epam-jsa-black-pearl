@@ -11,10 +11,17 @@ class List extends React.Component {
     this.state = {isEditing: false};
   }
 
+  componentDidMount() {
+    this.editIcon.addEventListener('click',
+      this.onEditClick.bind(this));
+  }
+
+  componentWillUnmount() {
+    this.editIcon.removeEventListener('click',
+      this.onEditClick.bind(this));
+  }
+
   onEditClick() {
-    if (this.state.isEditing) {
-      return;
-    }
     this.setState({isEditing: true});
   }
 
@@ -39,14 +46,16 @@ class List extends React.Component {
           <div className="column-header">
             <div className="column-title">{this.props.column.columnName}</div>
             <div className="edit-icon"
-              onClick={this.onEditClick.bind(this)}>
-              {this.state.isEditing ?
-                <Menu
-                  columnId={this.props.column._id}
-                  closeDropDownMenu={this.closeDropDownMenu.bind(this)}
-                  isEditing={this.state.isEditing} /> :
-                null}
+              ref={(elem) => {
+                this.editIcon = elem;
+              }}>
             </div>
+            {this.state.isEditing ?
+              <Menu
+                columnId={this.props.column._id}
+                closeDropDownMenu={this.closeDropDownMenu.bind(this)}
+                isEditing={this.state.isEditing} /> :
+              null}
           </div>
           <div>
             {cardDisplay}
