@@ -11,11 +11,13 @@ class List extends React.Component {
   render() {
     let cardDisplay = [];
 
-    this.props.column.cards.forEach(function(element) {
-      cardDisplay.push(
-        <Card card={element} key={element._id} />
-      );
-    }, this);
+    if (Array.isArray(this.props.column.cards)) {
+      this.props.column.cards.forEach(function(element) {
+        cardDisplay.push(
+          <Card card={element} key={element._id} />
+        );
+      }, this);
+    }
 
     return (
       <div className="board-column-wrapper">
@@ -24,7 +26,8 @@ class List extends React.Component {
             <div className="edit-icon"></div>
             <div className="column-title">{this.props.column.columnname}</div>
             <div className="column-card-count">
-              {this.props.column.cards.length}
+              {Array.isArray(this.props.column.cards) ?
+                this.props.column.cards.length : '0'}
             </div>
           </div>
           <div>
