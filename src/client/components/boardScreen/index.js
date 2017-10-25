@@ -157,7 +157,6 @@ class BoardScreen extends React.Component {
               <span>Personal Boards</span>
             </p>
           </section>
-          {welcomeList}
           {list}
           {addList}
         </div>
