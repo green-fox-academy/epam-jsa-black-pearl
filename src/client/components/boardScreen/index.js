@@ -133,8 +133,9 @@ class BoardScreen extends React.Component {
 
   generateWelcomeList() {
     return (
-      <div className="board-welcome-list">
-        <p className="board-name">Welcome onboard...</p>
+      <div className="board-welcome-list"
+        onClick={this.showBoardDetail.bind(this, 'welcome')}>
+        <p className="board-name">WELCOME BOARD</p>
       </div>
     );
   }
@@ -156,7 +157,6 @@ class BoardScreen extends React.Component {
               <span>Personal Boards</span>
             </p>
           </section>
-          {welcomeList}
           {list}
           {addList}
         </div>
