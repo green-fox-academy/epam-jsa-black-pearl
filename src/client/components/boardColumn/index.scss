@@ -23,6 +23,7 @@
   justify-content: space-between;
   min-height: 24px;
   padding: 10px 10px;
+  position: relative;
 
   .edit-icon {
     background-image: url('../../../img/edit.png');
@@ -30,7 +31,6 @@
     cursor: pointer;
     filter: contrast(2.5);
     height: 24px;
-    position: relative;
     width: 24px;
   }
 
