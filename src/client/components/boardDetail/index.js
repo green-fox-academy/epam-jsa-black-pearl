@@ -27,7 +27,7 @@ class BoardDetail extends React.Component {
   }
 
   addColumn() {
-    let reqObj = {columnname: this.state.addColumnTitleValuea};
+    let reqObj = {columnname: this.state.addColumnTitleValue};
 
     sendPostHttpRequest($api.boards + '/' +
       this.props.match.params.id + '/columns', reqObj)
