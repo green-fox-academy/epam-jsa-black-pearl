@@ -35,7 +35,8 @@ class ColumnMenu extends React.Component {
           <ul className="column-menu-list">
             <li>Rename Column</li>
             <li>Add Card</li>
-            <li onClick={this.props.deleteColumn.bind(this, this.props.columnId)}>
+            <li onClick={this.props.deleteColumn.bind(this,
+              this.props.columnId)}>
               Delete Column
             </li>
             <li>Move Column To</li>
