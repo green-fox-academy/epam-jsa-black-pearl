@@ -2,10 +2,24 @@ import React from 'react';
 
 import './index.scss';
 import Card from '../boardCard';
+import Menu from '../columnMenu';
 
 class List extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {isEditing: false};
+  }
+
+  onEditClick() {
+    if (this.state.isEditing) {
+      return;
+    }
+    this.setState({isEditing: true});
+  }
+
+  closeDropDownMenu() {
+    this.setState({isEditing: false});
   }
 
   render() {
@@ -23,11 +37,15 @@ class List extends React.Component {
       <div className="board-column-wrapper">
         <div className="board-column">
           <div className="column-header">
-            <div className="edit-icon"></div>
-            <div className="column-title">{this.props.column.columnname}</div>
-            <div className="column-card-count">
-              {Array.isArray(this.props.column.cards) ?
-                this.props.column.cards.length : '0'}
+            <div className="column-title">{this.props.column.columnName}</div>
+            <div className="edit-icon"
+              onClick={this.onEditClick.bind(this)}>
+              {this.state.isEditing ?
+                <Menu
+                  columnId={this.props.column._id}
+                  closeDropDownMenu={this.closeDropDownMenu.bind(this)}
+                  isEditing={this.state.isEditing} /> :
+                null}
             </div>
           </div>
           <div>
