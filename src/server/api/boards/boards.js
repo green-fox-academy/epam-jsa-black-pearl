@@ -41,12 +41,12 @@ function idQuery(username, id) {
 function columnQuery(username, boardId, columnsId) {
   try {
     let findBoardId = new mongodb.ObjectId(boardId);
-    let findcolumnsId = new mongodb.ObjectId(columnsId)
+    let findcolumnsId = new mongodb.ObjectId(columnsId);
 
     return {
       'username': username,
       '_id': findBoardId,
-      'columns._id': findcolumnsId,
+      'columns._id': columnsId,
     };
   } catch (error) {
     return null;
@@ -181,14 +181,14 @@ function deleteColumnId(username, boardId, columnsId, callback) {
       return callback('error');
     }
     console.log('Connection established to ' + url);
-    let query = idQuery(username, boardId);
+    let query = columnQuery(username, boardId, columnsId);
 
+    console.log(query);
     if (!query) {
       return callback('notFound');
     }
     database.collection('boards').findOne(query, function(err, result) {
       console.log(result);
-      
       let newColumns = result.columns.filter(function(e) {
         if (e._id !== columnsId) {
           return e;

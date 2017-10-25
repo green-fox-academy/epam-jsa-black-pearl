@@ -184,7 +184,7 @@ router.put('/boards/:id/columns/:columsid', function(req, res) {
     boards.deleteColumnId(username, boardId, columnsId, function(result) {
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
-      } else if (result === 'notFind') {
+      } else if (result === 'notFound') {
         res.status(NOT_FOUND).json({message: NO_COLUMN_MESSAGE});
       } else {
         res.status(STATUS_OK).json({message: DELETE_COLUMN_MESSAGE});
