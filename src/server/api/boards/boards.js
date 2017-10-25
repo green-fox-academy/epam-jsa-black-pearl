@@ -207,7 +207,7 @@ function deleteColumnId(username, boardId, columnsId, callback) {
       }
       let newColumns = result.columns.filter(function(e) {
         if (e._id.toString() !== new mongodb.ObjectId(columnsId).toString()) {
-          return e;
+          return true;
         }
       });
 
