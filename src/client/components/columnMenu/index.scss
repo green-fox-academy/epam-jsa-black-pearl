@@ -1,4 +1,36 @@
 .column-menu {
+  background-color: #fff;
+  box-shadow: 0 0 5px #bbb;
+  padding: 5px 0;
   position: absolute;
+  right: 0;
+  text-align: center;
   top: 40px;
+  width: 200px;
+
+  hr {
+    width: 90%;
+  }
+
+  p {
+    color: #bbb;
+    font-weight: normal;
+  }
+}
+
+.column-menu-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    cursor: pointer;
+    height: 30px;
+    line-height: 30px;
+
+    &:hover {
+      background-color: #026aa7;
+      color: #fff;
+    }
+  }
 }
