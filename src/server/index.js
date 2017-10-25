@@ -218,6 +218,27 @@ router.delete('/boards/:id/columns/:columsid', function(req, res) {
   }
 });
 
+router.delete('/boards/:id/columns/:columsid/cards/:cardsid', function(req, res) {
+  let username = jwtVerify(req.headers.token);
+  let boardId = req.params.id;
+  let columnsId = req.params.columsid;
+  let cardsId = req.params.cardsid;
+
+  if (!username) {
+    res.status(STATUS_FORBIDDEN).json({message: NOT_LOGIN_MESSAGE});
+  } else {
+    boards.deleteCardById(username, boardId, columnsId, cardsId, function(result) {
+      if (result === 'error' || !result) {
+        res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      } else if (result === 'notFound') {
+        res.status(NOT_FOUND).json({message: NO_COLUMN_MESSAGE});
+      } else {
+        res.status(STATUS_OK).json({message: DELETE_COLUMN_MESSAGE});
+      }
+    });
+  }
+});
+
 app.use('/api', router);
 
 app.get(['/login', '/register', '/boards', '/boards/:id'], (req, res) => {
