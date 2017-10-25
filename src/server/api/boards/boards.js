@@ -187,17 +187,15 @@ function deleteColumnId(username, boardId, columnsId, callback) {
       return callback('notFound');
     }
     database.collection('boards').findOne(query, function(err, result) {
-      console.log(result.columns);
-      result.columns.forEach(function(e, i) {
-        if (e._id === columnsId) {
-          console.log('same: ', e._id, i);
-          let newColumns = result.columns.splice(i+1, 1);
-
-          console.log(newColumns);
-          // console.log(result);
-          // database.collection('boards').update(query, {$set: {'columns': result.columns}});
+      console.log(result);
+      
+      let newColumns = result.columns.filter(function(e) {
+        if (e._id !== columnsId) {
+          return e;
         }
       });
+
+      database.collection('boards').update(query, {$set: {'columns': newColumns}});
       database.close();
       if (err) {
         return callback('error');
