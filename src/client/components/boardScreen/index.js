@@ -9,6 +9,8 @@ import {sendGetHttpRequest, sendPostHttpRequest, sendDeleteHttpRequest}
   from '../../controller/httpRequest.js';
 
 const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
+const ENTER_KEY_CODE = 13;
+const ESC_KEY_CODE = 27;
 
 class BoardScreen extends React.Component {
   constructor(props) {
@@ -43,10 +45,7 @@ class BoardScreen extends React.Component {
         }
       });
 
-    this.setState({
-      isAddBoardEditing: false,
-      addBoardValue: '',
-    });
+    this.onChangeAddBoardState(false);
   }
 
   deleteBoard(id) {
@@ -69,14 +68,29 @@ class BoardScreen extends React.Component {
     if (state) {
       this.setState({isAddBoardEditing: state}, () => {
         this.input.focus();
+        this.input.addEventListener('keydown', this.onInputKeyDown.bind(this));
       });
     } else {
-      this.setState({isAddBoardEditing: state});
+      this.input.removeEventListener('keydown', this.onInputKeyDown.bind(this));
+      this.setState({
+        isAddBoardEditing: state,
+        addBoardValue: '',
+      });
     }
   }
 
   onInputChange(ev) {
     this.setState({addBoardValue: ev.target.value});
+  }
+
+  onInputKeyDown(ev) {
+    let that = this;
+
+    if (ev.keyCode === ENTER_KEY_CODE) {
+      that.addBoard();
+    } else if (ev.keyCode === ESC_KEY_CODE) {
+      that.onChangeAddBoardState(false);
+    }
   }
 
   generateBoardListComponent() {
