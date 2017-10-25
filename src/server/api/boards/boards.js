@@ -46,7 +46,7 @@ function columnQuery(username, boardId, columnsId) {
     return {
       'username': username,
       '_id': findBoardId,
-      'columns._id': columnsId,
+      'columns._id': findcolumnsId,
     };
   } catch (error) {
     return null;
@@ -190,7 +190,7 @@ function deleteColumnId(username, boardId, columnsId, callback) {
     database.collection('boards').findOne(query, function(err, result) {
       console.log(result);
       let newColumns = result.columns.filter(function(e) {
-        if (e._id !== columnsId) {
+        if (e._id.toString() !== new mongodb.ObjectId(columnsId).toString()) {
           return e;
         }
       });
