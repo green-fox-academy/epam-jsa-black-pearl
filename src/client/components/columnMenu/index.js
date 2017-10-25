@@ -31,7 +31,8 @@ class ColumnMenu extends React.Component {
             this.menu = elem;
           }}>
           <p>Column Actions</p>
-          <ul>
+          <hr />
+          <ul className="column-menu-list">
             <li>Rename Column</li>
             <li>Add Card</li>
             <li>Delete Column</li>
