@@ -153,6 +153,32 @@ router.post('/boards/:id/columns', function(req, res) {
   }
 });
 
+router.post('/boards/:id/columns/:columnId/cards', function(req, res) {
+  let username = jwtVerify(req.headers.token);
+  let boardId = req.params.id;
+  let columnId = req.params.columnId;
+
+  if (!req.is('application/json')) {
+    res.status(BAD_REQUEST).json({message: CONTENT_TYPE_ERROR_MESSAGE});
+  } else if (!req.body.cardName) {
+    res.status(BAD_REQUEST).json({message: MISSING_FIELD_MESSAGE});
+  } else if (!username) {
+    res.status(STATUS_FORBIDDEN).json({message: NOT_LOGIN_MESSAGE});
+  } else {
+    boards.createNewCard(req.body, username,
+      boardId, columnId, function(result) {
+        if (result === 'error' || !result) {
+          res.status(INTERNAL_SERVER_ERROR)
+            .json({message: SERVER_ERROR_MESSAGE});
+        } else if (result === 'notFound') {
+          res.status(NOT_FOUND).json({message: NO_BOARD_MESSAGE});
+        } else {
+          res.status(STATUS_OK).json({message: 'Add new card success!'});
+        }
+      });
+  }
+});
+
 router.delete('/boards/:id', function(req, res) {
   let username = jwtVerify(req.headers.token);
   let boardId = req.params.id;

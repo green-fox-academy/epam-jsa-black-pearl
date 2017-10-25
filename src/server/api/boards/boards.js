@@ -22,6 +22,7 @@ function createNewColumnQuery(request) {
   return {
     '_id': new mongodb.ObjectId(),
     'columnName': request.columnName,
+    'cards': [],
   };
 }
 
@@ -67,6 +68,19 @@ function createFieldsFilter() {
     'boardname': 1,
     'timestamp': 1,
   };
+}
+
+function addCardToColumn(board, columnId, cardName) {
+  board.columns = board.columns.map(function(element) {
+    if (element._id.toString() === columnId.toString()) {
+      element.cards = element.cards ? element.cards : [];
+      element.cards.push({
+        '_id': new mongodb.ObjectId(),
+        'cardName': cardName,
+      });
+    }
+    return element;
+  });
 }
 
 function createNewBoard(request, username, callback) {
@@ -207,6 +221,35 @@ function deleteColumnId(username, boardId, columnsId, callback) {
   });
 }
 
+function createNewCard(request, username, boardId, columnId, callback) {
+  getBoardById(username, boardId, function(board) {
+    if (board === 'notFound' || !board) {
+      return callback('notFound');
+    } else if (board === 'error') {
+      return callback('error');
+    }
+
+    addCardToColumn(board, columnId, request.cardName);
+
+    MongoClient.connect(url, function(err, database) {
+      if (err) {
+        return callback('error');
+      }
+      database.collection('boards').update({_id: new mongodb.ObjectId(boardId)},
+        {$set: board}, function(err, result) {
+          database.close();
+          if (err) {
+            return callback('error');
+          }
+          if (result.result.nModified) {
+            return callback('updated');
+          }
+          return callback('notFound');
+        });
+    });
+  });
+}
+
 module.exports = {
   'createNewBoard': createNewBoard,
   'getBoardsByUser': getBoardsByUser,
@@ -214,4 +257,5 @@ module.exports = {
   'deleteboardId': deleteboardId,
   'deleteColumnId': deleteColumnId,
   'createNewColumn': createNewColumn,
+  'createNewCard': createNewCard,
 };
