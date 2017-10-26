@@ -12,17 +12,25 @@ class List extends React.Component {
   }
 
   componentDidMount() {
-    this.editIcon.addEventListener('click',
-      this.onEditClick.bind(this));
+    let that = this;
+
+    that.editIcon.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      that.toggleDropDownMenu();
+    });
   }
 
   componentWillUnmount() {
-    this.editIcon.removeEventListener('click',
-      this.onEditClick.bind(this));
+    let that = this;
+
+    that.editIcon.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      that.toggleDropDownMenu();
+    });
   }
 
-  onEditClick() {
-    this.setState({isEditing: true});
+  toggleDropDownMenu() {
+    this.setState({isEditing: !this.state.isEditing});
   }
 
   closeDropDownMenu() {
