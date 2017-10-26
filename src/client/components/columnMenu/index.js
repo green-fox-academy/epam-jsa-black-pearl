@@ -23,6 +23,13 @@ class ColumnMenu extends React.Component {
     }
   }
 
+  handleMenuAction(actionName) {
+    if (actionName == 'delete') {
+      this.props.deleteColumn(this.props.columnId);
+    }
+    this.props.closeDropDownMenu();
+  }
+
   render() {
     if (this.props.isEditing) {
       return (
@@ -35,8 +42,7 @@ class ColumnMenu extends React.Component {
           <ul className="column-menu-list">
             <li>Rename Column</li>
             <li>Add Card</li>
-            <li onClick={this.props.deleteColumn.bind(this,
-              this.props.columnId)}>
+            <li onClick={this.handleMenuAction.bind(this, 'delete')}>
               Delete Column
             </li>
             <li>Move Column To</li>
