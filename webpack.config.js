@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   entry: [
@@ -75,6 +76,9 @@ module.exports = {
       template: path.resolve(__dirname, './src/client/index.html'),
       filename: 'index.html',
       inject: 'body',
+    }),
+    new UglifyJSPlugin({
+      include: /\/includes/,
     }),
   ],
 };
