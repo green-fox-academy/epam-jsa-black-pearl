@@ -3,7 +3,7 @@ import React from 'react';
 import BoardNav from '../boardNav';
 import BoardColumn from '../boardColumn';
 import $api from '../../api/api.json';
-import {sendGetHttpRequest, sendPostHttpRequest}
+import {sendGetHttpRequest, sendPostHttpRequest, sendDeleteHttpRequest}
   from '../../controller/httpRequest.js';
 import './index.scss';
 
@@ -17,6 +17,8 @@ class BoardDetail extends React.Component {
       isAddColumnTitleEditing: false,
       addColumnTitleValue: '',
     };
+    this.addColumn = this.addColumn.bind(this);
+    this.deleteColumn = this.deleteColumn.bind(this);
   }
 
   componentWillMount() {
@@ -27,7 +29,7 @@ class BoardDetail extends React.Component {
   }
 
   addColumn() {
-    let reqObj = {columnname: this.state.addColumnTitleValue};
+    let reqObj = {columnName: this.state.addColumnTitleValue};
 
     sendPostHttpRequest($api.boards + '/' +
       this.props.match.params.id + '/columns', reqObj)
@@ -46,13 +48,27 @@ class BoardDetail extends React.Component {
     });
   }
 
+  deleteColumn(columnId) {
+    sendDeleteHttpRequest($api.boards + '/' +
+      this.props.match.params.id + '/columns/' + columnId)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+            .then((result) => {
+              this.setState({data: result});
+            });
+        }
+      });
+  }
+
   generateBoardColumn() {
     let boardDisplay = [];
 
     if (Array.isArray(this.state.data.columns)) {
       this.state.data.columns.forEach(function(element) {
         boardDisplay.push(
-          <BoardColumn column={element} key={element._id} />
+          <BoardColumn column={element} key={element._id}
+            deleteColumn={this.deleteColumn} />
         );
       }, this);
     }
@@ -79,7 +95,7 @@ class BoardDetail extends React.Component {
             }}
             onChange={this.onInputChange.bind(this)} />
           <button className="ok-button"
-            onClick={this.addColumn.bind(this)}>
+            onClick={this.addColumn}>
             √
           </button>
           <button className="cancel-button"
