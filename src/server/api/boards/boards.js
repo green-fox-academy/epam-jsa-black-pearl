@@ -105,10 +105,7 @@ function filterCards(board, columnsId, cardsId) {
   board.columns = board.columns.map(function(e) {
     if (e._id.toString() === columnsId.toString()) {
       e.cards = e.cards.filter(function(element) {
-        if (element._id.toString() !== cardsId.toString()) {
-          return true;
-        }
-        return false;
+        return element._id.toString() !== cardsId.toString();
       });
     }
     return e;
