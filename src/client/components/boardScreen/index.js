@@ -18,15 +18,31 @@ class BoardScreen extends React.Component {
     this.state = {
       data: [],
       isAddBoardEditing: false,
+      isBoardsLoading: false,
       addBoardValue: '',
     };
   }
 
   componentDidMount() {
-    sendGetHttpRequest($api.boards)
-      .then((result) => {
-        this.setState({data: result.boards});
-      });
+    let that = this;
+
+    this.pushLoadingBoard('loading');
+    setTimeout(function() {
+      sendGetHttpRequest($api.boards)
+        .then((result) => {
+          that.setState({data: result.boards});
+        });
+    }, 1500);
+  }
+
+  pushLoadingBoard(boardName) {
+    let withLoadingBoard = this.state.data;
+
+    withLoadingBoard.push({
+      _id: 'loading',
+      boardname: boardName,
+    });
+    this.setState({data: withLoadingBoard});
   }
 
   addBoard() {
