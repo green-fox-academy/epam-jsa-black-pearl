@@ -17,6 +17,8 @@ class BoardDetail extends React.Component {
       isAddColumnTitleEditing: false,
       addColumnTitleValue: '',
     };
+    this.addColumn = this.addColumn.bind(this);
+    this.deleteColumn = this.deleteColumn.bind(this);
   }
 
   componentWillMount() {
@@ -66,7 +68,7 @@ class BoardDetail extends React.Component {
       this.state.data.columns.forEach(function(element) {
         boardDisplay.push(
           <BoardColumn column={element} key={element._id}
-            deleteColumn={this.deleteColumn.bind(this)} />
+            deleteColumn={this.deleteColumn} />
         );
       }, this);
     }
@@ -93,7 +95,7 @@ class BoardDetail extends React.Component {
             }}
             onChange={this.onInputChange.bind(this)} />
           <button className="ok-button"
-            onClick={this.addColumn.bind(this)}>
+            onClick={this.addColumn}>
             √
           </button>
           <button className="cancel-button"
