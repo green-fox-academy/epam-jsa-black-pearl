@@ -59,14 +59,6 @@ body {
   }
 }
 
-.add-column {
-  .board-column {
-    cursor: pointer;
-    padding: 0 !important;
-    user-select: none;
-  }
-}
-
 .board-main-list {
   align-content: flex-start;
   display: flex;

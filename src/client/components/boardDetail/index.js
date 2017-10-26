@@ -96,10 +96,11 @@ class BoardDetail extends React.Component {
             onChange={this.onInputChange.bind(this)} />
           <button className="ok-button"
             onClick={this.addColumn}>
-            √
+            Add
           </button>
           <button className="cancel-button"
             onClick={this.onChangeAddColumnTitleState.bind(this, false)}>
+            ×
           </button>
         </div>
       );
