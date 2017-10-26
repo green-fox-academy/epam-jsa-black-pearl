@@ -48,9 +48,8 @@ class BoardList extends React.Component {
         </p>
         <p className="board-date">
           Created at {createDate}
-          <span className="delete-icon"
-            onClick={this.onClickDelete.bind(this)}>
-            <a></a>
+          <span className="delete-icon">
+            <a onClick={this.onClickDelete.bind(this)}></a>
           </span>
         </p>
       </div>
