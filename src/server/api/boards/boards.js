@@ -100,6 +100,21 @@ function addCardToColumn(board, columnId, cardName) {
   });
 }
 
+function filterCards(board, columnsId, cardsId) {
+
+  board.columns = board.columns.map(function(e) {
+    if (e._id.toString() === columnsId.toString()) {
+      e.cards = e.cards.filter(function(element) {
+        if (element._id.toString() !== cardsId.toString()) {
+          return true;
+        }
+        return false;
+      });
+    }
+    return e;
+  });
+}
+
 function createNewBoard(request, username, callback) {
   MongoClient.connect(url, function(err, database) {
     if (err) {
@@ -279,10 +294,11 @@ function deleteCardById(username, boardId, columnsId, cardsId, callback) {
       return callback('notFound');
     }
     database.collection('boards').findOne(query, function(err, result) {
-      console.log(result);
       if (result === null) {
         return callback('notFound');
       }
+      filterCards(result, columnsId, cardsId);
+      database.collection('boards').update(query, {$set: {'columns': result.columns}});
       database.close();
       if (err) {
         return callback('error');

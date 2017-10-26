@@ -29,8 +29,11 @@ const CONTENT_TYPE_ERROR_MESSAGE = 'Content type error!';
 const MISSING_FIELD_MESSAGE = 'Missing field(s)!';
 const NO_BOARD_MESSAGE = 'No such board found!';
 const DELETE_BOARD_MESSAGE = 'Delete board success!';
-const NO_COLUMN_MESSAGE = 'No such columns found!';
+const NO_COLUMN_MESSAGE = 'No such column found!';
 const DELETE_COLUMN_MESSAGE = 'Delete column success!';
+const NO_CARD_MESSAGE = 'No such card found!';
+const DELETE_CARD_MESSAGE = 'Delete card success!';
+
 
 app.use(express.static(path.resolve(__dirname, '../../dist')));
 app.use(bodyParser.json());
@@ -231,9 +234,9 @@ router.delete('/boards/:id/columns/:columsid/cards/:cardsid', function(req, res)
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else if (result === 'notFound') {
-        res.status(NOT_FOUND).json({message: NO_COLUMN_MESSAGE});
+        res.status(NOT_FOUND).json({message: NO_CARD_MESSAGE});
       } else {
-        res.status(STATUS_OK).json({message: DELETE_COLUMN_MESSAGE});
+        res.status(STATUS_OK).json({message: DELETE_CARD_MESSAGE});
       }
     });
   }
