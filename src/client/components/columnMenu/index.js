@@ -8,26 +8,25 @@ class ColumnMenu extends React.Component {
   }
 
   componentDidMount() {
-    document.addEventListener('mousedown',
-      this.handleClickOutside.bind(this));
+    document.addEventListener('click', (ev) => {
+      this.handleClickOutside(ev);
+    });
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown',
-      this.handleClickOutside.bind(this));
+    document.removeEventListener('click', (ev) => {
+      this.handleClickOutside(ev);
+    });
   }
 
   handleClickOutside(ev) {
-    if (this.menu && !this.menu.contains(ev.target)) {
-      this.props.closeDropDownMenu();
-    }
+    this.props.closeDropDownMenu();
   }
 
   handleMenuAction(actionName) {
     if (actionName === 'delete') {
       this.props.deleteColumn(this.props.columnId);
     }
-    this.props.closeDropDownMenu();
   }
 
   render() {
