@@ -33,7 +33,7 @@ class ColumnMenu extends React.Component {
           ref={(elem) => {
             this.menu = elem;
           }}>
-          <p>Column Actions</p>
+          <h4>Column Actions</h4>
           <ul className="column-menu-list">
             <li>Rename Column</li>
             <li>Add Card</li>

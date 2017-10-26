@@ -52,7 +52,7 @@ class List extends React.Component {
       <div className="board-column-wrapper">
         <div className="board-column">
           <div className="column-header">
-            <div className="column-title">{this.props.column.columnName}</div>
+            <h4 className="column-title">{this.props.column.columnName}</h4>
             <div className="edit-icon"
               ref={(elem) => {
                 this.editIcon = elem;
