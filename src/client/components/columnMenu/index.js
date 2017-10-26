@@ -17,13 +17,16 @@ class ColumnMenu extends React.Component {
   }
 
   handleClickOutside(ev) {
-    this.props.closeDropDownMenu();
+    if (!this.menu.contains(ev.target)) {
+      this.props.closeDropDownMenu();
+    }
   }
 
   handleMenuAction(actionName) {
     if (actionName === 'delete') {
       this.props.deleteColumn(this.props.columnId);
     }
+    this.props.closeDropDownMenu();
   }
 
   render() {
@@ -35,12 +38,18 @@ class ColumnMenu extends React.Component {
           }}>
           <h4>Column Actions</h4>
           <ul className="column-menu-list">
-            <li>Rename Column</li>
-            <li>Add Card</li>
+            <li onClick={this.handleMenuAction.bind(this, 'rename')}>
+              Rename Column
+            </li>
+            <li onClick={this.handleMenuAction.bind(this, 'add')}>
+              Add Card
+            </li>
             <li onClick={this.handleMenuAction.bind(this, 'delete')}>
               Delete Column
             </li>
-            <li>Move Column To</li>
+            <li onClick={this.handleMenuAction.bind(this, 'move')}>
+              Move Column To
+            </li>
           </ul>
         </div>
       );
