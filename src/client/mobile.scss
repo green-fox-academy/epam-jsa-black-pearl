@@ -4,15 +4,14 @@ and (max-device-width: 480px){
     .nav-left input{
         display: none;
     }
+    .board , .board-list, .board-add-list{
+      width: 100%;
+    }
     .board-nav {
       min-width: 320px;
     }
     .board-main-list {
       margin:5%;
-    }
-    .board-main {
-      flex-wrap: wrap;
-      overflow-x: hidden;
     }
     .board-column-wrapper {
       height: auto;
@@ -21,6 +20,7 @@ and (max-device-width: 480px){
       margin: 0 auto;
       width: 100%;
       overflow-x: hidden;
+      border-radius: 0;
     }
     #root > div {
       display: flex;
