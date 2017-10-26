@@ -5,18 +5,15 @@ import './index.scss';
 class ColumnMenu extends React.Component {
   constructor(props) {
     super(props);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('click', (ev) => {
-      this.handleClickOutside(ev);
-    });
+    document.body.addEventListener('click', this.handleClickOutside);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', (ev) => {
-      this.handleClickOutside(ev);
-    });
+    document.body.removeEventListener('click', this.handleClickOutside);
   }
 
   handleClickOutside(ev) {

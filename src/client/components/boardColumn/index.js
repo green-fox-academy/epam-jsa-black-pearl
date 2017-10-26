@@ -23,7 +23,7 @@ class List extends React.Component {
   componentWillUnmount() {
     let that = this;
 
-    that.editIcon.addEventListener('click', (ev) => {
+    that.editIcon.removeEventListener('click', (ev) => {
       ev.stopPropagation();
       that.toggleDropDownMenu();
     });
