@@ -3,12 +3,21 @@ import React from 'react';
 import './index.scss';
 import Card from '../boardCard';
 import Menu from '../columnMenu';
+import $api from '../../api/api.json';
+import {sendGetHttpRequest, sendPostHttpRequest, sendDeleteHttpRequest}
+  from '../../controller/httpRequest.js';
+
+const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
 
 class List extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {isEditing: false};
+    this.state = {
+      isEditing: false,
+      isAddCardTitleEditing: false,
+      addCardTitleValue: '',
+    };
   }
 
   componentDidMount() {
@@ -37,8 +46,76 @@ class List extends React.Component {
     this.setState({isEditing: false});
   }
 
+  addCard() {
+    let reqObj = {cardName: this.state.addCardTitleValue};
+
+    sendPostHttpRequest($api.boards + '/' + this.props.match.params.id +
+      '/columns/' + this.props.column._id + '/cards', reqObj)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+            .then((result) => {
+              this.setState({data: result});
+            });
+        }
+      });
+
+    this.setState({
+      addCardTitleValue: '',
+      isAddCardTitleEditing: false,
+    });
+  }
+
+  generateAddCard() {
+    let addCard = null;
+
+    if (!this.state.isAddCardTitleEditing) {
+      addCard = (
+        <div className="add-column"
+          onClick={this.onChangeAddCardTitleState.bind(this, true)}>
+          Add A Card...
+        </div>
+      );
+    } else {
+      addCard = (
+        <div className="add-column">
+          <input type="text"
+            ref={(c) => {
+              this.input = c;
+            }}
+            onChange={this.onInputChange.bind(this)} />
+          <button className="ok-button"
+            onClick={this.addCard}>
+            √
+          </button>
+          <button className="cancel-button"
+            onClick={this.onChangeAddCardTitleState.bind(this, false)}>
+            x
+          </button>
+        </div>
+      );
+    }
+
+    return addCard;
+  }
+
+  onChangeAddCardTitleState(state) {
+    if (state) {
+      this.setState({isAddCardTitleEditing: state}, () => {
+        this.input.focus();
+      });
+    } else {
+      this.setState({isAddCardTitleEditing: state});
+    }
+  }
+
+  onInputChange(ev) {
+    this.setState({addCardTitleValue: ev.target.value});
+  }
+
   render() {
     let cardDisplay = [];
+    let addCard = this.generateAddCard();
 
     if (Array.isArray(this.props.column.cards)) {
       this.props.column.cards.forEach(function(element) {
@@ -70,7 +147,7 @@ class List extends React.Component {
             {cardDisplay}
           </div>
           <div className="add-card">
-            <a>Add A Card...</a>
+            {addCard}
           </div>
         </div>
       </div>

@@ -100,6 +100,7 @@ class BoardDetail extends React.Component {
           </button>
           <button className="cancel-button"
             onClick={this.onChangeAddColumnTitleState.bind(this, false)}>
+            x
           </button>
         </div>
       );
