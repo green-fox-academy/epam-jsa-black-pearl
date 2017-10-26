@@ -54,6 +54,23 @@ function columnQuery(username, boardId, columnsId) {
   }
 }
 
+function cardQuery(username, boardId, columnsId, cardsId) {
+  try {
+    let findBoardId = new mongodb.ObjectId(boardId);
+    let findcolumnsId = new mongodb.ObjectId(columnsId);
+    let findCardsId = new mongodb.ObjectId(cardsId);
+
+    return {
+      'username': username,
+      '_id': findBoardId,
+      'columns._id': findcolumnsId,
+      'columns.cards._id': findCardsId,
+    };
+  } catch (error) {
+    return null;
+  }
+}
+
 function boardIdFilter() {
   return {
     '_id': 1,
@@ -80,6 +97,18 @@ function addCardToColumn(board, columnId, cardName) {
       });
     }
     return element;
+  });
+}
+
+function filterCards(board, columnsId, cardsId) {
+
+  board.columns = board.columns.map(function(e) {
+    if (e._id.toString() === columnsId.toString()) {
+      e.cards = e.cards.filter(function(element) {
+        return element._id.toString() !== cardsId.toString();
+      });
+    }
+    return e;
   });
 }
 
@@ -250,6 +279,32 @@ function createNewCard(request, username, boardId, columnId, callback) {
   });
 }
 
+function deleteCardById(username, boardId, columnsId, cardsId, callback) {
+  MongoClient.connect(url, function(err, database) {
+    if (err) {
+      return callback('error');
+    }
+    console.log('Connection established to ' + url);
+    let query = cardQuery(username, boardId, columnsId, cardsId);
+
+    if (!query) {
+      return callback('notFound');
+    }
+    database.collection('boards').findOne(query, function(err, result) {
+      if (result === null) {
+        return callback('notFound');
+      }
+      filterCards(result, columnsId, cardsId);
+      database.collection('boards').update(query, {$set: {'columns': result.columns}});
+      database.close();
+      if (err) {
+        return callback('error');
+      }
+      callback(result);
+    });
+  });
+}
+
 module.exports = {
   'createNewBoard': createNewBoard,
   'getBoardsByUser': getBoardsByUser,
@@ -258,4 +313,5 @@ module.exports = {
   'deleteColumnId': deleteColumnId,
   'createNewColumn': createNewColumn,
   'createNewCard': createNewCard,
+  'deleteCardById': deleteCardById,
 };
