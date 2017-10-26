@@ -218,7 +218,6 @@ router.delete('/boards/:id/columns/:columsid', function(req, res) {
   }
 });
 
-<<<<<<< HEAD
 router.delete('/boards/:id/columns/:columsid/cards/:cardsid', function(req, res) {
   let username = jwtVerify(req.headers.token);
   let boardId = req.params.id;
@@ -240,8 +239,6 @@ router.delete('/boards/:id/columns/:columsid/cards/:cardsid', function(req, res)
   }
 });
 
-=======
->>>>>>> develop
 app.use('/api', router);
 
 app.get(['/login', '/register', '/boards', '/boards/:id'], (req, res) => {

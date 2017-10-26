@@ -54,7 +54,6 @@ function columnQuery(username, boardId, columnsId) {
   }
 }
 
-<<<<<<< HEAD
 function cardQuery(username, boardId, columnsId, cardsId) {
   try {
     let findBoardId = new mongodb.ObjectId(boardId);
@@ -72,8 +71,6 @@ function cardQuery(username, boardId, columnsId, cardsId) {
   }
 }
 
-=======
->>>>>>> develop
 function boardIdFilter() {
   return {
     '_id': 1,
@@ -209,11 +206,7 @@ function createNewColumn(request, username, boardId, callback) {
   });
 }
 
-<<<<<<< HEAD
-function deleteColumnById(username, boardId, columnsId, callback) {
-=======
 function deleteColumnId(username, boardId, columnsId, callback) {
->>>>>>> develop
   MongoClient.connect(url, function(err, database) {
     if (err) {
       return callback('error');
@@ -225,10 +218,6 @@ function deleteColumnId(username, boardId, columnsId, callback) {
       return callback('notFound');
     }
     database.collection('boards').findOne(query, function(err, result) {
-<<<<<<< HEAD
-      console.log(result);
-=======
->>>>>>> develop
       if (result === null) {
         return callback('notFound');
       }
@@ -236,10 +225,7 @@ function deleteColumnId(username, boardId, columnsId, callback) {
         if (e._id.toString() !== new mongodb.ObjectId(columnsId).toString()) {
           return true;
         }
-<<<<<<< HEAD
-=======
         return false;
->>>>>>> develop
       });
 
       database.collection('boards').update(query, {$set: {'columns': newColumns}});
