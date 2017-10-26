@@ -201,7 +201,6 @@ function deleteColumnId(username, boardId, columnsId, callback) {
       return callback('notFound');
     }
     database.collection('boards').findOne(query, function(err, result) {
-      console.log(result);
       if (result === null) {
         return callback('notFound');
       }
@@ -209,6 +208,7 @@ function deleteColumnId(username, boardId, columnsId, callback) {
         if (e._id.toString() !== new mongodb.ObjectId(columnsId).toString()) {
           return true;
         }
+        return false;
       });
 
       database.collection('boards').update(query, {$set: {'columns': newColumns}});
