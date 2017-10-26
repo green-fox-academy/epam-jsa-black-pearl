@@ -29,7 +29,8 @@ const CONTENT_TYPE_ERROR_MESSAGE = 'Content type error!';
 const MISSING_FIELD_MESSAGE = 'Missing field(s)!';
 const NO_BOARD_MESSAGE = 'No such board found!';
 const DELETE_BOARD_MESSAGE = 'Delete board success!';
-const NO_INFO = 0;
+const NO_COLUMN_MESSAGE = 'No such columns found!';
+const DELETE_COLUMN_MESSAGE = 'Delete column success!';
 
 app.use(express.static(path.resolve(__dirname, '../../dist')));
 app.use(bodyParser.json());
@@ -188,10 +189,30 @@ router.delete('/boards/:id', function(req, res) {
     boards.deleteboardId(username, boardId, function(result) {
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
-      } else if (result === 'notFound' || result.result.n === NO_INFO) {
+      } else if (result === 'notFound') {
         res.status(NOT_FOUND).json({message: NO_BOARD_MESSAGE});
       } else {
         res.status(STATUS_OK).json({message: DELETE_BOARD_MESSAGE});
+      }
+    });
+  }
+});
+
+router.delete('/boards/:id/columns/:columsid', function(req, res) {
+  let username = jwtVerify(req.headers.token);
+  let boardId = req.params.id;
+  let columnsId = req.params.columsid;
+
+  if (!username) {
+    res.status(STATUS_FORBIDDEN).json({message: NOT_LOGIN_MESSAGE});
+  } else {
+    boards.deleteColumnId(username, boardId, columnsId, function(result) {
+      if (result === 'error' || !result) {
+        res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
+      } else if (result === 'notFound') {
+        res.status(NOT_FOUND).json({message: NO_COLUMN_MESSAGE});
+      } else {
+        res.status(STATUS_OK).json({message: DELETE_COLUMN_MESSAGE});
       }
     });
   }
