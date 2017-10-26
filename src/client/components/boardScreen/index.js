@@ -133,10 +133,12 @@ class BoardScreen extends React.Component {
         </div>
         <div className="board-add-list-row">
           <button
+            className="board-add-list-ok-button"
             onClick={this.addBoard.bind(this)}>
-            √
+            Add
           </button>
           <button
+            className="board-add-list-cancel-button"
             onClick={this.onChangeAddBoardState.bind(this, false)}>
             ×
           </button>
