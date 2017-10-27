@@ -8,6 +8,8 @@ import {sendGetHttpRequest, sendPostHttpRequest, sendDeleteHttpRequest}
 import './index.scss';
 
 const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
+const ENTER_KEY_CODE = 13;
+const ESC_KEY_CODE = 27;
 
 class BoardDetail extends React.Component {
   constructor(props) {
@@ -129,15 +131,28 @@ class BoardDetail extends React.Component {
   onChangeAddColumnTitleState(state) {
     if (state) {
       this.setState({isAddColumnTitleEditing: state}, () => {
+        this.input.addEventListener('keydown', this.onInputKeyDown.bind(this));
         this.input.focus();
       });
     } else {
+      this.input.removeEventListener('keydown', this.onInputKeyDown.bind(this));
       this.setState({isAddColumnTitleEditing: state});
     }
   }
 
   onInputChange(ev) {
     this.setState({addColumnTitleValue: ev.target.value});
+  }
+
+  onInputKeyDown(ev) {
+    if (ev.keyCode === ENTER_KEY_CODE) {
+      this.addColumn();
+    } else if (ev.keyCode === ESC_KEY_CODE) {
+      this.setState({
+        addColumnTitleValue: '',
+        isAddColumnTitleEditing: false,
+      });
+    }
   }
 
   render() {
