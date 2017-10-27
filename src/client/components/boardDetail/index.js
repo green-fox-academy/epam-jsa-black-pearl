@@ -8,6 +8,8 @@ import {sendGetHttpRequest, sendPostHttpRequest, sendDeleteHttpRequest}
 import './index.scss';
 
 const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
+const ENTER_KEY_CODE = 13;
+const ESC_KEY_CODE = 27;
 
 class BoardDetail extends React.Component {
   constructor(props) {
@@ -96,10 +98,11 @@ class BoardDetail extends React.Component {
             onChange={this.onInputChange.bind(this)} />
           <button className="ok-button"
             onClick={this.addColumn}>
-            √
+            Add
           </button>
           <button className="cancel-button"
             onClick={this.onChangeAddColumnTitleState.bind(this, false)}>
+            ×
           </button>
         </div>
       );
@@ -112,14 +115,29 @@ class BoardDetail extends React.Component {
     if (state) {
       this.setState({isAddColumnTitleEditing: state}, () => {
         this.input.focus();
+        this.input.addEventListener('keydown', this.onInputKeyDown.bind(this));
       });
     } else {
-      this.setState({isAddColumnTitleEditing: state});
+      this.input.removeEventListener('keydown', this.onInputKeyDown.bind(this));
+      this.setState({
+        isAddColumnTitleEditing: state,
+        addColumnTitleValue: '',
+      });
     }
   }
 
   onInputChange(ev) {
     this.setState({addColumnTitleValue: ev.target.value});
+  }
+
+  onInputKeyDown(ev) {
+    let that = this;
+
+    if (ev.keyCode === ENTER_KEY_CODE) {
+      that.addColumn();
+    } else if (ev.keyCode === ESC_KEY_CODE) {
+      that.onChangeAddColumnTitleState(false);
+    }
   }
 
   render() {

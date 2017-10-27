@@ -8,4 +8,49 @@
   height: 50px;
   justify-content: center;
   width: 270px;
+
+  input {
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    box-sizing: border-box;
+    height: 30px;
+    margin-right: 10px;
+    padding: 0 5px;
+    width: 55%;
+  }
+
+  button {
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 30px;
+    line-height: 30px;
+    padding: 0;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  .ok-button {
+    background-color: rgb(75, 191, 107);
+    color: #fff;
+    font-size: 20px;
+    margin-right: 10px;
+    width: 60px;
+
+    &:hover {
+      background-color: rgb(69, 175, 97);
+    }
+  }
+
+  .cancel-button {
+    background-color: transparent;
+    color: #666;
+    font-size: 40px;
+  
+    &:hover {
+      color: #999;
+    }
+  }
 }

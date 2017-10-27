@@ -18,15 +18,37 @@ class BoardScreen extends React.Component {
     this.state = {
       data: [],
       isAddBoardEditing: false,
+      isBoardsLoading: false,
       addBoardValue: '',
     };
   }
 
   componentDidMount() {
+    this.onChangeBoardLoadingState('loading');
     sendGetHttpRequest($api.boards)
       .then((result) => {
         this.setState({data: result.boards});
       });
+  }
+
+  onChangeBoardLoadingState(boardName, id) {
+    let withLoadingBoard = this.state.data;
+
+    if (!id) {
+      withLoadingBoard.push({
+        _id: 'loading',
+        boardname: boardName,
+      });
+      this.setState({data: withLoadingBoard});
+    } else {
+      withLoadingBoard.forEach(function(board) {
+        if (board._id === id) {
+          board._id = 'loading';
+          board.boardname = 'deleting';
+          this.setState({data: withLoadingBoard});
+        }
+      }, this);
+    }
   }
 
   addBoard() {
@@ -35,6 +57,7 @@ class BoardScreen extends React.Component {
     }
     let reqObj = {'boardname': this.state.addBoardValue};
 
+    this.onChangeBoardLoadingState(this.state.addBoardValue);
     sendPostHttpRequest($api.boards, reqObj)
       .then((res) => {
         if (SUCCESSFUL_RESPONSE.test(res.status)) {
@@ -49,6 +72,7 @@ class BoardScreen extends React.Component {
   }
 
   deleteBoard(id) {
+    this.onChangeBoardLoadingState('deleting', id);
     sendDeleteHttpRequest($api.boards + '/' + id)
       .then((res) => {
         if (SUCCESSFUL_RESPONSE.test(res.status)) {
@@ -133,10 +157,12 @@ class BoardScreen extends React.Component {
         </div>
         <div className="board-add-list-row">
           <button
+            className="board-add-list-ok-button"
             onClick={this.addBoard.bind(this)}>
-            √
+            Add
           </button>
           <button
+            className="board-add-list-cancel-button"
             onClick={this.onChangeAddBoardState.bind(this, false)}>
             ×
           </button>

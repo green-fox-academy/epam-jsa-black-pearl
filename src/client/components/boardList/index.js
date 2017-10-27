@@ -18,6 +18,9 @@ class BoardList extends React.Component {
   }
 
   generateFullDate(dateObj) {
+    if (!dateObj) {
+      return '';
+    }
     let date = new Date(dateObj);
 
     return date.getFullYear() + '-' +
@@ -38,6 +41,20 @@ class BoardList extends React.Component {
   render() {
     let createDate = this.generateFullDate(this.props.boardDate);
 
+    if (this.props.boardId === 'loading') {
+      return (
+        <div className="board-list-loading">
+          <p className="board-name">
+            {this.props.boardName}
+          </p>
+          <div className="board-list-loading-spinner">
+            <div className="bounce1"></div>
+            <div className="bounce2"></div>
+            <div className="bounce3"></div>
+          </div>
+        </div>
+      );
+    }
     return (
       <div className="board-list"
         onClick={this.props.showBoardDetail}>
@@ -48,9 +65,8 @@ class BoardList extends React.Component {
         </p>
         <p className="board-date">
           Created at {createDate}
-          <span className="delete-icon"
-            onClick={this.onClickDelete.bind(this)}>
-            <a></a>
+          <span className="delete-icon">
+            <a onClick={this.onClickDelete.bind(this)}></a>
           </span>
         </p>
       </div>
