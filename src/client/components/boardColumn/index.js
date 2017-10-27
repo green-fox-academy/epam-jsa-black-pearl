@@ -13,6 +13,8 @@ class List extends React.Component {
       isAddCardTitleEditing: false,
       addCardTitleValue: '',
     };
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onAddCardClick = this.onAddCardClick.bind(this);
   }
 
   componentDidMount() {
@@ -46,21 +48,21 @@ class List extends React.Component {
 
     if (!this.state.isAddCardTitleEditing) {
       addCardField = (
-        <div className="add-column"
+        <div className="add-card"
           onClick={this.onChangeAddCardTitleState.bind(this, true)}>
           Add A Card...
         </div>
       );
     } else {
       addCardField = (
-        <div className="add-column">
+        <div className="add-card">
           <input type="text"
             ref={(c) => {
               this.input = c;
             }}
-            onChange={this.onInputChange.bind(this)} />
+            onChange={this.onInputChange} />
           <button className="ok-button"
-            onClick={this.onAddCardClick.bind(this)}>
+            onClick={this.onAddCardClick}>
             √
           </button>
           <button className="cancel-button"
@@ -89,7 +91,9 @@ class List extends React.Component {
   }
 
   onAddCardClick() {
-    this.props.addCard(this.props.column._id, this.state.addCardTitleValue);
+    if (this.state.addCardTitleValue) {
+      this.props.addCard(this.props.column._id, this.state.addCardTitleValue);
+    }
     this.setState({
       addCardTitleValue: '',
       isAddCardTitleEditing: false,
@@ -129,9 +133,7 @@ class List extends React.Component {
           <div>
             {cardDisplay}
           </div>
-          <div className="add-card">
-            {addCard}
-          </div>
+          {addCard}
         </div>
       </div>
     );
