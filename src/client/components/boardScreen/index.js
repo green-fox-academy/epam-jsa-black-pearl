@@ -24,25 +24,31 @@ class BoardScreen extends React.Component {
   }
 
   componentDidMount() {
-    let that = this;
-
-    this.pushLoadingBoard('loading');
-    setTimeout(function() {
-      sendGetHttpRequest($api.boards)
-        .then((result) => {
-          that.setState({data: result.boards});
-        });
-    }, 1500);
+    this.onChangeBoardLoadingState('loading');
+    sendGetHttpRequest($api.boards)
+      .then((result) => {
+        this.setState({data: result.boards});
+      });
   }
 
-  pushLoadingBoard(boardName) {
+  onChangeBoardLoadingState(boardName, id) {
     let withLoadingBoard = this.state.data;
 
-    withLoadingBoard.push({
-      _id: 'loading',
-      boardname: boardName,
-    });
-    this.setState({data: withLoadingBoard});
+    if (!id) {
+      withLoadingBoard.push({
+        _id: 'loading',
+        boardname: boardName,
+      });
+      this.setState({data: withLoadingBoard});
+    } else {
+      withLoadingBoard.forEach(function(board) {
+        if (board._id === id) {
+          board._id = 'loading';
+          board.boardname = 'deleting';
+          this.setState({data: withLoadingBoard});
+        }
+      }, this);
+    }
   }
 
   addBoard() {
@@ -51,6 +57,7 @@ class BoardScreen extends React.Component {
     }
     let reqObj = {'boardname': this.state.addBoardValue};
 
+    this.onChangeBoardLoadingState(this.state.addBoardValue);
     sendPostHttpRequest($api.boards, reqObj)
       .then((res) => {
         if (SUCCESSFUL_RESPONSE.test(res.status)) {
@@ -65,6 +72,7 @@ class BoardScreen extends React.Component {
   }
 
   deleteBoard(id) {
+    this.onChangeBoardLoadingState('deleting', id);
     sendDeleteHttpRequest($api.boards + '/' + id)
       .then((res) => {
         if (SUCCESSFUL_RESPONSE.test(res.status)) {
