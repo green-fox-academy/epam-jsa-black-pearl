@@ -10,20 +10,8 @@ class Cards extends React.Component {
   render() {
     return (
       <div className="board-card">
-        <p className="card-title">{this.props.card.cardname}</p>
+        <p className="card-title">{this.props.card.cardName}</p>
         <p className="card-subtitle">{this.props.card.cardsubname}</p>
-        <div className="card-info">
-          <div className="card-footer">
-            <span className="card-tag">
-              {this.props.card.tag}
-            </span>
-            <span className="card-stat">
-              lorem ipsum
-            </span>
-            <div className="card-users">
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
