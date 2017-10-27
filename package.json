@@ -9,7 +9,7 @@
     "test:backend": "mocha --colors",
     "lint:js": "eslint . --color",
     "lint:css": "stylelint src/client/**/*.scss --colors",
-    "lint": "npm-run-all --sequential lint:js lint:css--fix",
+    "lint": "npm-run-all --sequential lint:js lint:css",
     "start": "npm-run-all --sequential build start:backend",
     "build": "webpack --colors",
     "start:backend": "node ./src/server/index.js",
@@ -64,6 +64,7 @@
     "stylelint": "^8.2.0",
     "stylelint-config-sass-guidelines": "^3.1.0",
     "supertest": "^3.0.0",
+    "uglifyjs-webpack-plugin": "^1.0.1",
     "validator": "^9.0.0",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.8.2"

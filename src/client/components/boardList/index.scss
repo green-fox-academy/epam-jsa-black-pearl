@@ -1,8 +1,7 @@
 .board-list {
-  background-color: #add8e6;
+  background-color: rgb(0, 121, 191);
   border: 0;
   border-radius: 5px;
-  box-shadow: 0 0 5px rgb(168, 90, 90);
   box-sizing: border-box;
   cursor: pointer;
   font-family: Arial, Helvetica, sans-serif;
@@ -11,11 +10,17 @@
   margin: 0 15px 12px 0;
   min-width: 270px;
   padding: 0 10px;
+  transition: all .2s ease-in 0s;
   user-select: none;
   width: 31%;
 
   &:hover {
-    background-color: #3ab3ff;
+    background-color: rgb(0, 104, 160);
+
+    .delete-icon {
+      transform: translate(0);
+      transition: all .2s ease-in 0s;
+    }
   }
 
   p {
@@ -27,11 +32,41 @@
   }
 
   .board-name {
+    color: #fff;
     font-size: 24px;
   }
 
-  .board-id {
-    color: #888;
+  .board-date {
+    align-items: center;
+    color: #bbb;
+    display: flex;
     font-size: 14px;
+  }
+}
+
+.delete-icon {
+  display: flex;
+  flex-direction: row-reverse;
+  flex-grow: 5;
+  transform: translateX(28px);
+  transition: all .2s ease-in 0s;
+
+  a {
+    background-color: rgba(255, 255, 255, .3);
+    background-image: url('../../../img/delete.png');
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: 60%;
+    border: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block;
+    height: 28px;
+    transition: all .2s ease-in 0s;
+    width: 28px;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, .5);
+    }
   }
 }

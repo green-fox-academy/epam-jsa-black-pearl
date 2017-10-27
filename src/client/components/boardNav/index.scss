@@ -1,12 +1,11 @@
 .board-nav {
-  background-color: #fff;
-  box-shadow: 0 0 10px #808080;
+  background-color: #026aa7;
   box-sizing: border-box;
   display: flex;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: 20px;
   justify-content: space-between;
-  left: 0;
+  min-width: 768px;
   padding: 10px;
   width: 100%;
   
@@ -14,55 +13,101 @@
     margin: 0;
     padding: 0;
   }
+}
 
-  .nav-item {
-    align-items: center;
-    display: flex;
-    font-weight: bold;
-    text-decoration: none;
-    width: calc(100% / 3);
-
-    &:last-child {
-      display: flex;
-      justify-content: flex-end;
-    };
-
-    &:nth-child(2) {
-      color: #4a90e2;
-      display: flex;
-      font-size: 18px;
-      justify-content: center;
-    }
+.nav-left {
+  align-items: center;
+  display: flex;
+  
+  >* {
+    margin: 0 10px 0 0;
   }
 
-  .nav-left {
+  input {
+    background-color: rgba(255, 255, 255, .3);
+    background-image: url('../../../img/nav/Loupe.png');
+    background-position: 95% 50%;
+    background-repeat: no-repeat;
+    background-size: 15px;
+    border: 0;
+    border-radius: 5px;
+    height: 28px;
+    transition: all .2s ease-in 0s;
+    width: 150px;
+
+    &:focus {
+      background-color: rgb(255, 255, 255);
+      background-image: none;
+      width: 240px;
+    }
+  }
+}
+
+.nav-item {
+  align-items: center;
+  display: flex;
+  font-weight: bold;
+  text-decoration: none;
+  width: calc(100% / 3);
+
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+
+  &:last-child {
     display: flex;
+    justify-content: flex-end;
+  };
 
-    * {
-      margin: 0 10px 0 0;
-    }
+  &:nth-child(2) {
+    background-image: url('../../../img/logo.png');
+    background-position: 50% 0%;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    display: flex;
+    font-size: 20px;
+    height: 28px;
+    justify-content: center;
+    width: 170px;
+  }
+}
 
-    p {
-      color: #717171;
-      text-transform: uppercase;
-    }
+.nav-button {
+  align-items: center;
+  background-color: rgba(255, 255, 255, .3);
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  height: 30px;
+  max-width: 30px;
+  overflow: hidden;
+  transition: all .3s ease-in 0s;
 
-    img {
-      background-color: #fff;
-      height: 25px;
-      width: 25px;
-    }
+  p {
+    color: #fff;
+    overflow: hidden;
+    text-overflow: clip;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
 
-    input {
-      background-color: #eee;
-      background-image: url('../../../img/nav/Loupe.png');
-      background-position: 95% 50%;
-      background-repeat: no-repeat;
-      background-size: 15px;
-      border: 0;
-      border-radius: 20px;
-      height: 90%;
-      width: 150px;
-    }
+  img {
+    height: 18px;
+    width: 18px;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, .5);
+    max-width: 200px;
+  }
+
+  >* {
+    margin: 0 6px !important;
+  }
+
+  >div {
+    height: 18px;
+    width: 18px;
   }
 }
