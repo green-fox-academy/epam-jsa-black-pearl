@@ -115,7 +115,7 @@ class BoardDetail extends React.Component {
             onChange={this.onInputChange.bind(this)} />
           <button className="ok-button"
             onClick={this.addColumn}>
-            √
+            Add
           </button>
           <button className="cancel-button"
             onClick={this.onChangeAddColumnTitleState.bind(this, false)}>
@@ -133,10 +133,14 @@ class BoardDetail extends React.Component {
       this.setState({isAddColumnTitleEditing: state}, () => {
         this.input.addEventListener('keydown', this.onInputKeyDown.bind(this));
         this.input.focus();
+        this.input.addEventListener('keydown', this.onInputKeyDown.bind(this));
       });
     } else {
       this.input.removeEventListener('keydown', this.onInputKeyDown.bind(this));
-      this.setState({isAddColumnTitleEditing: state});
+      this.setState({
+        isAddColumnTitleEditing: state,
+        addColumnTitleValue: '',
+      });
     }
   }
 
@@ -148,10 +152,7 @@ class BoardDetail extends React.Component {
     if (ev.keyCode === ENTER_KEY_CODE) {
       this.addColumn();
     } else if (ev.keyCode === ESC_KEY_CODE) {
-      this.setState({
-        addColumnTitleValue: '',
-        isAddColumnTitleEditing: false,
-      });
+      this.onChangeAddColumnTitleState(false);
     }
   }
 

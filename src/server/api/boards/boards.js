@@ -101,7 +101,6 @@ function addCardToColumn(board, columnId, cardName) {
 }
 
 function filterCards(board, columnsId, cardsId) {
-
   board.columns = board.columns.map(function(e) {
     if (e._id.toString() === columnsId.toString()) {
       e.cards = e.cards.filter(function(element) {
