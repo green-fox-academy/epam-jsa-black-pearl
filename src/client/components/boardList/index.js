@@ -18,7 +18,7 @@ class BoardList extends React.Component {
   }
 
   generateFullDate(dateObj) {
-    if (dateObj) {
+    if (!dateObj) {
       return '';
     }
     let date = new Date(dateObj);
