@@ -24,22 +24,21 @@ class LoginForm extends React.Component {
       loginFailureMessage: '',
     };
     this.onLogin = this.onLogin.bind(this);
+    this.handleDocumentKeyPress = this.handleDocumentKeyPress.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('keypress', (ev) => {
-      if (ev.keyCode === ENTER_KEY_CODE) {
-        this.onLogin(ev);
-      }
-    });
+    document.addEventListener('keypress', this.handleDocumentKeyPress);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keypress', (ev) => {
-      if (ev.keyCode === ENTER_KEY_CODE) {
-        this.onLogin(ev);
-      }
-    });
+    document.removeEventListener('keypress', this.handleDocumentKeyPress);
+  }
+
+  handleDocumentKeyPress(ev) {
+    if (ev.keyCode === ENTER_KEY_CODE) {
+      this.onLogin(ev);
+    }
   }
 
   onLogin(ev) {
