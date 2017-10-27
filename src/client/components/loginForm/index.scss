@@ -40,6 +40,7 @@ $forgiveness: #4bbf6b;
     line-height: 2rem;
     width: 100%;
     @include login-button;
+    -webkit-appearance: none;
   }
 
   input:not([type='submit']) {
