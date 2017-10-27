@@ -66,7 +66,7 @@ class List extends React.Component {
             onChange={this.onInputChange} />
           <button className="ok-button"
             onClick={this.onAddCardClick}>
-            √
+            Add
           </button>
           <button className="cancel-button"
             onClick={this.onChangeAddCardTitleState.bind(this, false)}>

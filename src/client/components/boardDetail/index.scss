@@ -31,26 +31,27 @@
       outline: 0;
     }
   }
+}
 
-  .ok-button {
-    background-color: rgb(75, 191, 107);
-    color: #fff;
-    font-size: 20px;
-    margin-right: 10px;
-    width: 60px;
+.ok-button {
+  background-color: rgb(75, 191, 107);
+  color: #fff;
+  font-size: 20px;
+  margin-right: 10px;
+  width: 60px;
 
-    &:hover {
-      background-color: rgb(69, 175, 97);
-    }
+  &:hover {
+    background-color: rgb(69, 175, 97);
   }
+}
 
-  .cancel-button {
-    background-color: transparent;
-    color: #666;
-    font-size: 40px;
-  
-    &:hover {
-      color: #999;
-    }
+.cancel-button {
+  background-color: transparent;
+  color: #666;
+  font-size: 40px;
+  margin-bottom: 8px;
+
+  &:hover {
+    color: #999;
   }
 }
