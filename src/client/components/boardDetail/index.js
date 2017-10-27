@@ -30,19 +30,20 @@ class BoardDetail extends React.Component {
   }
 
   addColumn() {
-    let reqObj = {columnName: this.state.addColumnTitleValue};
+    if (this.state.addColumnTitleValue) {
+      let reqObj = {columnName: this.state.addColumnTitleValue};
 
-    sendPostHttpRequest($api.boards + '/' +
-      this.props.match.params.id + '/columns', reqObj)
-      .then((res) => {
-        if (SUCCESSFUL_RESPONSE.test(res.status)) {
-          sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
-            .then((result) => {
-              this.setState({data: result});
-            });
-        }
-      });
-
+      sendPostHttpRequest($api.boards + '/' +
+        this.props.match.params.id + '/columns', reqObj)
+        .then((res) => {
+          if (SUCCESSFUL_RESPONSE.test(res.status)) {
+            sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+              .then((result) => {
+                this.setState({data: result});
+              });
+          }
+        });
+    }
     this.setState({
       addColumnTitleValue: '',
       isAddColumnTitleEditing: false,
