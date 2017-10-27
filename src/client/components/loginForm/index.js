@@ -9,6 +9,8 @@ const MIN_PASSWORD_LENGTH = 6;
 const ANIMATION_SHAKING_DURATION = 250;
 const STATUS_CODE_OK = 200;
 
+const ENTER_KEY_CODE = 13;
+
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -21,6 +23,23 @@ class LoginForm extends React.Component {
       isLoginFailure: false,
       loginFailureMessage: '',
     };
+    this.onLogin = this.onLogin.bind(this);
+  }
+
+  componentDidMount() {
+    document.addEventListener('keypress', (ev) => {
+      if (ev.keyCode === ENTER_KEY_CODE) {
+        this.onLogin(ev);
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keypress', (ev) => {
+      if (ev.keyCode === ENTER_KEY_CODE) {
+        this.onLogin(ev);
+      }
+    });
   }
 
   onLogin(ev) {
@@ -93,7 +112,7 @@ class LoginForm extends React.Component {
       button = (
         <div>
           <input type="submit" value="Login"
-            onClick={this.onLogin.bind(this)}
+            onClick={this.onLogin}
             className={this.state.isInvalidFields ? 'shaking' : ''} />
         </div>
       );
