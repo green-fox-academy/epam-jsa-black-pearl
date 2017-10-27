@@ -3,11 +3,6 @@ import React from 'react';
 import './index.scss';
 import Card from '../boardCard';
 import Menu from '../columnMenu';
-import $api from '../../api/api.json';
-import {sendGetHttpRequest, sendPostHttpRequest, sendDeleteHttpRequest}
-  from '../../controller/httpRequest.js';
-
-const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
 
 class List extends React.Component {
   constructor(props) {
@@ -46,38 +41,18 @@ class List extends React.Component {
     this.setState({isEditing: false});
   }
 
-  addCard() {
-    let reqObj = {cardName: this.state.addCardTitleValue};
-
-    sendPostHttpRequest($api.boards + '/' + this.props.match.params.id +
-      '/columns/' + this.props.column._id + '/cards', reqObj)
-      .then((res) => {
-        if (SUCCESSFUL_RESPONSE.test(res.status)) {
-          sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
-            .then((result) => {
-              this.setState({data: result});
-            });
-        }
-      });
-
-    this.setState({
-      addCardTitleValue: '',
-      isAddCardTitleEditing: false,
-    });
-  }
-
   generateAddCard() {
-    let addCard = null;
+    let addCardField = null;
 
     if (!this.state.isAddCardTitleEditing) {
-      addCard = (
+      addCardField = (
         <div className="add-column"
           onClick={this.onChangeAddCardTitleState.bind(this, true)}>
           Add A Card...
         </div>
       );
     } else {
-      addCard = (
+      addCardField = (
         <div className="add-column">
           <input type="text"
             ref={(c) => {
@@ -85,7 +60,7 @@ class List extends React.Component {
             }}
             onChange={this.onInputChange.bind(this)} />
           <button className="ok-button"
-            onClick={this.addCard}>
+            onClick={this.onAddCardClick.bind(this)}>
             √
           </button>
           <button className="cancel-button"
@@ -96,7 +71,7 @@ class List extends React.Component {
       );
     }
 
-    return addCard;
+    return addCardField;
   }
 
   onChangeAddCardTitleState(state) {
@@ -111,6 +86,14 @@ class List extends React.Component {
 
   onInputChange(ev) {
     this.setState({addCardTitleValue: ev.target.value});
+  }
+
+  onAddCardClick() {
+    this.props.addCard(this.props.column._id, this.state.addCardTitleValue);
+    this.setState({
+      addCardTitleValue: '',
+      isAddCardTitleEditing: false,
+    });
   }
 
   render() {

@@ -19,6 +19,7 @@ class BoardDetail extends React.Component {
     };
     this.addColumn = this.addColumn.bind(this);
     this.deleteColumn = this.deleteColumn.bind(this);
+    this.addCard = this.addCard.bind(this);
   }
 
   componentWillMount() {
@@ -61,6 +62,21 @@ class BoardDetail extends React.Component {
       });
   }
 
+  addCard(columnId, cardTitle) {
+    let reqObj = {cardName: cardTitle};
+
+    sendPostHttpRequest($api.boards + '/' + this.props.match.params.id +
+      '/columns/' + columnId + '/cards', reqObj)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+            .then((result) => {
+              this.setState({data: result});
+            });
+        }
+      });
+  }
+
   generateBoardColumn() {
     let boardDisplay = [];
 
@@ -68,7 +84,7 @@ class BoardDetail extends React.Component {
       this.state.data.columns.forEach(function(element) {
         boardDisplay.push(
           <BoardColumn column={element} key={element._id}
-            deleteColumn={this.deleteColumn} />
+            deleteColumn={this.deleteColumn} addCard={this.addCard} />
         );
       }, this);
     }
