@@ -129,7 +129,7 @@ class List extends React.Component {
     }
 
     return (
-      <div className="board-column-wrapper">
+      <div className="board-column-wrapper" draggable="true">
         <div className="board-column">
           <div className="column-header">
             <h4 className="column-title">{this.props.column.columnName}</h4>
