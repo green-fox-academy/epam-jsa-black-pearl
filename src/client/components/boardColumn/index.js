@@ -116,6 +116,15 @@ class List extends React.Component {
     });
   }
 
+  handleDragStart(id, ev) {
+    ev.dataTransfer.setData('Text', id);
+    ev.target.style.opacity = '0.1';
+  }
+
+  handleDragEnd(ev) {
+    ev.target.style.opacity = '1.0';
+  }
+
   render() {
     let cardDisplay = [];
     let addCard = this.generateAddCard();
@@ -129,8 +138,10 @@ class List extends React.Component {
     }
 
     return (
-      <div className="board-column-wrapper" draggable="true">
-        <div className="board-column">
+      <div className="board-column-wrapper">
+        <div className="board-column" draggable="true"
+          onDragStart={this.handleDragStart.bind(this, this.props.column._id)}
+          onDragEnd={this.handleDragEnd.bind(this)}>
           <div className="column-header">
             <h4 className="column-title">{this.props.column.columnName}</h4>
             <div className="edit-icon"
