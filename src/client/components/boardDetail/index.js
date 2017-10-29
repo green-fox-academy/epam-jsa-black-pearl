@@ -65,6 +65,25 @@ class BoardDetail extends React.Component {
       });
   }
 
+  switchColumns(sourceColumnId, targetColumnId) {
+    let columnArray = this.state.data.columns;
+    let sourceColumnIndex;
+    let targetColumnIndex;
+
+    columnArray.forEach(function(element, index) {
+      if (element._id === sourceColumnId) {
+        sourceColumnIndex = index;
+      } else if (element._id === targetColumnId) {
+        targetColumnIndex = index;
+      }
+    }, this);
+
+    let intermediateElement = columnArray[sourceColumnIndex];
+
+    columnArray[sourceColumnIndex] = columnArray[targetColumnIndex];
+    columnArray[targetColumnIndex] = intermediateElement;
+  }
+
   addCard(columnId, cardTitle) {
     let reqObj = {cardName: cardTitle};
 
