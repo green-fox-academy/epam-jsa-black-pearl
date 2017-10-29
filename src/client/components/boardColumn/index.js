@@ -118,7 +118,7 @@ class List extends React.Component {
 
   handleDragStart(id, ev) {
     ev.dataTransfer.setData('Text', id);
-    ev.target.style.opacity = '0.1';
+    ev.target.style.opacity = '1.0';
   }
 
   handleDragEnd(ev) {
@@ -129,10 +129,14 @@ class List extends React.Component {
     ev.preventDefault();
   }
 
-  handleDrop(id, ev) {
+  handleDrop(ev) {
     let sourceColumnId = ev.dataTransfer.getData('Text');
 
-    this.props.switchColumns(sourceColumnId, id);
+    if (this.props.column._id === sourceColumnId) {
+      return;
+    }
+
+    this.props.switchColumns(sourceColumnId, this.props.column._id);
   }
 
   render() {
@@ -148,12 +152,12 @@ class List extends React.Component {
     }
 
     return (
-      <div className="board-column-wrapper">
+      <div className="board-column-wrapper"
+        onDragOver={this.handleDragOver.bind(this, this.props.column._id)}
+        onDrop={this.handleDrop.bind(this)}>
         <div className="board-column" draggable="true"
           onDragStart={this.handleDragStart.bind(this, this.props.column._id)}
-          onDragEnd={this.handleDragEnd.bind(this)}
-          onDragOver={this.handleDragOver.bind(this, this.props.column._id)}
-          onDrop={this.handleDrop.bind(this, this.props.column._id)}>
+          onDragEnd={this.handleDragEnd.bind(this)}>
           <div className="column-header">
             <h4 className="column-title">{this.props.column.columnName}</h4>
             <div className="edit-icon"
