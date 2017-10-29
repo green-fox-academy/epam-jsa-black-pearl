@@ -66,11 +66,11 @@ class BoardDetail extends React.Component {
   }
 
   switchColumns(sourceColumnId, targetColumnId) {
-    let columnArray = this.state.data.columns;
+    let data = this.state.data;
     let sourceColumnIndex;
     let targetColumnIndex;
 
-    columnArray.forEach(function(element, index) {
+    data.columns.forEach(function(element, index) {
       if (element._id === sourceColumnId) {
         sourceColumnIndex = index;
       } else if (element._id === targetColumnId) {
@@ -78,10 +78,12 @@ class BoardDetail extends React.Component {
       }
     }, this);
 
-    let intermediateElement = columnArray[sourceColumnIndex];
+    let intermediateElement = data.columns[sourceColumnIndex];
 
-    columnArray[sourceColumnIndex] = columnArray[targetColumnIndex];
-    columnArray[targetColumnIndex] = intermediateElement;
+    data.columns[sourceColumnIndex] = data.columns[targetColumnIndex];
+    data.columns[targetColumnIndex] = intermediateElement;
+
+    this.setState({data: data});
   }
 
   addCard(columnId, cardTitle) {
@@ -106,7 +108,8 @@ class BoardDetail extends React.Component {
       this.state.data.columns.forEach(function(element) {
         boardDisplay.push(
           <BoardColumn column={element} key={element._id}
-            deleteColumn={this.deleteColumn} addCard={this.addCard} />
+            deleteColumn={this.deleteColumn} addCard={this.addCard}
+            switchColumns={this.switchColumns.bind(this)} />
         );
       }, this);
     }
