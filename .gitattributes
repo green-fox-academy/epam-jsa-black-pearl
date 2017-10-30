@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 *.js eol=lf;
+=======
+*.js text=auto eol=lf;
+>>>>>>> b49c5e279dc5f270ff3b76a07fe58da868d71c2f
