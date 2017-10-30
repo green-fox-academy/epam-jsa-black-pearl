@@ -152,7 +152,7 @@ class List extends React.Component {
       return;
     }
 
-    this.props.switchColumns(sourceColumnId, this.props.column._id);
+    this.props.reorderColumns(sourceColumnId, this.props.column._id);
   }
 
   render() {
