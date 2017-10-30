@@ -117,19 +117,31 @@ class List extends React.Component {
   }
 
   handleDragStart(id, ev) {
-    ev.dataTransfer.setData('Text', id);
-    ev.target.style.opacity = '1.0';
+    ev.dataTransfer.setData('text', id);
+    ev.target.style.opacity = '0.5';
   }
 
   handleDragEnd(ev) {
     ev.target.style.opacity = '1.0';
   }
 
+  handleDragEnter(ev) {
+    if (this.wrapper.contains(ev.target)) {
+      this.wrapper.style.border = '2px dashed #026aa7';
+    }
+  }
+
   handleDragOver(id, ev) {
     ev.preventDefault();
+    this.wrapper.style.border = '2px dashed #026aa7';
+  }
+
+  handleDragLeave(ev) {
+    this.wrapper.style.border = '';
   }
 
   handleDrop(ev) {
+    this.wrapper.style.border = '';
     let sourceColumnId = ev.dataTransfer.getData('Text');
 
     if (this.props.column._id === sourceColumnId) {
@@ -153,8 +165,13 @@ class List extends React.Component {
 
     return (
       <div className="board-column-wrapper"
+        onDragEnter={this.handleDragEnter.bind(this)}
         onDragOver={this.handleDragOver.bind(this, this.props.column._id)}
-        onDrop={this.handleDrop.bind(this)}>
+        onDragLeave={this.handleDragLeave.bind(this)}
+        onDrop={this.handleDrop.bind(this)}
+        ref={(elem) => {
+          this.wrapper = elem;
+        }}>
         <div className="board-column" draggable="true"
           onDragStart={this.handleDragStart.bind(this, this.props.column._id)}
           onDragEnd={this.handleDragEnd.bind(this)}>
