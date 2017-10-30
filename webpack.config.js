@@ -79,13 +79,5 @@ module.exports = {
       inject: 'body',
     }),
     new UglifyJSPlugin(),
-<<<<<<< HEAD
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-      },
-    }),
-=======
->>>>>>> develop
   ],
 };
