@@ -111,6 +111,15 @@ function filterCards(board, columnsId, cardsId) {
   });
 }
 
+function renameColumn(board, columnsId, name) {
+  board.columns = board.columns.map(function(e) {
+    if (e._id.toString() === columnsId.toString()) {
+      e.columnName = name;
+    }
+    console.log(e);
+  });
+}
+
 function createNewBoard(request, username, callback) {
   MongoClient.connect(url, function(err, database) {
     if (err) {
@@ -304,19 +313,20 @@ function deleteCardById(username, boardId, columnsId, cardsId, callback) {
   });
 }
 
-function modifyColumnName(username, boardId, columnId, callback) {
+function modifyColumnName(request, username, boardId, columnsId, callback) {
   MongoClient.connect(url, function(err, database) {
     if (err) {
       return callback('error');
     }
     console.log('Connection established to ' + url);
-    let query = columnQuery;
+    let query = columnQuery(username, boardId, columnsId);
 
     database.collection('boards').findOne(query, function(err, result) {
       if (result === null) {
         return callback('notFound');
       }
       console.log(result);
+      renameColumn(result, columnsId, request.cardName);
       database.close();
       if (err) {
         return callback('error');

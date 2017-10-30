@@ -249,8 +249,12 @@ router.put('/boards/:id/columns/:columsid', function(req, res) {
 
   if (!username) {
     res.status(STATUS_FORBIDDEN).json({message: NOT_LOGIN_MESSAGE});
+  } else if (!req.is('application/json')) {
+    res.status(BAD_REQUEST).json({message: CONTENT_TYPE_ERROR_MESSAGE});
+  } else if (!req.body.boardname) {
+    res.status(BAD_REQUEST).json({message: MISSING_FIELD_MESSAGE});
   } else {
-    boards.modifyColumnName(username, boardId, columnsId, function(result) {
+    boards.modifyColumnName(req.body, username, boardId, columnsId, function(result) {
       if (result === 'error' || !result) {
         res.status(INTERNAL_SERVER_ERROR).json({message: SERVER_ERROR_MESSAGE});
       } else if (result === 'notFound') {
