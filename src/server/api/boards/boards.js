@@ -100,6 +100,47 @@ function addCardToColumn(board, columnId, cardName) {
   });
 }
 
+function validateColumnId(board, columnId, newColumnId) {
+  let oldFound = false;
+  let newFound = false;
+
+  board.columns.forEach(function(element) {
+    if (element._id.toString() === columnId.toString()) {
+      oldFound = true;
+    }
+    if (element._id.toString() === newColumnId.toString()) {
+      newFound = true;
+    }
+  });
+  return oldFound && newFound;
+}
+
+function moveCard(board, request, columnId, cardId) {
+  let card = {};
+
+  board.columns = board.columns.map(function(element) {
+    if (element._id.toString() === columnId.toString()) {
+      element.cards = element.cards.filter(function(e) {
+        if (e._id.toString() === cardId.toString()) {
+          card = e;
+          return false;
+        }
+        return true;
+      });
+    }
+    return element;
+  });
+  if (!card._id) {
+    return;
+  }
+  board.columns = board.columns.map(function(element) {
+    if (element._id.toString() === request.newColumnId.toString()) {
+      element.cards.splice(request.newIndex, 0, card);
+    }
+    return element;
+  });
+}
+
 function filterCards(board, columnsId, cardsId) {
   board.columns = board.columns.map(function(e) {
     if (e._id.toString() === columnsId.toString()) {
@@ -239,7 +280,8 @@ function deleteColumnId(username, boardId, columnsId, callback) {
         return false;
       });
 
-      database.collection('boards').update(query, {$set: {'columns': newColumns}});
+      database.collection('boards')
+        .update(query, {$set: {'columns': newColumns}});
       database.close();
       if (err) {
         return callback('error');
@@ -294,12 +336,43 @@ function deleteCardById(username, boardId, columnsId, cardsId, callback) {
         return callback('notFound');
       }
       filterCards(result, columnsId, cardsId);
-      database.collection('boards').update(query, {$set: {'columns': result.columns}});
+      database.collection('boards')
+        .update(query, {$set: {'columns': result.columns}});
       database.close();
       if (err) {
         return callback('error');
       }
       callback(result);
+    });
+  });
+}
+
+function moveCardToNewColumn(request, boardId, columnId, cardId, callback) {
+  getBoardById(request.username, boardId, function(board) {
+    if (board === 'notFound' || !board) {
+      return callback('notFound');
+    } else if (board === 'error') {
+      return callback('error');
+    }
+    if (!validateColumnId(board, columnId, request.newColumnId)) {
+      return callback('notFound');
+    }
+    moveCard(board, request, columnId, cardId);
+    MongoClient.connect(url, function(err, database) {
+      if (err) {
+        return callback('error');
+      }
+      database.collection('boards').update({_id: new mongodb.ObjectId(boardId)},
+        {$set: board}, function(err, result) {
+          database.close();
+          if (err) {
+            return callback('error');
+          }
+          if (result.result.nModified) {
+            return callback('updated');
+          }
+          return callback('notFound');
+        });
     });
   });
 }
@@ -313,4 +386,5 @@ module.exports = {
   'createNewColumn': createNewColumn,
   'createNewCard': createNewCard,
   'deleteCardById': deleteCardById,
+  'moveCardToNewColumn': moveCardToNewColumn,
 };
