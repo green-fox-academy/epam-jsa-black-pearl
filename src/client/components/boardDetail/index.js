@@ -67,23 +67,26 @@ class BoardDetail extends React.Component {
 
   switchColumns(sourceColumnId, targetColumnId) {
     let data = this.state.data;
-    let sourceColumnIndex;
     let targetColumnIndex;
 
     data.columns.forEach(function(element, index) {
-      if (element._id === sourceColumnId) {
-        sourceColumnIndex = index;
-      } else if (element._id === targetColumnId) {
+      if (element._id === targetColumnId) {
         targetColumnIndex = index;
       }
     }, this);
 
-    let intermediateElement = data.columns[sourceColumnIndex];
+    let requestBody = {
+      sourceColumnId: sourceColumnId,
+      targetColumnIndex: targetColumnIndex,
+    };
 
-    data.columns[sourceColumnIndex] = data.columns[targetColumnIndex];
-    data.columns[targetColumnIndex] = intermediateElement;
-
-    this.setState({data: data});
+    sendPostHttpRequest($api, requestBody)
+      .then((res) => {
+        sendGetHttpRequest($api)
+          .then((result) => {
+            this.setState({data: data});
+          });
+      });
   }
 
   addCard(columnId, cardTitle) {
