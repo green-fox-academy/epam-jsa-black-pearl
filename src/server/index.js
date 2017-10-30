@@ -242,6 +242,8 @@ router.delete('/boards/:id/columns/:columsid/cards/:cardsid', function(req, res)
   }
 });
 
+router.put('')
+
 app.use('/api', router);
 
 app.get(['/login', '/register', '/boards', '/boards/:id'], (req, res) => {

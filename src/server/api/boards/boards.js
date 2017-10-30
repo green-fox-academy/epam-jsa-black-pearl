@@ -304,6 +304,10 @@ function deleteCardById(username, boardId, columnsId, cardsId, callback) {
   });
 }
 
+function modifyColumnName() {
+
+}
+
 module.exports = {
   'createNewBoard': createNewBoard,
   'getBoardsByUser': getBoardsByUser,
@@ -313,4 +317,5 @@ module.exports = {
   'createNewColumn': createNewColumn,
   'createNewCard': createNewCard,
   'deleteCardById': deleteCardById,
+  'modifyColumnName': modifyColumnName,
 };
