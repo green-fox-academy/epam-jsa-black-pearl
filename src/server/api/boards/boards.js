@@ -304,8 +304,26 @@ function deleteCardById(username, boardId, columnsId, cardsId, callback) {
   });
 }
 
-function modifyColumnName() {
+function modifyColumnName(username, boardId, columnId, callback) {
+  MongoClient.connect(url, function(err, database) {
+    if (err) {
+      return callback('error');
+    }
+    console.log('Connection established to ' + url);
+    let query = columnQuery;
 
+    database.collection('boards').findOne(query, function(err, result) {
+      if (result === null) {
+        return callback('notFound');
+      }
+      console.log(result);
+      database.close();
+      if (err) {
+        return callback('error');
+      }
+      callback(result);
+    });
+  });
 }
 
 module.exports = {
