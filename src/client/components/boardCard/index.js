@@ -10,7 +10,7 @@ class Cards extends React.Component {
   render() {
     return (
       <div className="board-card">
-        <p className="card-title">{this.props.card.cardName}</p>
+        <p className="card-title">{this.props.card.cardName}<span>X</span></p>
         <p className="card-subtitle">{this.props.card.cardsubname}</p>
       </div>
     );
