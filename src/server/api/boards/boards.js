@@ -116,7 +116,6 @@ function renameColumn(board, columnsId, name) {
     if (e._id.toString() === columnsId.toString()) {
       e.columnName = name;
     }
-    console.log(e);
     return e;
   });
 }
