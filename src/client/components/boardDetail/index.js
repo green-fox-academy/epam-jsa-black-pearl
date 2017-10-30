@@ -8,6 +8,8 @@ import {sendGetHttpRequest, sendPostHttpRequest, sendDeleteHttpRequest}
 import './index.scss';
 
 const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
+const ENTER_KEY_CODE = 13;
+const ESC_KEY_CODE = 27;
 
 class BoardDetail extends React.Component {
   constructor(props) {
@@ -19,6 +21,7 @@ class BoardDetail extends React.Component {
     };
     this.addColumn = this.addColumn.bind(this);
     this.deleteColumn = this.deleteColumn.bind(this);
+    this.addCard = this.addCard.bind(this);
   }
 
   componentWillMount() {
@@ -29,19 +32,20 @@ class BoardDetail extends React.Component {
   }
 
   addColumn() {
-    let reqObj = {columnName: this.state.addColumnTitleValue};
+    if (this.state.addColumnTitleValue) {
+      let reqObj = {columnName: this.state.addColumnTitleValue};
 
-    sendPostHttpRequest($api.boards + '/' +
-      this.props.match.params.id + '/columns', reqObj)
-      .then((res) => {
-        if (SUCCESSFUL_RESPONSE.test(res.status)) {
-          sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
-            .then((result) => {
-              this.setState({data: result});
-            });
-        }
-      });
-
+      sendPostHttpRequest($api.boards + '/' +
+        this.props.match.params.id + '/columns', reqObj)
+        .then((res) => {
+          if (SUCCESSFUL_RESPONSE.test(res.status)) {
+            sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+              .then((result) => {
+                this.setState({data: result});
+              });
+          }
+        });
+    }
     this.setState({
       addColumnTitleValue: '',
       isAddColumnTitleEditing: false,
@@ -61,6 +65,21 @@ class BoardDetail extends React.Component {
       });
   }
 
+  addCard(columnId, cardTitle) {
+    let reqObj = {cardName: cardTitle};
+
+    sendPostHttpRequest($api.boards + '/' + this.props.match.params.id +
+      '/columns/' + columnId + '/cards', reqObj)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+            .then((result) => {
+              this.setState({data: result});
+            });
+        }
+      });
+  }
+
   generateBoardColumn() {
     let boardDisplay = [];
 
@@ -68,7 +87,7 @@ class BoardDetail extends React.Component {
       this.state.data.columns.forEach(function(element) {
         boardDisplay.push(
           <BoardColumn column={element} key={element._id}
-            deleteColumn={this.deleteColumn} />
+            deleteColumn={this.deleteColumn} addCard={this.addCard} />
         );
       }, this);
     }
@@ -96,10 +115,11 @@ class BoardDetail extends React.Component {
             onChange={this.onInputChange.bind(this)} />
           <button className="ok-button"
             onClick={this.addColumn}>
-            √
+            Add
           </button>
           <button className="cancel-button"
             onClick={this.onChangeAddColumnTitleState.bind(this, false)}>
+            x
           </button>
         </div>
       );
@@ -111,15 +131,29 @@ class BoardDetail extends React.Component {
   onChangeAddColumnTitleState(state) {
     if (state) {
       this.setState({isAddColumnTitleEditing: state}, () => {
+        this.input.addEventListener('keydown', this.onInputKeyDown.bind(this));
         this.input.focus();
+        this.input.addEventListener('keydown', this.onInputKeyDown.bind(this));
       });
     } else {
-      this.setState({isAddColumnTitleEditing: state});
+      this.input.removeEventListener('keydown', this.onInputKeyDown.bind(this));
+      this.setState({
+        isAddColumnTitleEditing: state,
+        addColumnTitleValue: '',
+      });
     }
   }
 
   onInputChange(ev) {
     this.setState({addColumnTitleValue: ev.target.value});
+  }
+
+  onInputKeyDown(ev) {
+    if (ev.keyCode === ENTER_KEY_CODE) {
+      this.addColumn();
+    } else if (ev.keyCode === ESC_KEY_CODE) {
+      this.onChangeAddColumnTitleState(false);
+    }
   }
 
   render() {
