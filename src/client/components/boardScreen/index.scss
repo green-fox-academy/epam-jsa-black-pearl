@@ -59,14 +59,6 @@ body {
   }
 }
 
-.add-column {
-  .board-column {
-    cursor: pointer;
-    padding: 0 !important;
-    user-select: none;
-  }
-}
-
 .board-main-list {
   align-content: flex-start;
   display: flex;
@@ -77,7 +69,7 @@ body {
   margin: 20px 50px;
 }
 
-.board-add-list {
+@mixin boardNonContentList {
   background-color: #ddd;
   border: 0;
   border-radius: 5px;
@@ -86,14 +78,18 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   height: 80px;
   justify-content: space-between;
-  line-height: 80px;
   margin: 0 15px 12px 0;
   min-width: 270px;
   padding: 0 10px;
-  text-align: center;
   transition: all .2s ease-in 0s;
   user-select: none;
   width: 31%;
+}
+
+.board-add-list {
+  @include boardNonContentList;
+  line-height: 80px;
+  text-align: center;
 
   &:hover {
     background-color: #ccc;
@@ -116,7 +112,7 @@ body {
   align-items: center;
   display: flex;
   height: 40px;
-  justify-content: flex-start;
+  justify-content: flex-end;
   line-height: 40px;
 
   input {
@@ -137,25 +133,35 @@ body {
     border: 0;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 20px;
     height: 30px;
     line-height: 30px;
-    margin-right: 10px;
     padding: 0;
-    width: 60px;
 
     &:focus {
       outline: 0;
     }
+  }
+}
 
-    &:first-child {
-      background-color: #fff;
-    }
+.board-add-list-ok-button {
+  background-color: rgb(75, 191, 107);
+  color: #fff;
+  font-size: 20px;
+  margin-right: 10px;
+  width: 25%;
 
-    &:last-child {
-      background-color: #666;
-      width: 30px;
-    }
+  &:hover {
+    background-color: rgb(69, 175, 97);
+  }
+}
+
+.board-add-list-cancel-button {
+  background-color: transparent;
+  color: #666;
+  font-size: 40px;
+
+  &:hover {
+    color: #999;
   }
 }
 
@@ -214,5 +220,63 @@ body {
 
   .board-name {
     font-size: 24px;
+  }
+}
+
+.board-list-loading {
+  @include boardNonContentList;
+  line-height: 40px;
+
+  .board-name {
+    color: #fff;
+    font-size: 24px;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.board-list-loading-spinner {
+  align-items: center;
+  display: flex;
+  height: 50%;
+  justify-content: center;
+  margin: 0 auto;
+  width: 50%;
+
+  >div {
+    -webkit-animation: bouncedelay 1.4s infinite ease-in-out both;
+    animation: bouncedelay 1.4s infinite ease-in-out both;
+    background-color: #0079bf;
+    border-radius: 100%;
+    display: inline-block;
+    margin: 0 10px;
+    height: 18px;
+    width: 18px;
+  }
+
+  .bounce1 {
+    -webkit-animation-delay: -.32s;
+    animation-delay: -.32s;
+  }
+
+  .bounce2 {
+    -webkit-animation-delay: -.16s;
+    animation-delay: -.16s;
+  }
+}
+
+@keyframes bouncedelay {
+  0%,
+  80%,
+  100% {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+
+  40% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
   }
 }

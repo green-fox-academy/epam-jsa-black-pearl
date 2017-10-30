@@ -20,7 +20,7 @@ module.exports = {
     'func-style': ['error', 'declaration', {'allowArrowFunctions': true}],
     'indent': ['error', 2],
     'max-depth': ['error', 3],
-    'max-lines': ['error', 200],
+    'max-lines': ['error', 250],
     'max-nested-callbacks': ['error', 3],
     'max-params': ['error', 5],
     'max-statements': ['error', 10, {'ignoreTopLevelFunctions': true}],
