@@ -121,6 +121,10 @@ class List extends React.Component {
     ev.target.style.opacity = '0.5';
   }
 
+  handleDrag(ev) {
+    return;
+  }
+
   handleDragEnd(ev) {
     ev.target.style.opacity = '1.0';
   }
@@ -174,6 +178,7 @@ class List extends React.Component {
         }}>
         <div className="board-column" draggable="true"
           onDragStart={this.handleDragStart.bind(this, this.props.column._id)}
+          onDrag={this.handleDrag.bind(this)}
           onDragEnd={this.handleDragEnd.bind(this)}>
           <div className="column-header">
             <h4 className="column-title">{this.props.column.columnName}</h4>
