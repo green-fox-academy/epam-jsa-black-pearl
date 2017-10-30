@@ -117,6 +117,7 @@ function renameColumn(board, columnsId, name) {
       e.columnName = name;
     }
     console.log(e);
+    return e;
   });
 }
 
@@ -321,17 +322,32 @@ function modifyColumnName(request, username, boardId, columnsId, callback) {
     console.log('Connection established to ' + url);
     let query = columnQuery(username, boardId, columnsId);
 
+    if (!query) {
+      return callback('notFound');
+    }
     database.collection('boards').findOne(query, function(err, result) {
       if (result === null) {
         return callback('notFound');
       }
-      console.log(result);
-      renameColumn(result, columnsId, request.cardName);
-      database.close();
+      if (!query) {
+        return callback('notFound');
+      }
+      renameColumn(result, columnsId, request.columnName);
+      database.collection('boards').update(query,
+        {$set: {'columns': result.columns}}, function(err, obj) {
+          database.close();
+          console.log(obj.result.nModified);
+          if (err) {
+            return callback('error');
+          }
+          if (obj.result.nModified) {
+            return callback(obj);
+          }
+          return callback('notFound');
+        });
       if (err) {
         return callback('error');
       }
-      callback(result);
     });
   });
 }

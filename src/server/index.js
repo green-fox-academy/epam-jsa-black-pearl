@@ -251,7 +251,7 @@ router.put('/boards/:id/columns/:columsid', function(req, res) {
     res.status(STATUS_FORBIDDEN).json({message: NOT_LOGIN_MESSAGE});
   } else if (!req.is('application/json')) {
     res.status(BAD_REQUEST).json({message: CONTENT_TYPE_ERROR_MESSAGE});
-  } else if (!req.body.boardname) {
+  } else if (!req.body.columnName || req.body.columnName === ' ') {
     res.status(BAD_REQUEST).json({message: MISSING_FIELD_MESSAGE});
   } else {
     boards.modifyColumnName(req.body, username, boardId, columnsId, function(result) {
