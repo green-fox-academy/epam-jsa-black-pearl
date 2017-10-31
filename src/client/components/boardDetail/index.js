@@ -26,6 +26,7 @@ class BoardDetail extends React.Component {
     this.deleteColumn = this.deleteColumn.bind(this);
     this.renameColumn = this.renameColumn.bind(this);
     this.addCard = this.addCard.bind(this);
+    this.deleteCard = this.deleteCard.bind(this);
     this.reorderColumns = this.reorderColumns.bind(this);
   }
 
@@ -100,12 +101,10 @@ class BoardDetail extends React.Component {
       }
     }, this);
 
-    let requestBody = {
-      sourceColumnId: sourceColumnId,
-      targetColumnIndex: targetColumnIndex,
-    };
+    let requestBody = {newIndex: targetColumnIndex};
 
-    sendPostHttpRequest($api.boards, requestBody)
+    sendPostHttpRequest($api.boards + '/' + this.props.match.params.id +
+    '/columns/' + sourceColumnId, requestBody)
       .then((res) => {
         data.columns.splice(sourceColumnIndex, SPLICE_DELETE_ONE);
         data.columns.splice(targetColumnIndex,
@@ -129,6 +128,19 @@ class BoardDetail extends React.Component {
       });
   }
 
+  deleteCard(columnId, cardId) {
+    sendDeleteHttpRequest($api.boards + '/' +
+     this.props.match.params.id + '/columns/' + columnId + '/cards/' + cardId)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+            .then((result) => {
+              this.setState({data: result});
+            });
+        }
+      });
+  }
+
   generateBoardColumn() {
     let boardDisplay = [];
 
@@ -139,7 +151,8 @@ class BoardDetail extends React.Component {
             renameColumn={this.renameColumn}
             deleteColumn={this.deleteColumn}
             reorderColumns={this.reorderColumns}
-            addCard={this.addCard}/>
+            addCard={this.addCard}
+            deleteCard={this.deleteCard} />
         );
       }, this);
     }
