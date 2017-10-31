@@ -16,10 +16,13 @@ class List extends React.Component {
       isColumnTitleEditing: false,
       isAddCardTitleEditing: false,
       addCardTitleValue: '',
+      titleValue: '',
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.onAddCardClick = this.onAddCardClick.bind(this);
+    this.onTitleInputChange = this.onTitleInputChange.bind(this);
     this.editColumn = this.editColumn.bind(this);
+    this.renameColumnTitle = this.renameColumnTitle.bind(this);
   }
 
   componentDidMount() {
@@ -59,8 +62,10 @@ class List extends React.Component {
           <input type="text"
             ref={(c) => {
               this.columnTitleInput = c;
-            }}/>
-          <button className="ok-button">
+            }}
+            onChange={this.onTitleInputChange}/>
+          <button className="ok-button"
+            onClick={this.renameColumnTitle}>
             √
           </button>
           <button className="cancel-button"
@@ -124,6 +129,10 @@ class List extends React.Component {
     this.setState({addCardTitleValue: ev.target.value});
   }
 
+  onTitleInputChange(ev) {
+    this.setState({titleValue: ev.target.value});
+  }
+
   onInputKeyDown(ev) {
     if (ev.keyCode === ENTER_KEY_CODE) {
       this.onAddCardClick();
@@ -143,6 +152,11 @@ class List extends React.Component {
       addCardTitleValue: '',
       isAddCardTitleEditing: false,
     });
+  }
+
+  renameColumnTitle() {
+    console.log(this.state.titleValue);
+    this.setState({isColumnTitleEditing: false});
   }
 
   render() {
