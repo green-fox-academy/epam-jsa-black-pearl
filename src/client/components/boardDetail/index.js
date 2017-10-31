@@ -83,12 +83,10 @@ class BoardDetail extends React.Component {
       }
     }, this);
 
-    let requestBody = {
-      sourceColumnId: sourceColumnId,
-      targetColumnIndex: targetColumnIndex,
-    };
+    let requestBody = {newIndex: targetColumnIndex};
 
-    sendPostHttpRequest($api.boards, requestBody)
+    sendPostHttpRequest($api.boards + '/' + this.props.match.params.id +
+    '/columns/' + sourceColumnId, requestBody)
       .then((res) => {
         data.columns.splice(sourceColumnIndex, SPLICE_DELETE_ONE);
         data.columns.splice(targetColumnIndex,
