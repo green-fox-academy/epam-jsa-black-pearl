@@ -18,7 +18,10 @@ class List extends React.Component {
       addCardTitleValue: '',
       titleValue: '',
     };
+    this.editColumn = this.editColumn.bind(this);
+    this.onRenameClick = this.onRenameClick.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
+    this.onTitleInputChange = this.onTitleInputChange.bind(this);
     this.onAddCardClick = this.onAddCardClick.bind(this);
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
@@ -68,9 +71,9 @@ class List extends React.Component {
             ref={(c) => {
               this.columnTitleInput = c;
             }}
-            onChange={this.onTitleInputChange}/>
+            onChange={this.onTitleInputChange} />
           <button className="ok-button"
-            onClick={this.renameColumnTitle}>
+            onClick={this.onRenameClick}>
             √
           </button>
           <button className="cancel-button"
@@ -156,6 +159,17 @@ class List extends React.Component {
     this.setState({
       addCardTitleValue: '',
       isAddCardTitleEditing: false,
+    });
+  }
+
+  onRenameClick() {
+    if (this.state.titleValue ||
+      this.state.titleValue !== this.props.column.columnName) {
+      this.props.renameColumn(this.props.column._id, this.state.titleValue);
+    }
+    this.setState({
+      titleValue: '',
+      isColumnTitleEditing: false,
     });
   }
 
