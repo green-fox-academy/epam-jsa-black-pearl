@@ -65,6 +65,10 @@ class BoardDetail extends React.Component {
       });
   }
 
+  renameColumn(id, newName) {
+    
+  }
+
   addCard(columnId, cardTitle) {
     let reqObj = {cardName: cardTitle};
 
