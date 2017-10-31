@@ -8,7 +8,7 @@
     "test:frontend": "jest",
     "test:backend": "mocha --colors",
     "lint:js": "eslint . --color",
-    "lint:css": "stylelint src/client/**/*.scss --colors",
+    "lint:css": "stylelint src/client/**/*.scss --colors --fix",
     "lint": "npm-run-all --sequential lint:js lint:css",
     "start": "npm-run-all --sequential build start:backend",
     "build": "webpack --colors",
