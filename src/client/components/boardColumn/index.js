@@ -58,7 +58,7 @@ class List extends React.Component {
   generateColumnTitle() {
     if (this.state.isColumnTitleEditing) {
       return (
-        <section className="column-title">
+        <section className="column-title-editing">
           <input type="text"
             ref={(c) => {
               this.columnTitleInput = c;

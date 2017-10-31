@@ -40,10 +40,16 @@
 }
 
 .column-title {
+  margin: 0;
+  max-width: 210px;
+  word-break: break-word;
+}
+
+.column-title-editing {
   align-items: center;
   display: flex;
   margin: 0;
-  max-width: 210px;
+  max-width: 270px;
   word-break: break-word;
 
   input {
@@ -53,7 +59,7 @@
     height: 24px;
     margin-right: 10px;
     padding: 0 5px;
-    width: 60%;
+    width: 70%;
   }
 
   button {
