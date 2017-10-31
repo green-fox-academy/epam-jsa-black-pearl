@@ -20,9 +20,14 @@ class List extends React.Component {
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.onAddCardClick = this.onAddCardClick.bind(this);
-    this.onTitleInputChange = this.onTitleInputChange.bind(this);
-    this.editColumn = this.editColumn.bind(this);
-    this.renameColumnTitle = this.renameColumnTitle.bind(this);
+    this.handleDragStart = this.handleDragStart.bind(this);
+    this.handleDrag = this.handleDrag.bind(this);
+    this.handleDragEnd = this.handleDragEnd.bind(this);
+    this.handleDragEnter = this.handleDragEnter.bind(this);
+    this.handleDragOver = this.handleDragOver.bind(this);
+    this.handleDragLeave = this.handleDragLeave.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
+    this.closeDropDownMenu = this.closeDropDownMenu.bind(this);
   }
 
   componentDidMount() {
@@ -154,9 +159,50 @@ class List extends React.Component {
     });
   }
 
+<<<<<<< HEAD
   renameColumnTitle() {
     console.log(this.state.titleValue);
     this.setState({isColumnTitleEditing: false});
+=======
+  handleDragStart(ev) {
+    this.closeDropDownMenu();
+    ev.dataTransfer.setData('text', this.props.column._id);
+    ev.target.style.opacity = '0.5';
+  }
+
+  handleDrag(ev) {
+    return;
+  }
+
+  handleDragEnd(ev) {
+    ev.target.style.opacity = '1.0';
+  }
+
+  handleDragEnter(ev) {
+    if (this.wrapper.contains(ev.target)) {
+      this.wrapper.style.border = '2px dashed #026aa7';
+    }
+  }
+
+  handleDragOver(ev) {
+    ev.preventDefault();
+    this.wrapper.style.border = '2px dashed #026aa7';
+  }
+
+  handleDragLeave(ev) {
+    this.wrapper.style.border = '';
+  }
+
+  handleDrop(ev) {
+    this.wrapper.style.border = '';
+    let sourceColumnId = ev.dataTransfer.getData('Text');
+
+    if (this.props.column._id === sourceColumnId) {
+      return;
+    }
+
+    this.props.reorderColumns(sourceColumnId, this.props.column._id);
+>>>>>>> develop
   }
 
   render() {
@@ -173,8 +219,18 @@ class List extends React.Component {
     }
 
     return (
-      <div className="board-column-wrapper">
-        <div className="board-column">
+      <div className="board-column-wrapper"
+        onDragEnter={this.handleDragEnter}
+        onDragOver={this.handleDragOver}
+        onDragLeave={this.handleDragLeave}
+        onDrop={this.handleDrop}
+        ref={(elem) => {
+          this.wrapper = elem;
+        }}>
+        <div className="board-column" draggable="true"
+          onDragStart={this.handleDragStart}
+          onDrag={this.handleDrag}
+          onDragEnd={this.handleDragEnd}>
           <div className="column-header">
             {columnTitle}
             <div className={this.state.isColumnTitleEditing ?
@@ -186,7 +242,7 @@ class List extends React.Component {
             {this.state.isEditing ?
               <Menu
                 columnId={this.props.column._id}
-                closeDropDownMenu={this.closeDropDownMenu.bind(this)}
+                closeDropDownMenu={this.closeDropDownMenu}
                 deleteColumn={this.props.deleteColumn}
                 editColumn={this.editColumn.bind(this)}
                 isEditing={this.state.isEditing} /> :
