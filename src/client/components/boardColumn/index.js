@@ -13,11 +13,13 @@ class List extends React.Component {
 
     this.state = {
       isEditing: false,
+      isColumnTitleEditing: false,
       isAddCardTitleEditing: false,
       addCardTitleValue: '',
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.onAddCardClick = this.onAddCardClick.bind(this);
+    this.editColumn = this.editColumn.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +46,33 @@ class List extends React.Component {
 
   closeDropDownMenu() {
     this.setState({isEditing: false});
+  }
+
+  editColumn() {
+    this.setState({isColumnTitleEditing: !this.state.isColumnTitleEditing});
+  }
+
+  generateColumnTitle() {
+    if (this.state.isColumnTitleEditing) {
+      return (
+        <section className="column-title">
+          <input type="text"
+            ref={(c) => {
+              this.columnTitleInput = c;
+            }}/>
+          <button className="ok-button">
+            √
+          </button>
+          <button className="cancel-button"
+            onClick={this.editColumn}>
+            x
+          </button>
+        </section>
+      );
+    }
+    return (
+      <h4 className="column-title">{this.props.column.columnName}</h4>
+    );
   }
 
   generateAddCard() {
@@ -119,6 +148,7 @@ class List extends React.Component {
   render() {
     let cardDisplay = [];
     let addCard = this.generateAddCard();
+    let columnTitle = this.generateColumnTitle();
 
     if (Array.isArray(this.props.column.cards)) {
       this.props.column.cards.forEach(function(element) {
@@ -132,17 +162,19 @@ class List extends React.Component {
       <div className="board-column-wrapper">
         <div className="board-column">
           <div className="column-header">
-            <h4 className="column-title">{this.props.column.columnName}</h4>
-            <div className="edit-icon"
-              ref={(elem) => {
-                this.editIcon = elem;
-              }}>
+            {columnTitle}
+            <div className={this.state.isColumnTitleEditing ?
+              'display-none' : 'edit-icon'}
+            ref={(elem) => {
+              this.editIcon = elem;
+            }}>
             </div>
             {this.state.isEditing ?
               <Menu
                 columnId={this.props.column._id}
                 closeDropDownMenu={this.closeDropDownMenu.bind(this)}
                 deleteColumn={this.props.deleteColumn}
+                editColumn={this.editColumn.bind(this)}
                 isEditing={this.state.isEditing} /> :
               null}
           </div>
