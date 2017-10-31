@@ -17,6 +17,7 @@ class List extends React.Component {
       isAddCardTitleEditing: false,
       addCardTitleValue: '',
       titleValue: '',
+      allowDrag: true,
     };
     this.editColumn = this.editColumn.bind(this);
     this.onRenameClick = this.onRenameClick.bind(this);
@@ -60,7 +61,12 @@ class List extends React.Component {
   }
 
   editColumn() {
-    this.setState({isColumnTitleEditing: !this.state.isColumnTitleEditing});
+    let that = this;
+
+    that.setState({
+      isColumnTitleEditing: !this.state.isColumnTitleEditing,
+      allowDrag: this.state.isColumnTitleEditing,
+    });
   }
 
   generateColumnTitle() {
@@ -235,7 +241,11 @@ class List extends React.Component {
         ref={(elem) => {
           this.wrapper = elem;
         }}>
-        <div className="board-column" draggable="true"
+        <div className="board-column"
+          draggable={this.state.allowDrag ? 'true' : 'false'}
+          ref={(elem) => {
+            this.column = elem;
+          }}
           onDragStart={this.handleDragStart}
           onDrag={this.handleDrag}
           onDragEnd={this.handleDragEnd}>
