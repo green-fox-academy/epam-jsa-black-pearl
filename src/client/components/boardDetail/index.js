@@ -87,7 +87,7 @@ class BoardDetail extends React.Component {
       targetColumnIndex: targetColumnIndex,
     };
 
-    sendPostHttpRequest($api, requestBody)
+    sendPostHttpRequest($api.boards, requestBody)
       .then((res) => {
         data.columns.splice(sourceColumnIndex, SPLICE_DELETE_ONE);
         data.columns.splice(targetColumnIndex,
