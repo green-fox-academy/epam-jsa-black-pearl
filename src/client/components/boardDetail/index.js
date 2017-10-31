@@ -24,6 +24,7 @@ class BoardDetail extends React.Component {
     this.addColumn = this.addColumn.bind(this);
     this.deleteColumn = this.deleteColumn.bind(this);
     this.addCard = this.addCard.bind(this);
+    this.reorderColumns = this.reorderColumns.bind(this);
   }
 
   componentWillMount() {
@@ -119,7 +120,7 @@ class BoardDetail extends React.Component {
         boardDisplay.push(
           <BoardColumn column={element} key={element._id}
             deleteColumn={this.deleteColumn} addCard={this.addCard}
-            reorderColumns={this.reorderColumns.bind(this)} />
+            reorderColumns={this.reorderColumns} />
         );
       }, this);
     }
