@@ -10,6 +10,8 @@ import './index.scss';
 const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
 const ENTER_KEY_CODE = 13;
 const ESC_KEY_CODE = 27;
+const SPLICE_DELETE_ONE = 1;
+const SPLICE_DELETE_ZERO = 0;
 
 class BoardDetail extends React.Component {
   constructor(props) {
@@ -23,6 +25,7 @@ class BoardDetail extends React.Component {
     this.deleteColumn = this.deleteColumn.bind(this);
     this.addCard = this.addCard.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
+    this.reorderColumns = this.reorderColumns.bind(this);
   }
 
   componentWillMount() {
@@ -66,6 +69,35 @@ class BoardDetail extends React.Component {
       });
   }
 
+  reorderColumns(sourceColumnId, targetColumnId) {
+    let data = this.state.data;
+    let sourceColumn;
+    let sourceColumnIndex;
+    let targetColumnIndex;
+
+    data.columns.forEach(function(element, index) {
+      if (element._id === sourceColumnId) {
+        sourceColumnIndex = index;
+        sourceColumn = element;
+      } else if (element._id === targetColumnId) {
+        targetColumnIndex = index;
+      }
+    }, this);
+
+    let requestBody = {
+      sourceColumnId: sourceColumnId,
+      targetColumnIndex: targetColumnIndex,
+    };
+
+    sendPostHttpRequest($api.boards, requestBody)
+      .then((res) => {
+        data.columns.splice(sourceColumnIndex, SPLICE_DELETE_ONE);
+        data.columns.splice(targetColumnIndex,
+          SPLICE_DELETE_ZERO, sourceColumn);
+        this.setState({data: data});
+      });
+  }
+
   addCard(columnId, cardTitle) {
     let reqObj = {cardName: cardTitle};
 
@@ -102,7 +134,8 @@ class BoardDetail extends React.Component {
         boardDisplay.push(
           <BoardColumn column={element} key={element._id}
             deleteColumn={this.deleteColumn} addCard={this.addCard}
-            deleteCard={this.deleteCard}/>
+            deleteCard={this.deleteCard}
+            reorderColumns={this.reorderColumns} />
         );
       }, this);
     }
