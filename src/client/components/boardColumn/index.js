@@ -18,11 +18,14 @@ class List extends React.Component {
     };
     this.onInputChange = this.onInputChange.bind(this);
     this.onAddCardClick = this.onAddCardClick.bind(this);
+    this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
     this.handleDragEnter = this.handleDragEnter.bind(this);
+    this.handleDragOver = this.handleDragOver.bind(this);
     this.handleDragLeave = this.handleDragLeave.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
+    this.closeDropDownMenu = this.closeDropDownMenu.bind(this);
   }
 
   componentDidMount() {
@@ -121,9 +124,9 @@ class List extends React.Component {
     });
   }
 
-  handleDragStart(id, ev) {
+  handleDragStart(ev) {
     this.closeDropDownMenu();
-    ev.dataTransfer.setData('text', id);
+    ev.dataTransfer.setData('text', this.props.column._id);
     ev.target.style.opacity = '0.5';
   }
 
@@ -141,7 +144,7 @@ class List extends React.Component {
     }
   }
 
-  handleDragOver(id, ev) {
+  handleDragOver(ev) {
     ev.preventDefault();
     this.wrapper.style.border = '2px dashed #026aa7';
   }
@@ -176,14 +179,14 @@ class List extends React.Component {
     return (
       <div className="board-column-wrapper"
         onDragEnter={this.handleDragEnter}
-        onDragOver={this.handleDragOver.bind(this, this.props.column._id)}
+        onDragOver={this.handleDragOver}
         onDragLeave={this.handleDragLeave}
         onDrop={this.handleDrop}
         ref={(elem) => {
           this.wrapper = elem;
         }}>
         <div className="board-column" draggable="true"
-          onDragStart={this.handleDragStart.bind(this, this.props.column._id)}
+          onDragStart={this.handleDragStart}
           onDrag={this.handleDrag}
           onDragEnd={this.handleDragEnd}>
           <div className="column-header">
@@ -196,7 +199,7 @@ class List extends React.Component {
             {this.state.isEditing ?
               <Menu
                 columnId={this.props.column._id}
-                closeDropDownMenu={this.closeDropDownMenu.bind(this)}
+                closeDropDownMenu={this.closeDropDownMenu}
                 deleteColumn={this.props.deleteColumn}
                 isEditing={this.state.isEditing} /> :
               null}
