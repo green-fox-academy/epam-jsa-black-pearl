@@ -7,10 +7,19 @@ class Cards extends React.Component {
     super(props);
   }
 
+  onClickDelete(ev) {
+    let that = this;
+
+    ev.stopPropagation();
+    that.props.deleteCard(this.props.columnId, this.props.card._id);
+  }
+
   render() {
     return (
       <div className="board-card">
-        <p className="card-title">{this.props.card.cardName}<span>X</span></p>
+        <p className="card-title">{this.props.card.cardName}</p>
+        <div className="delete-card"
+          onClick={this.onClickDelete.bind(this)}>X</div>
         <p className="card-subtitle">{this.props.card.cardsubname}</p>
       </div>
     );

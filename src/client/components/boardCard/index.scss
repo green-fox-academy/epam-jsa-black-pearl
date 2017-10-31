@@ -3,7 +3,8 @@
   border-left: 4px solid #f00;
   border-radius: 0 5px 5px 0;
   margin: 0 10px 10px;
-  padding: 10px 10px 0 0;
+  padding: 10px 10px 0 3px;
+  overflow: hidden;
 
   &:last-child {
     margin: 0 10px 5px;
@@ -11,23 +12,27 @@
 
   p {
     margin: 0;
-    overflow: hidden;
   }
 
   &:hover {
-    span {
+    .delete-card {
       transform: translate(0);
       transition: all .2s ease-in 0s;
+      cursor: pointer;
     }
   }
 
-  span {
+  .delete-card {
     color: #f44336;
     display: flex;
     flex-direction: row-reverse;
     font-family: 'Indie Flower', cursive;
+    font-size:1.5em;
     transform: translateX(28px);
     transition: all .2s ease-in 0s;
+    width: 10%;
+    flex-flow: row-reverse;
+    margin-left: 208px;
   }
 
   .card-title {

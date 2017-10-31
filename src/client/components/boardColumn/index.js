@@ -123,7 +123,9 @@ class List extends React.Component {
     if (Array.isArray(this.props.column.cards)) {
       this.props.column.cards.forEach(function(element) {
         cardDisplay.push(
-          <Card card={element} key={element._id} />
+          <Card card={element} key={element._id}
+            columnId={this.props.column._id}
+            deleteCard={this.props.deleteCard} />
         );
       }, this);
     }
