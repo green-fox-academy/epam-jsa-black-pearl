@@ -245,9 +245,6 @@ class List extends React.Component {
         }}>
         <div className="board-column"
           draggable={this.state.allowDrag ? 'true' : 'false'}
-          ref={(elem) => {
-            this.column = elem;
-          }}
           onDragStart={this.handleDragStart}
           onDrag={this.handleDrag}
           onDragEnd={this.handleDragEnd}>
@@ -264,7 +261,7 @@ class List extends React.Component {
                 columnId={this.props.column._id}
                 closeDropDownMenu={this.closeDropDownMenu}
                 deleteColumn={this.props.deleteColumn}
-                editColumn={this.editColumn.bind(this)}
+                editColumn={this.editColumn}
                 isEditing={this.state.isEditing} /> :
               null}
           </div>
