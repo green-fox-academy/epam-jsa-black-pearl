@@ -404,7 +404,7 @@ function moveCardToNewColumn(requestBody, boardId, columnId, cardId, callback) {
   });
 }
 
-function modifyColumnName(request, username, boardId, columnsId, callback) {
+function modifyColumnName(requestBody, username, boardId, columnsId, callback) {
   MongoClient.connect(url, function(err, database) {
     if (err) {
       return callback('error');
@@ -422,7 +422,7 @@ function modifyColumnName(request, username, boardId, columnsId, callback) {
       if (!query) {
         return callback('notFound');
       }
-      renameColumn(result, columnsId, request.columnName);
+      renameColumn(result, columnsId, requestBody.columnName);
       database.collection('boards').update(query,
         {$set: {'columns': result.columns}}, function(err, obj) {
           database.close();
