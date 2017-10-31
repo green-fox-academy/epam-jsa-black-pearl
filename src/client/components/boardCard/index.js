@@ -6,6 +6,7 @@ class Cards extends React.Component {
   constructor(props) {
     super(props);
     this.onClickDelete = this.onClickDelete.bind(this);
+    this.handleDragStart = this.handleDragStart.bind(this);
   }
 
   onClickDelete(ev) {
@@ -15,9 +16,14 @@ class Cards extends React.Component {
     that.props.deleteCard(this.props.columnId, this.props.card._id);
   }
 
+  handleDragStart(ev) {
+    ev.stopPropagation();
+  }
+
   render() {
     return (
-      <div className="board-card">
+      <div className="board-card" draggable="true"
+        onDragStart={this.handleDragStart}>
         <p className="card-title">{this.props.card.cardName}</p>
         <div className="delete-card"
           onClick={this.onClickDelete}>X</div>
