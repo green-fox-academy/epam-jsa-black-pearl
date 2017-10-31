@@ -13,10 +13,16 @@ class List extends React.Component {
 
     this.state = {
       isEditing: false,
+      isColumnTitleEditing: false,
       isAddCardTitleEditing: false,
       addCardTitleValue: '',
+      titleValue: '',
+      allowDrag: true,
     };
+    this.editColumn = this.editColumn.bind(this);
+    this.onRenameClick = this.onRenameClick.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
+    this.onTitleInputChange = this.onTitleInputChange.bind(this);
     this.onAddCardClick = this.onAddCardClick.bind(this);
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
@@ -52,6 +58,40 @@ class List extends React.Component {
 
   closeDropDownMenu() {
     this.setState({isEditing: false});
+  }
+
+  editColumn() {
+    let that = this;
+
+    that.setState({
+      isColumnTitleEditing: !this.state.isColumnTitleEditing,
+      allowDrag: this.state.isColumnTitleEditing,
+    });
+  }
+
+  generateColumnTitle() {
+    if (this.state.isColumnTitleEditing) {
+      return (
+        <section className="column-title-editing">
+          <input type="text"
+            ref={(c) => {
+              this.columnTitleInput = c;
+            }}
+            onChange={this.onTitleInputChange} />
+          <button className="ok-button"
+            onClick={this.onRenameClick}>
+            √
+          </button>
+          <button className="cancel-button"
+            onClick={this.editColumn}>
+            x
+          </button>
+        </section>
+      );
+    }
+    return (
+      <h4 className="column-title">{this.props.column.columnName}</h4>
+    );
   }
 
   generateAddCard() {
@@ -103,6 +143,10 @@ class List extends React.Component {
     this.setState({addCardTitleValue: ev.target.value});
   }
 
+  onTitleInputChange(ev) {
+    this.setState({titleValue: ev.target.value});
+  }
+
   onInputKeyDown(ev) {
     if (ev.keyCode === ENTER_KEY_CODE) {
       this.onAddCardClick();
@@ -121,6 +165,17 @@ class List extends React.Component {
     this.setState({
       addCardTitleValue: '',
       isAddCardTitleEditing: false,
+    });
+  }
+
+  onRenameClick() {
+    if (this.state.titleValue ||
+      this.state.titleValue !== this.props.column.columnName) {
+      this.props.renameColumn(this.props.column._id, this.state.titleValue);
+    }
+    this.setState({
+      titleValue: '',
+      isColumnTitleEditing: false,
     });
   }
 
@@ -167,6 +222,7 @@ class List extends React.Component {
   render() {
     let cardDisplay = [];
     let addCard = this.generateAddCard();
+    let columnTitle = this.generateColumnTitle();
 
     if (Array.isArray(this.props.column.cards)) {
       this.props.column.cards.forEach(function(element) {
@@ -187,22 +243,25 @@ class List extends React.Component {
         ref={(elem) => {
           this.wrapper = elem;
         }}>
-        <div className="board-column" draggable="true"
+        <div className="board-column"
+          draggable={this.state.allowDrag ? 'true' : 'false'}
           onDragStart={this.handleDragStart}
           onDrag={this.handleDrag}
           onDragEnd={this.handleDragEnd}>
           <div className="column-header">
-            <h4 className="column-title">{this.props.column.columnName}</h4>
-            <div className="edit-icon"
-              ref={(elem) => {
-                this.editIcon = elem;
-              }}>
+            {columnTitle}
+            <div className={this.state.isColumnTitleEditing ?
+              'display-none' : 'edit-icon'}
+            ref={(elem) => {
+              this.editIcon = elem;
+            }}>
             </div>
             {this.state.isEditing ?
               <Menu
                 columnId={this.props.column._id}
                 closeDropDownMenu={this.closeDropDownMenu}
                 deleteColumn={this.props.deleteColumn}
+                editColumn={this.editColumn}
                 isEditing={this.state.isEditing} /> :
               null}
           </div>
