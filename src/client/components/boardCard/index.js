@@ -5,6 +5,7 @@ import './index.scss';
 class Cards extends React.Component {
   constructor(props) {
     super(props);
+    this.onClickDelete = this.onClickDelete.bind(this);
   }
 
   onClickDelete(ev) {
@@ -19,7 +20,7 @@ class Cards extends React.Component {
       <div className="board-card">
         <p className="card-title">{this.props.card.cardName}</p>
         <div className="delete-card"
-          onClick={this.onClickDelete.bind(this)}>X</div>
+          onClick={this.onClickDelete}>X</div>
         <p className="card-subtitle">{this.props.card.cardsubname}</p>
       </div>
     );
