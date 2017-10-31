@@ -26,6 +26,9 @@ class ColumnMenu extends React.Component {
     if (actionName === 'delete') {
       this.props.deleteColumn(this.props.columnId);
     }
+    if (actionName === 'rename') {
+      this.props.editColumn();
+    }
     this.props.closeDropDownMenu();
   }
 
