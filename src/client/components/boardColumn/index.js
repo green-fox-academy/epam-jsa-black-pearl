@@ -122,6 +122,7 @@ class List extends React.Component {
   }
 
   handleDragStart(id, ev) {
+    this.closeDropDownMenu();
     ev.dataTransfer.setData('text', id);
     ev.target.style.opacity = '0.5';
   }
