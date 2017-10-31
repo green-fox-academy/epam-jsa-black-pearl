@@ -3,7 +3,8 @@ import React from 'react';
 import BoardNav from '../boardNav';
 import BoardColumn from '../boardColumn';
 import $api from '../../api/api.json';
-import {sendGetHttpRequest, sendPostHttpRequest, sendDeleteHttpRequest}
+import {sendGetHttpRequest, sendPostHttpRequest,
+  sendDeleteHttpRequest, sendPutHttpRequest}
   from '../../controller/httpRequest.js';
 import './index.scss';
 
@@ -23,6 +24,7 @@ class BoardDetail extends React.Component {
     };
     this.addColumn = this.addColumn.bind(this);
     this.deleteColumn = this.deleteColumn.bind(this);
+    this.renameColumn = this.renameColumn.bind(this);
     this.addCard = this.addCard.bind(this);
     this.reorderColumns = this.reorderColumns.bind(this);
   }
@@ -58,6 +60,21 @@ class BoardDetail extends React.Component {
   deleteColumn(columnId) {
     sendDeleteHttpRequest($api.boards + '/' +
       this.props.match.params.id + '/columns/' + columnId)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+            .then((result) => {
+              this.setState({data: result});
+            });
+        }
+      });
+  }
+
+  renameColumn(columnId, newTitle) {
+    let requestBody = {columnName: newTitle};
+
+    sendPutHttpRequest($api.boards + '/' +
+      this.props.match.params.id + '/columns/' + columnId, requestBody)
       .then((res) => {
         if (SUCCESSFUL_RESPONSE.test(res.status)) {
           sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
@@ -119,8 +136,10 @@ class BoardDetail extends React.Component {
       this.state.data.columns.forEach(function(element) {
         boardDisplay.push(
           <BoardColumn column={element} key={element._id}
-            deleteColumn={this.deleteColumn} addCard={this.addCard}
-            reorderColumns={this.reorderColumns} />
+            renameColumn={this.renameColumn}
+            deleteColumn={this.deleteColumn}
+            reorderColumns={this.reorderColumns}
+            addCard={this.addCard}/>
         );
       }, this);
     }
