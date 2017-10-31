@@ -450,7 +450,6 @@ function moveColumnToNewPosition(requestBody, username,
       return callback('error');
     }
     moveColumn(board, columnId, requestBody.newIndex);
-    console.log(board);
     MongoClient.connect(url, function(err, database) {
       if (err) {
         return callback('error');
