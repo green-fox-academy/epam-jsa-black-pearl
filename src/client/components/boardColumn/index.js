@@ -159,11 +159,6 @@ class List extends React.Component {
     });
   }
 
-<<<<<<< HEAD
-  renameColumnTitle() {
-    console.log(this.state.titleValue);
-    this.setState({isColumnTitleEditing: false});
-=======
   handleDragStart(ev) {
     this.closeDropDownMenu();
     ev.dataTransfer.setData('text', this.props.column._id);
@@ -202,7 +197,6 @@ class List extends React.Component {
     }
 
     this.props.reorderColumns(sourceColumnId, this.props.column._id);
->>>>>>> develop
   }
 
   render() {
