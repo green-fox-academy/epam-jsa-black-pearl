@@ -6,6 +6,8 @@ const MongoClient = mongodb.MongoClient;
 const envConst = require('../../envConst.js');
 const url = envConst.getDBUrl();
 
+const ZERO = 0;
+
 function createInsertQuery(request, username) {
   return {
     'username': username,
@@ -104,6 +106,22 @@ function compareId(id1, id2) {
   return id1.toString() === id2.toString();
 }
 
+function moveColumn(board, columnId, newIndex) {
+  let columnToMove = {};
+
+  board.columns = board.columns.filter(function(column, index) {
+    if (compareId(column._id, columnId)) {
+      columnToMove = column;
+      return false;
+    }
+    return true;
+  });
+  if (!columnToMove._id) {
+    return;
+  }
+  board.columns.splice(newIndex, ZERO, columnToMove);
+}
+
 function validateColumnId(board, fromColumnId, toColumnId) {
   const oldFound = board.columns.some(function(column) {
     return compareId(column._id, fromColumnId);
@@ -135,7 +153,7 @@ function moveCard(board, requestBody, columnId, cardId) {
   }
   board.columns = board.columns.map(function(column) {
     if (compareId(column._id, requestBody.newColumnId)) {
-      column.cards.splice(requestBody.newIndex, 0, cardToMove);
+      column.cards.splice(requestBody.newIndex, ZERO, cardToMove);
     }
     return column;
   });
@@ -423,6 +441,35 @@ function modifyColumnName(request, username, boardId, columnsId, callback) {
   });
 }
 
+function moveColumnToNewPosition(requestBody, username,
+  boardId, columnId, callback) {
+  getBoardById(username, boardId, function(board) {
+    if (board === 'notFound' || !board) {
+      return callback('notFound');
+    } else if (board === 'error') {
+      return callback('error');
+    }
+    moveColumn(board, columnId, requestBody.newIndex);
+    console.log(board);
+    MongoClient.connect(url, function(err, database) {
+      if (err) {
+        return callback('error');
+      }
+      database.collection('boards').update({_id: new mongodb.ObjectId(boardId)},
+        {$set: board}, function(err, result) {
+          database.close();
+          if (err) {
+            return callback('error');
+          }
+          if (result.result.nModified) {
+            return callback('updated');
+          }
+          return callback('notFound');
+        });
+    });
+  });
+}
+
 module.exports = {
   'createNewBoard': createNewBoard,
   'getBoardsByUser': getBoardsByUser,
@@ -434,4 +481,5 @@ module.exports = {
   'deleteCardById': deleteCardById,
   'moveCardToNewColumn': moveCardToNewColumn,
   'modifyColumnName': modifyColumnName,
+  'moveColumnToNewPosition': moveColumnToNewPosition,
 };
