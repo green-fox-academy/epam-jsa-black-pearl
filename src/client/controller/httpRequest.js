@@ -56,3 +56,22 @@ function formHttpDeleteRequest(path) {
 export function sendDeleteHttpRequest(path) {
   return fetch(formHttpDeleteRequest(path));
 }
+
+function formHttpPutRequest(path, reqBody) {
+  let httpHeaders = {
+    'Content-Type': 'application/json',
+    'token': localStorage.token,
+  };
+  let myHeaders = new Headers(httpHeaders);
+  let myRequest = new Request(path, {
+    'method': 'PUT',
+    'headers': myHeaders,
+    'body': JSON.stringify(reqBody),
+  });
+
+  return myRequest;
+}
+
+export function sendPutHttpRequest(path, reqBody) {
+  return fetch(formHttpPutRequest(path, reqBody));
+}
