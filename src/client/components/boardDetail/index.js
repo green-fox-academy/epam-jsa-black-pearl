@@ -164,6 +164,7 @@ class BoardDetail extends React.Component {
       newIndex: targetIndex,
     };
 
+    this.setState({isRetrievingData: true});
     sendPostHttpRequest($api.boards + '/' + this.props.match.params.id +
     '/columns/' + sourceColumnId + '/cards/' + sourceCardId, reqObj)
       .then((res) => {
@@ -171,6 +172,7 @@ class BoardDetail extends React.Component {
           sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
             .then((result) => {
               this.setState({data: result});
+              this.setState({isRetrievingData: false});
             });
         }
       });
