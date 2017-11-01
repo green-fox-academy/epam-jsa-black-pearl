@@ -371,12 +371,19 @@ function deleteCardById(username, boardId, columnsId, cardsId, callback) {
       }
       filterCards(result, columnsId, cardsId);
       database.collection('boards')
-        .update(query, {$set: {'columns': result.columns}});
-      database.close();
+        .update(query, {$set: {'columns': result.columns}}, function(err, obj) {
+          database.close();
+          if (err) {
+            return callback('error');
+          }
+          if (obj.result.nModified) {
+            return callback('updated');
+          }
+          return callback('notFound');
+        });
       if (err) {
         return callback('error');
       }
-      callback(result);
     });
   });
 }
