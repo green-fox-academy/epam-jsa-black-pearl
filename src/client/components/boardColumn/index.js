@@ -217,6 +217,7 @@ class List extends React.Component {
       return;
     }
 
+
     if (!ev.dataTransfer.getData('cardId')) {
       this.props.reorderColumns(sourceColumnId, this.props.column._id);
     } else {
