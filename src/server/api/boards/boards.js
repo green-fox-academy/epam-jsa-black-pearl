@@ -325,7 +325,7 @@ function deleteColumnId(username, boardId, columnsId, callback) {
   });
 }
 
-function createNewCard(request, username, boardId, columnId, callback) {
+function createNewCard(requestBody, username, boardId, columnId, callback) {
   getBoardById(username, boardId, function(board) {
     if (board === 'notFound' || !board) {
       return callback('notFound');
@@ -333,7 +333,7 @@ function createNewCard(request, username, boardId, columnId, callback) {
       return callback('error');
     }
 
-    addCardToColumn(board, columnId, request.cardName);
+    addCardToColumn(board, columnId, requestBody.cardName);
 
     MongoClient.connect(url, function(err, database) {
       if (err) {
