@@ -179,13 +179,13 @@ function renameColumn(board, columnsId, name) {
   });
 }
 
-function createNewBoard(request, username, callback) {
+function createNewBoard(requestBody, username, callback) {
   MongoClient.connect(url, function(err, database) {
     if (err) {
       return callback('error');
     }
     console.log('Connection established to ' + url);
-    let query = createInsertQuery(request, username);
+    let query = createInsertQuery(requestBody, username);
 
     database.collection('boards').insert(query, function(err, result) {
       database.close();
