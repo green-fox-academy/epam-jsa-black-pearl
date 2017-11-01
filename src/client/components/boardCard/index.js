@@ -7,6 +7,8 @@ class Cards extends React.Component {
     super(props);
     this.onClickDelete = this.onClickDelete.bind(this);
     this.handleDragStart = this.handleDragStart.bind(this);
+    this.handleDrag = this.handleDrag.bind(this);
+    this.handleDragEnd = this.handleDragEnd.bind(this);
   }
 
   onClickDelete(ev) {
@@ -18,6 +20,16 @@ class Cards extends React.Component {
 
   handleDragStart(ev) {
     ev.stopPropagation();
+    ev.dataTransfer.setData('cardId', this.props.card._id);
+    ev.dataTransfer.setData('columnId', this.props.columnId);
+  }
+
+  handleDrag(ev) {
+    return;
+  }
+
+  handleDragEnd(ev) {
+    return;
   }
 
   render() {
