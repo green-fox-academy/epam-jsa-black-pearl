@@ -308,12 +308,19 @@ function deleteColumnId(username, boardId, columnsId, callback) {
       });
 
       database.collection('boards')
-        .update(query, {$set: {'columns': newColumns}});
-      database.close();
+        .update(query, {$set: {'columns': newColumns}}, function(err, obj) {
+          database.close();
+          if (err) {
+            return callback('error');
+          }
+          if (obj.result.nModified) {
+            return callback(obj);
+          }
+          callback('notFound');
+        });
       if (err) {
         return callback('error');
       }
-      callback(result);
     });
   });
 }
