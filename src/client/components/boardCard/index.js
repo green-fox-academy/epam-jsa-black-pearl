@@ -9,6 +9,10 @@ class Cards extends React.Component {
     this.handleDragStart = this.handleDragStart.bind(this);
     this.handleDrag = this.handleDrag.bind(this);
     this.handleDragEnd = this.handleDragEnd.bind(this);
+    this.handleDragEnter = this.handleDragEnd.bind(this);
+    this.handleDragOver = this.handleDragOver.bind(this);
+    this.handleDragLeave = this.handleDragLeave.bind(this);
+    this.handleDrop = this.handleDrop.bind(this);
   }
 
   onClickDelete(ev) {
@@ -32,10 +36,39 @@ class Cards extends React.Component {
     return;
   }
 
+  handleDragEnter(ev) {
+    if (this.card.contains(ev.target)) {
+      this.card.style.border = '2px dashed #026aa7';
+    }
+  }
+
+  handleDragOver(ev) {
+    ev.preventDefault();
+    this.card.style.border = '2px dashed #026aa7';
+  }
+
+  handleDragLeave(ev) {
+    this.card.style.border = '';
+  }
+
+  handleDrop(ev) {
+    this.card.style.border = '';
+    return;
+  }
+
   render() {
     return (
       <div className="board-card" draggable="true"
-        onDragStart={this.handleDragStart}>
+        ref={(c) => {
+          this.card = c;
+        }}
+        onDragStart={this.handleDragStart}
+        onDrag={this.handleDrag}
+        onDragEnd={this.handleDragEnd}
+        onDragEnter={this.handleDragEnter}
+        onDragOver={this.handleDragOver}
+        onDragLeave={this.handleDragLeave}
+        onDrop={this.handleDrop}>
         <p className="card-title">{this.props.card.cardName}</p>
         <div className="delete-card"
           onClick={this.onClickDelete}>X</div>
