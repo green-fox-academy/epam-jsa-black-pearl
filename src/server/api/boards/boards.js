@@ -20,10 +20,10 @@ function createFindQuery(username) {
   return {'username': username};
 }
 
-function createNewColumnQuery(request) {
+function createNewColumnQuery(requestBody) {
   return {
     '_id': new mongodb.ObjectId(),
-    'columnName': request.columnName,
+    'columnName': requestBody.columnName,
     'cards': [],
   };
 }
