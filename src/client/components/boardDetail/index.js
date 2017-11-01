@@ -7,6 +7,7 @@ import {sendGetHttpRequest, sendPostHttpRequest,
   sendDeleteHttpRequest, sendPutHttpRequest}
   from '../../controller/httpRequest.js';
 import './index.scss';
+import img from '../../../img/loading.png';
 
 const SUCCESSFUL_RESPONSE = /^20[0-6]$/;
 const ENTER_KEY_CODE = 13;
@@ -21,6 +22,7 @@ class BoardDetail extends React.Component {
       data: {columns: []},
       isAddColumnTitleEditing: false,
       addColumnTitleValue: '',
+      isRetrievingData: false,
     };
     this.addColumn = this.addColumn.bind(this);
     this.deleteColumn = this.deleteColumn.bind(this);
@@ -31,9 +33,11 @@ class BoardDetail extends React.Component {
   }
 
   componentWillMount() {
+    this.setState({isRetrievingData: true});
     sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
       .then((result) => {
         this.setState({data: result});
+        this.setState({isRetrievingData: false});
       });
   }
 
@@ -41,6 +45,7 @@ class BoardDetail extends React.Component {
     if (this.state.addColumnTitleValue) {
       let reqObj = {columnName: this.state.addColumnTitleValue};
 
+      this.setState({isRetrievingData: true});
       sendPostHttpRequest($api.boards + '/' +
         this.props.match.params.id + '/columns', reqObj)
         .then((res) => {
@@ -48,6 +53,7 @@ class BoardDetail extends React.Component {
             sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
               .then((result) => {
                 this.setState({data: result});
+                this.setState({isRetrievingData: false});
               });
           }
         });
@@ -59,12 +65,14 @@ class BoardDetail extends React.Component {
   }
 
   deleteColumn(columnId) {
+    this.setState({isRetrievingData: true});
     sendDeleteHttpRequest($api.boards + '/' +
       this.props.match.params.id + '/columns/' + columnId)
       .then((res) => {
         if (SUCCESSFUL_RESPONSE.test(res.status)) {
           sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
             .then((result) => {
+              this.setState({isRetrievingData: false});
               this.setState({data: result});
             });
         }
@@ -74,6 +82,7 @@ class BoardDetail extends React.Component {
   renameColumn(columnId, newTitle) {
     let requestBody = {columnName: newTitle};
 
+    this.setState({isRetrievingData: true});
     sendPutHttpRequest($api.boards + '/' +
       this.props.match.params.id + '/columns/' + columnId, requestBody)
       .then((res) => {
@@ -81,6 +90,7 @@ class BoardDetail extends React.Component {
           sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
             .then((result) => {
               this.setState({data: result});
+              this.setState({isRetrievingData: false});
             });
         }
       });
@@ -103,6 +113,7 @@ class BoardDetail extends React.Component {
 
     let requestBody = {newIndex: targetColumnIndex};
 
+    this.setState({isRetrievingData: true});
     sendPostHttpRequest($api.boards + '/' + this.props.match.params.id +
     '/columns/' + sourceColumnId, requestBody)
       .then((res) => {
@@ -110,12 +121,14 @@ class BoardDetail extends React.Component {
         data.columns.splice(targetColumnIndex,
           SPLICE_DELETE_ZERO, sourceColumn);
         this.setState({data: data});
+        this.setState({isRetrievingData: false});
       });
   }
 
   addCard(columnId, cardTitle) {
     let reqObj = {cardName: cardTitle};
 
+    this.setState({isRetrievingData: true});
     sendPostHttpRequest($api.boards + '/' + this.props.match.params.id +
       '/columns/' + columnId + '/cards', reqObj)
       .then((res) => {
@@ -123,12 +136,14 @@ class BoardDetail extends React.Component {
           sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
             .then((result) => {
               this.setState({data: result});
+              this.setState({isRetrievingData: false});
             });
         }
       });
   }
 
   deleteCard(columnId, cardId) {
+    this.setState({isRetrievingData: true});
     sendDeleteHttpRequest($api.boards + '/' +
      this.props.match.params.id + '/columns/' + columnId + '/cards/' + cardId)
       .then((res) => {
@@ -136,6 +151,7 @@ class BoardDetail extends React.Component {
           sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
             .then((result) => {
               this.setState({data: result});
+              this.setState({isRetrievingData: false});
             });
         }
       });
@@ -221,13 +237,31 @@ class BoardDetail extends React.Component {
     }
   }
 
+  isloading() {
+    let isloading;
+
+    if (this.state.isRetrievingData) {
+      isloading = (
+        <div onClick={this.prevent} className="loading">
+          <img src={img} className="loading-effect"></img>
+        </div>
+      );
+    }
+    return isloading;
+  }
+
+  prevent(event) {
+    event.preventDefault();
+  }
+
   render() {
     let boardDisplay = this.generateBoardColumn();
-
     let addColumn = this.generateAddColumn();
+    let loading = this.isloading();
 
     return (
       <div className="board">
+        {loading}
         <BoardNav />
         <div className="board-header">
           <p><span className="board-name">{this.state.data.boardname}</span></p>
