@@ -6,6 +6,7 @@ import Menu from '../columnMenu';
 
 const ENTER_KEY_CODE = 13;
 const ESC_KEY_CODE = 27;
+const STATIC_CARD_INDEX = 0;
 
 class List extends React.Component {
   constructor(props) {
@@ -219,7 +220,8 @@ class List extends React.Component {
     if (!ev.dataTransfer.getData('cardId')) {
       this.props.reorderColumns(sourceColumnId, this.props.column._id);
     } else {
-      console.log(sourceCardId);
+      this.props.moveCard(sourceColumnId, this.props.column._id,
+        sourceCardId, STATIC_CARD_INDEX);
     }
   }
 

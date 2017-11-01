@@ -28,6 +28,7 @@ class BoardDetail extends React.Component {
     this.addCard = this.addCard.bind(this);
     this.deleteCard = this.deleteCard.bind(this);
     this.reorderColumns = this.reorderColumns.bind(this);
+    this.moveCard = this.moveCard.bind(this);
   }
 
   componentWillMount() {
@@ -141,6 +142,24 @@ class BoardDetail extends React.Component {
       });
   }
 
+  moveCard(sourceColumnId, targetColumnId, sourceCardId, targetIndex) {
+    let reqObj = {
+      newColumnId: targetColumnId,
+      newIndex: targetIndex,
+    };
+
+    sendPostHttpRequest($api.boards + '/' + this.props.match.params.id +
+    '/columns/' + sourceColumnId + '/cards/' + sourceCardId, reqObj)
+      .then((res) => {
+        if (SUCCESSFUL_RESPONSE.test(res.status)) {
+          sendGetHttpRequest($api.boards + '/' + this.props.match.params.id)
+            .then((result) => {
+              this.setState({data: result});
+            });
+        }
+      });
+  }
+
   generateBoardColumn() {
     let boardDisplay = [];
 
@@ -152,7 +171,8 @@ class BoardDetail extends React.Component {
             deleteColumn={this.deleteColumn}
             reorderColumns={this.reorderColumns}
             addCard={this.addCard}
-            deleteCard={this.deleteCard} />
+            deleteCard={this.deleteCard}
+            moveCard={this.moveCard} />
         );
       }, this);
     }
