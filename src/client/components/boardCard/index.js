@@ -2,6 +2,8 @@ import React from 'react';
 
 import './index.scss';
 
+let isTransferringCard = false;
+
 class Cards extends React.Component {
   constructor(props) {
     super(props);
@@ -26,6 +28,7 @@ class Cards extends React.Component {
     ev.stopPropagation();
     ev.dataTransfer.setData('cardId', this.props.card._id);
     ev.dataTransfer.setData('columnId', this.props.columnId);
+    isTransferringCard = true;
   }
 
   handleDrag(ev) {
@@ -37,14 +40,14 @@ class Cards extends React.Component {
   }
 
   handleDragEnter(ev) {
-    if (this.card.contains(ev.target)) {
-      this.card.style.border = '2px dashed #026aa7';
-    }
+    return;
   }
 
   handleDragOver(ev) {
     ev.preventDefault();
-    this.card.style.border = '2px dashed #026aa7';
+    if (isTransferringCard) {
+      this.card.style.border = '2px dashed #026aa7';
+    }
   }
 
   handleDragLeave(ev) {
@@ -53,7 +56,7 @@ class Cards extends React.Component {
 
   handleDrop(ev) {
     this.card.style.border = '';
-    return;
+    isTransferringCard = false;
   }
 
   render() {
