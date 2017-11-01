@@ -260,14 +260,14 @@ function deleteboardId(username, boardId, callback) {
   });
 }
 
-function createNewColumn(request, username, boardId, callback) {
+function createNewColumn(requestBody, username, boardId, callback) {
   getBoardById(username, boardId, function(board) {
     if (board === 'notFound' || !board) {
       return callback('notFound');
     } else if (board === 'error') {
       return callback('error');
     }
-    let newBoard = createNewColumnQuery(request);
+    let newBoard = createNewColumnQuery(requestBody);
 
     MongoClient.connect(url, function(err, database) {
       if (err) {
