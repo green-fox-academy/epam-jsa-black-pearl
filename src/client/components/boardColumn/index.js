@@ -210,12 +210,17 @@ class List extends React.Component {
   handleDrop(ev) {
     this.wrapper.style.border = '';
     let sourceColumnId = ev.dataTransfer.getData('columnId');
+    let sourceCardId = ev.dataTransfer.getData('cardId');
 
     if (this.props.column._id === sourceColumnId) {
       return;
     }
 
-    this.props.reorderColumns(sourceColumnId, this.props.column._id);
+    if (!ev.dataTransfer.getData('cardId')) {
+      this.props.reorderColumns(sourceColumnId, this.props.column._id);
+    } else {
+      console.log(sourceCardId);
+    }
   }
 
   render() {
