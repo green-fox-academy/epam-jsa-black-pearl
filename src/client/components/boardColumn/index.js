@@ -62,21 +62,12 @@ class List extends React.Component {
   }
 
   editColumn(state) {
-    // let that = this;
+    let that = this;
 
-    // that.setState({
-    //   isColumnTitleEditing: !this.state.isColumnTitleEditing,
-    //   allowDrag: this.state.isColumnTitleEditing,
-    // });
-    if (state) {
-      this.setState({isAddCardTitleEditing: state}, () => {
-        this.input.addEventListener('keydown', this.onInputKeyDown.bind(this));
-        this.input.focus();
-      });
-    } else {
-      this.input.removeEventListener('keydown', this.onInputKeyDown.bind(this));
-      this.setState({isAddCardTitleEditing: state});
-    }
+    that.setState({
+      isColumnTitleEditing: !this.state.isColumnTitleEditing,
+      allowDrag: this.state.isColumnTitleEditing,
+    });
   }
 
   generateColumnTitle() {
@@ -147,18 +138,6 @@ class List extends React.Component {
     } else {
       this.input.removeEventListener('keydown', this.onInputKeyDown.bind(this));
       this.setState({isAddCardTitleEditing: state});
-    }
-  }
-
-  onChangeRenameColumn(state) {
-    if (state) {
-      this.setState({isColumnTitleEditing: state}, () => {
-        this.input.addEventListener('keydown', this.onInputKeyDown.bind(this));
-        this.input.focus();
-      });
-    } else {
-      this.input.removeEventListener('keydown', this.onInputKeyDown.bind(this));
-      this.setState({isColumnTitleEditing: state});
     }
   }
 
