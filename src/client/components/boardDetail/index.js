@@ -126,8 +126,11 @@ class BoardDetail extends React.Component {
       });
   }
 
-  addCard(columnId, cardTitle) {
-    let reqObj = {cardName: cardTitle};
+  addCard(columnId, cardTitle, priority) {
+    let reqObj = {
+      cardName: cardTitle,
+      priority: priority,
+    };
 
     this.setState({isRetrievingData: true});
     sendPostHttpRequest($api.boards + '/' + this.props.match.params.id +

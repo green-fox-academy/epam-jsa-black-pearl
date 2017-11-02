@@ -17,6 +17,7 @@ class List extends React.Component {
       isColumnTitleEditing: false,
       isAddCardTitleEditing: false,
       addCardTitleValue: '',
+      priorityValue: 'high',
       titleValue: '',
       allowDrag: true,
     };
@@ -33,6 +34,7 @@ class List extends React.Component {
     this.handleDragLeave = this.handleDragLeave.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
     this.closeDropDownMenu = this.closeDropDownMenu.bind(this);
+    this.onSelectChange = this.onSelectChange.bind(this)
     this.onChangeAddCardTitleState = this.onChangeAddCardTitleState.bind(this);
   }
 
@@ -123,6 +125,12 @@ class List extends React.Component {
             onClick={this.onChangeAddCardTitleState.bind(this, false)}>
             x
           </button>
+          <span>Priority: </span>
+          <select onChange={this.onSelectChange}>
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low">Low</option>
+          </select>
         </div>
       );
     }
@@ -146,6 +154,10 @@ class List extends React.Component {
     this.setState({addCardTitleValue: ev.target.value});
   }
 
+  onSelectChange(ev) {
+    this.setState({priorityValue: ev.target.value});
+  }
+
   onTitleInputChange(ev) {
     this.setState({titleValue: ev.target.value});
   }
@@ -163,7 +175,8 @@ class List extends React.Component {
 
   onAddCardClick() {
     if (this.state.addCardTitleValue) {
-      this.props.addCard(this.props.column._id, this.state.addCardTitleValue);
+      this.props.addCard(this.props.column._id,
+        this.state.addCardTitleValue, this.state.priorityValue);
     }
     this.setState({
       addCardTitleValue: '',
@@ -218,7 +231,6 @@ class List extends React.Component {
     if (this.props.column._id === sourceColumnId) {
       return;
     }
-
 
     if (!ev.dataTransfer.getData('cardId')) {
       this.props.reorderColumns(sourceColumnId, this.props.column._id);

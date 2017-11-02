@@ -89,13 +89,14 @@ function createFieldsFilter() {
   };
 }
 
-function addCardToColumn(board, columnId, cardName) {
+function addCardToColumn(board, columnId, requestBody) {
   board.columns = board.columns.map(function(element) {
     if (element._id.toString() === columnId.toString()) {
       element.cards = element.cards ? element.cards : [];
       element.cards.push({
         '_id': new mongodb.ObjectId(),
-        'cardName': cardName,
+        'cardName': requestBody.cardName,
+        'priority': requestBody.priority,
       });
     }
     return element;
@@ -333,7 +334,7 @@ function createNewCard(requestBody, username, boardId, columnId, callback) {
       return callback('error');
     }
 
-    addCardToColumn(board, columnId, requestBody.cardName);
+    addCardToColumn(board, columnId, requestBody);
 
     MongoClient.connect(url, function(err, database) {
       if (err) {
