@@ -54,8 +54,9 @@ class Cards extends React.Component {
   }
 
   render() {
-    let classname = 'board-card ' + this.props.card.priority;
+    let classname = 'board-card ';
 
+    classname += this.props.card.priority || 'high';
     return (
       <div className={classname} draggable="true"
         ref={(c) => {
