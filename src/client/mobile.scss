@@ -14,10 +14,15 @@
 
   .board-nav {
     min-width: 320px;
+    position: fixed;
   }
 
   .board-main-list {
-    margin: 5%;
+    margin: 18% 5% 5% 5%;
+  }
+
+  .board-header {
+    margin-top: 12%;
   }
 
   .board-column-wrapper {

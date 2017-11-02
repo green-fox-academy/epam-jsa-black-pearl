@@ -36,7 +36,7 @@ body {
     flex-direction: row;
     height: calc(100% - 150px);
     margin: 0 10px;
-    overflow-x: scroll;
+    overflow-x: auto;
     padding: 15px 0;
 
     &::-webkit-scrollbar {
