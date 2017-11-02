@@ -1,3 +1,18 @@
+.cloud {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url('https://assets3.thrillist.com/v1/image/1639203/size/tmg-article_default_mobile.jpg');
+  background-size: cover;
+}
+
+.sun {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url('https://pbs.twimg.com/media/ClCfEsVXEAA_QiN.jpg');
+  background-size: cover;
+}
+
+.rain {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)), url('https://static.pexels.com/photos/8486/water-rain-raindrops-drops.jpg');
+  background-size: cover;
+}
+
 .board-list {
   background-color: rgb(0, 121, 191);
   border: 0;
@@ -5,11 +20,11 @@
   box-sizing: border-box;
   cursor: pointer;
   font-family: Arial, Helvetica, sans-serif;
-  height: 80px;
+  height: 95px;
   line-height: 40px;
   margin: 0 15px 12px 0;
   min-width: 270px;
-  padding: 0 10px;
+  padding: 10px 15px;
   transition: all .2s ease-in 0s;
   user-select: none;
   width: 31%;
@@ -38,9 +53,10 @@
 
   .board-date {
     align-items: center;
-    color: #bbb;
+    color: #fff;
     display: flex;
     font-size: 14px;
+    font-style: italic;
   }
 }
 

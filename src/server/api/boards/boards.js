@@ -8,11 +8,26 @@ const url = envConst.getDBUrl();
 
 const ZERO = 0;
 
+function generateBackground() {
+  let random = Math.ceil(Math.random() * 3);
+  let background = '';
+
+  if (random === 1) {
+    background = 'sun';
+  } else if (random === 2) {
+    background = 'cloud';
+  } else {
+    background = 'rain';
+  }
+  return background;
+}
+
 function createInsertQuery(request, username) {
   return {
     'username': username,
     'boardname': request.boardname,
     'timestamp': (new Date()).getTime(),
+    'background': generateBackground(),
   };
 }
 
@@ -86,6 +101,7 @@ function createFieldsFilter() {
     'username': 1,
     'boardname': 1,
     'timestamp': 1,
+    'background': 1,
   };
 }
 

@@ -40,7 +40,9 @@ class BoardList extends React.Component {
 
   render() {
     let createDate = this.generateFullDate(this.props.boardDate);
+    let boardClass = 'board-list ';
 
+    boardClass += this.props.background;
     if (this.props.boardId === 'loading') {
       return (
         <div className="board-list-loading">
@@ -56,7 +58,7 @@ class BoardList extends React.Component {
       );
     }
     return (
-      <div className="board-list"
+      <div className={boardClass}
         onClick={this.props.showBoardDetail}>
         <p
           className="board-name"
