@@ -64,12 +64,19 @@ class List extends React.Component {
     this.setState({isEditing: false});
   }
 
-  editColumn(state) {
+  editColumn() {
     let that = this;
 
     that.setState({
       isColumnTitleEditing: !this.state.isColumnTitleEditing,
       allowDrag: this.state.isColumnTitleEditing,
+    }, () => {
+      if (this.state.isColumnTitleEditing) {
+        that.columnTitleInput.focus();
+        that.columnTitleInput.addEventListener('keydown', this.onInputKeyDown.bind(this));
+      } else {
+        that.columnTitleInput.removeEventListener('keydown', this.onInputKeyDown.bind(this));
+      }
     });
   }
 
@@ -83,14 +90,6 @@ class List extends React.Component {
             }}
             onChange={this.onTitleInputChange}
           />
-          <button className="ok-button"
-            onClick={this.onRenameClick}>
-            √
-          </button>
-          <button className="cancel-button"
-            onClick={this.editColumn}>
-            x
-          </button>
         </section>
       );
     }
@@ -165,10 +164,13 @@ class List extends React.Component {
   onInputKeyDown(ev) {
     if (ev.keyCode === ENTER_KEY_CODE) {
       this.onAddCardClick();
+      this.onRenameClick();
     } else if (ev.keyCode === ESC_KEY_CODE) {
       this.setState({
         addCardTitleValue: '',
         isAddCardTitleEditing: false,
+        titleValue: '',
+        isColumnTitleEditing: false,
       });
     }
   }
@@ -185,7 +187,7 @@ class List extends React.Component {
   }
 
   onRenameClick() {
-    if (this.state.titleValue ||
+    if (this.state.titleValue &&
       this.state.titleValue !== this.props.column.columnName) {
       this.props.renameColumn(this.props.column._id, this.state.titleValue);
     }
