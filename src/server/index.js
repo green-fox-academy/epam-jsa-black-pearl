@@ -4,6 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+let favicon = require('serve-favicon');
 
 const heartbeat = require('./api/heartbeat/heartbeat.js');
 const auth = require('./api/login/auth.js');
@@ -36,6 +37,8 @@ const DELETE_CARD_MESSAGE = 'Delete card success!';
 const MODIFY_COLUMN_MESSAGE = 'Modify column success!';
 
 app.use(express.static(path.resolve(__dirname, '../../dist')));
+app.use(favicon(path.resolve(__dirname, '../img/black_pearl.ico')));
+
 app.use(bodyParser.json());
 
 router.get('/', function(req, res) {
