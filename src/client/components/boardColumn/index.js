@@ -174,7 +174,7 @@ class List extends React.Component {
   }
 
   onRenameClick() {
-    if (this.state.titleValue ||
+    if (this.state.titleValue &&
       this.state.titleValue !== this.props.column.columnName) {
       this.props.renameColumn(this.props.column._id, this.state.titleValue);
     }
