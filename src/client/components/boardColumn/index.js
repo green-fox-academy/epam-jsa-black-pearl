@@ -34,11 +34,8 @@ class List extends React.Component {
     this.handleDragLeave = this.handleDragLeave.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
     this.closeDropDownMenu = this.closeDropDownMenu.bind(this);
-<<<<<<< HEAD
     this.onSelectChange = this.onSelectChange.bind(this)
-=======
     this.onChangeAddCardTitleState = this.onChangeAddCardTitleState.bind(this);
->>>>>>> develop
   }
 
   componentDidMount() {
