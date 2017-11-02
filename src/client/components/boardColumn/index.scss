@@ -86,8 +86,10 @@
   cursor: pointer;
   display: flex;
   font-weight: bold;
-  height: 50px;
-  justify-content: center;
+  height: 70px;
+  justify-content: left;
+  flex-wrap: wrap;
+  padding-left: 15px;
   
   &:hover {
     background-color: #eee;
@@ -119,5 +121,9 @@
     &:focus {
       outline: 0;
     }
+  }
+
+  select {
+    margin-left: 10px;
   }
 }

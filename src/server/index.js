@@ -189,7 +189,7 @@ router.post('/boards/:id/columns/:columnId/cards', function(req, res) {
 
   if (!req.is('application/json')) {
     res.status(BAD_REQUEST).json({message: CONTENT_TYPE_ERROR_MESSAGE});
-  } else if (!req.body.cardName) {
+  } else if (!req.body.cardName || !req.body.priority) {
     res.status(BAD_REQUEST).json({message: MISSING_FIELD_MESSAGE});
   } else if (!username) {
     res.status(STATUS_FORBIDDEN).json({message: NOT_LOGIN_MESSAGE});
