@@ -6,6 +6,7 @@ import Menu from '../columnMenu';
 
 const ENTER_KEY_CODE = 13;
 const ESC_KEY_CODE = 27;
+const STATIC_CARD_INDEX = 0;
 
 class List extends React.Component {
   constructor(props) {
@@ -183,8 +184,7 @@ class List extends React.Component {
 
   handleDragStart(ev) {
     this.closeDropDownMenu();
-    ev.dataTransfer.setData('text', this.props.column._id);
-    ev.target.style.opacity = '0.5';
+    ev.dataTransfer.setData('columnId', this.props.column._id);
   }
 
   handleDrag(ev) {
@@ -192,7 +192,7 @@ class List extends React.Component {
   }
 
   handleDragEnd(ev) {
-    ev.target.style.opacity = '1.0';
+    return;
   }
 
   handleDragEnter(ev) {
@@ -212,13 +212,20 @@ class List extends React.Component {
 
   handleDrop(ev) {
     this.wrapper.style.border = '';
-    let sourceColumnId = ev.dataTransfer.getData('Text');
+    let sourceColumnId = ev.dataTransfer.getData('columnId');
+    let sourceCardId = ev.dataTransfer.getData('cardId');
 
     if (this.props.column._id === sourceColumnId) {
       return;
     }
 
-    this.props.reorderColumns(sourceColumnId, this.props.column._id);
+
+    if (!ev.dataTransfer.getData('cardId')) {
+      this.props.reorderColumns(sourceColumnId, this.props.column._id);
+    } else {
+      this.props.moveCard(sourceColumnId, this.props.column._id,
+        sourceCardId, STATIC_CARD_INDEX);
+    }
   }
 
   render() {
