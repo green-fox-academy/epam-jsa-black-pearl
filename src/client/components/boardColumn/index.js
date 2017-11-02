@@ -33,6 +33,7 @@ class List extends React.Component {
     this.handleDragLeave = this.handleDragLeave.bind(this);
     this.handleDrop = this.handleDrop.bind(this);
     this.closeDropDownMenu = this.closeDropDownMenu.bind(this);
+    this.onChangeAddCardTitleState = this.onChangeAddCardTitleState.bind(this);
   }
 
   componentDidMount() {
@@ -61,7 +62,7 @@ class List extends React.Component {
     this.setState({isEditing: false});
   }
 
-  editColumn() {
+  editColumn(state) {
     let that = this;
 
     that.setState({
@@ -78,7 +79,8 @@ class List extends React.Component {
             ref={(c) => {
               this.columnTitleInput = c;
             }}
-            onChange={this.onTitleInputChange} />
+            onChange={this.onTitleInputChange}
+          />
           <button className="ok-button"
             onClick={this.onRenameClick}>
             √
@@ -268,6 +270,7 @@ class List extends React.Component {
                 columnId={this.props.column._id}
                 closeDropDownMenu={this.closeDropDownMenu}
                 deleteColumn={this.props.deleteColumn}
+                onChangeAddCardTitleState={this.onChangeAddCardTitleState}
                 editColumn={this.editColumn}
                 isEditing={this.state.isEditing} /> :
               null}
