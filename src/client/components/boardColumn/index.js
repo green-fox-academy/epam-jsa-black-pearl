@@ -145,7 +145,10 @@ class List extends React.Component {
       });
     } else {
       this.input.removeEventListener('keydown', this.onInputKeyDown.bind(this));
-      this.setState({isAddCardTitleEditing: state});
+      this.setState({
+        isAddCardTitleEditing: state,
+        priorityValue: 'high',
+      });
     }
   }
 
@@ -169,6 +172,7 @@ class List extends React.Component {
       this.setState({
         addCardTitleValue: '',
         isAddCardTitleEditing: false,
+        priorityValue: 'high',
         titleValue: '',
         isColumnTitleEditing: false,
       });
@@ -183,6 +187,7 @@ class List extends React.Component {
     this.setState({
       addCardTitleValue: '',
       isAddCardTitleEditing: false,
+      priorityValue: 'high',
     });
   }
 
