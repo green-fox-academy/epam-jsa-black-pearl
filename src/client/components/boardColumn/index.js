@@ -62,7 +62,7 @@ class List extends React.Component {
     this.setState({isEditing: false});
   }
 
-  editColumn() {
+  editColumn(state) {
     let that = this;
 
     that.setState({

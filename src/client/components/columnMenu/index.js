@@ -27,7 +27,10 @@ class ColumnMenu extends React.Component {
       this.props.deleteColumn(this.props.columnId);
     }
     if (actionName === 'rename') {
-      this.props.editColumn();
+      this.props.editColumn(true);
+    }
+    if (actionName === 'add') {
+      this.props.onChangeAddCardTitleState(true);
     }
     if (actionName === 'add') {
       this.props.onChangeAddCardTitleState(true);
