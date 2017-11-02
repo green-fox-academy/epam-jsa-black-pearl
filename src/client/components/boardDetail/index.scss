@@ -36,7 +36,7 @@
 .ok-button {
   background-color: rgb(75, 191, 107);
   color: #fff;
-  font-size: 20px;
+  font-size: 14px;
   margin-right: 10px;
   width: 60px;
 
@@ -48,8 +48,8 @@
 .cancel-button {
   background-color: transparent;
   color: #666;
-  font-size: 40px;
-  margin-bottom: 8px;
+  font-size: 20px;
+  margin: 0 0 2px 15px;
 
   &:hover {
     color: #999;
